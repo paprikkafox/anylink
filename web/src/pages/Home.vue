@@ -5,7 +5,7 @@
         <div class="card-panel" v-on:click="jump('/admin/user/online')">
           <i class="el-icon-user-solid" style="font-size:50px;color: #f4516c;"></i>
           <div class="card-panel-description">
-            <div class="card-panel-text">在线数</div>
+            <div class="card-panel-text">Online users</div>
             <countTo :startVal='0' :endVal='counts.online' :duration='2000' class="panel-num"></countTo>
           </div>
         </div>
@@ -15,7 +15,7 @@
         <div class="card-panel" v-on:click="jump('/admin/user/list')">
           <i class="el-icon-user-solid" style="font-size:50px;color: #36a3f7"></i>
           <div class="card-panel-description">
-            <div class="card-panel-text">用户数</div>
+            <div class="card-panel-text">All users</div>
             <countTo :startVal='0' :endVal='counts.user' :duration='2000' class="panel-num"></countTo>
           </div>
         </div>
@@ -25,7 +25,7 @@
         <div class="card-panel" v-on:click="jump('/admin/group/list')">
           <i class="el-icon-wallet" style="font-size:50px;color:#34bfa3"></i>
           <div class="card-panel-description">
-            <div class="card-panel-text">用户组数</div>
+            <div class="card-panel-text">User groups</div>
             <countTo :startVal='0' :endVal='counts.group' :duration='2000' class="panel-num"></countTo>
           </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="card-panel" v-on:click="jump('/admin/user/ip_map')">
           <i class="el-icon-s-order" style="font-size:50px;color:#40c9c6"></i>
           <div class="card-panel-description">
-            <div class="card-panel-text">IP映射数</div>
+            <div class="card-panel-text">IP mappings</div>
             <countTo :startVal='0' :endVal='counts.ip_map' :duration='2000' class="panel-num"></countTo>
           </div>
         </div>
@@ -54,11 +54,11 @@
             </div>           
             <div class="time-range">
                 <el-radio-group v-model="lineChartScope.online" size="mini" @change="((label)=>{lineChartScopeChange('online', label)})">
-                    <el-radio-button label="rt" >实时</el-radio-button>
-                    <el-radio-button label="1h">1小时</el-radio-button>
-                    <el-radio-button label="24h">24小时</el-radio-button>
-                    <el-radio-button label="7d">7天</el-radio-button>
-                    <el-radio-button label="30d">30天</el-radio-button>
+                    <el-radio-button label="rt" >Now</el-radio-button>
+                    <el-radio-button label="1h">1h</el-radio-button>
+                    <el-radio-button label="24h">24h</el-radio-button>
+                    <el-radio-button label="7d">7d</el-radio-button>
+                    <el-radio-button label="30d">30d</el-radio-button>
                 </el-radio-group>
             </div>
         </el-col>
@@ -72,11 +72,11 @@
             </div>            
             <div class="time-range">
                 <el-radio-group v-model="lineChartScope.network" size="mini" @change="((label)=>{lineChartScopeChange('network', label)})">
-                    <el-radio-button label="rt" >实时</el-radio-button>
-                    <el-radio-button label="1h">1小时</el-radio-button>
-                    <el-radio-button label="24h">24小时</el-radio-button>
-                    <el-radio-button label="7d">7天</el-radio-button>
-                    <el-radio-button label="30d">30天</el-radio-button>
+                    <el-radio-button label="rt" >Now</el-radio-button>
+                    <el-radio-button label="1h">1h</el-radio-button>
+                    <el-radio-button label="24h">24h</el-radio-button>
+                    <el-radio-button label="7d">7d</el-radio-button>
+                    <el-radio-button label="30d">30d</el-radio-button>
                 </el-radio-group>
             </div>            
         </el-col>
@@ -87,11 +87,11 @@
             <LineChart :chart-data="lineChart.cpu"/>
             <div class="time-range">
                 <el-radio-group v-model="lineChartScope.cpu" size="mini" @change="((label)=>{lineChartScopeChange('cpu', label)})">
-                    <el-radio-button label="rt" >实时</el-radio-button>
-                    <el-radio-button label="1h">1小时</el-radio-button>
-                    <el-radio-button label="24h">24小时</el-radio-button>
-                    <el-radio-button label="7d">7天</el-radio-button>
-                    <el-radio-button label="30d">30天</el-radio-button>
+                    <el-radio-button label="rt" >Now</el-radio-button>
+                    <el-radio-button label="1h">1h</el-radio-button>
+                    <el-radio-button label="24h">24h</el-radio-button>
+                    <el-radio-button label="7d">7d</el-radio-button>
+                    <el-radio-button label="30d">30d</el-radio-button>
                 </el-radio-group>
             </div>
         </el-col>
@@ -99,11 +99,11 @@
             <LineChart :chart-data="lineChart.mem"/>
             <div class="time-range">
                 <el-radio-group v-model="lineChartScope.mem" size="mini" @change="((label)=>{lineChartScopeChange('mem', label)})">
-                    <el-radio-button label="rt" >实时</el-radio-button>
-                    <el-radio-button label="1h">1小时</el-radio-button>
-                    <el-radio-button label="24h">24小时</el-radio-button>
-                    <el-radio-button label="7d">7天</el-radio-button>
-                    <el-radio-button label="30d">30天</el-radio-button>
+                    <el-radio-button label="rt" >Now</el-radio-button>
+                    <el-radio-button label="1h">1h</el-radio-button>
+                    <el-radio-button label="24h">24h</el-radio-button>
+                    <el-radio-button label="7d">7d</el-radio-button>
+                    <el-radio-button label="30d">30d</el-radio-button>
                 </el-radio-group>
             </div>            
         </el-col>
@@ -134,25 +134,25 @@ export default {
       groupNames:[],
       lineChart: {
         online: {
-            title: '用户在线数',
+            title: 'Online users',
             xname: [],
             xdata: {
-                '在线人数': [],
+                'Online users': [],
             },
             yminInterval: 1,
-            yname:"人数"
+            yname:"Number of users"
         },
         network: {
-            title: '网络吞吐量',
+            title: 'Network throughput',
             xname: [],
             xdata: {
-                '下行流量': [],
-                '上行流量': [],                
+                'Downstream': [],
+                'Upstream': [],                
             },
             yname:"Mbps"
         },
         cpu: {
-            title: 'CPU占用比例',
+            title: 'CPU usage ratio',
             xname: [],
             xdata: {
                 'CPU': [],
@@ -160,10 +160,10 @@ export default {
             yname:"%"
         },
         mem: {
-                title: '内存占用比例',
+                title: 'Memory usage ratio',
                 xname: [],
                 xdata: {
-                    '内存': [],
+                    'Memory': [],
                 },
                 yname:"%"
         }
@@ -182,7 +182,7 @@ export default {
   },
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['首页'])
+    this.$emit('update:route_name', ['Front page'])
   },
   mounted() {
     this.getData()
@@ -202,7 +202,7 @@ export default {
         console.log(data);
         this.counts = data.counts
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -233,7 +233,7 @@ export default {
             if (error.response.status === 401) {
                return ;
             }            
-            this.$message.error('哦，请求出错');
+            this.$message.error('Request error');
             console.log(error);
         });
     },
@@ -244,7 +244,7 @@ export default {
         let datas = data.datas
         let xnum = 0     
         chartData.xname = []
-        chartData.xdata["在线人数"] = []
+        chartData.xdata["Online users"] = []
         for(var i=0; i<datas.length;i++){
             chartData.xname[i] = this.dateFormat(datas[i].created_at, timeFormat)  
             xnum = datas[i].num
@@ -252,9 +252,8 @@ export default {
                 let num_groups = JSON.parse(datas[i].num_groups)
                 xnum = ! num_groups[chooseGroup] ? 0 : num_groups[chooseGroup]
             }
-            chartData.xdata["在线人数"][i] = xnum
+            chartData.xdata["Online users"][i] = xnum
         }
-        // 实时更新在线数
         if (data.scope == "rt" && chooseGroup == "") {
             this.counts.online = datas[datas.length - 1].num
         }
@@ -267,8 +266,8 @@ export default {
         let datas = data.datas
         let xnumUp = 0, xnumDown = 0
         chartData.xname = []
-        chartData.xdata["上行流量"] = []
-        chartData.xdata["下行流量"] = []
+        chartData.xdata["Upstream"] = []
+        chartData.xdata["Downstream"] = []
         for(var i=0; i<datas.length;i++){
             chartData.xname[i] = this.dateFormat(datas[i].created_at, timeFormat)
             xnumUp = datas[i].up
@@ -283,8 +282,8 @@ export default {
                     xnumDown = ! downGroups[chooseGroup] ? 0 : downGroups[chooseGroup]
                 }
             }
-            chartData.xdata["上行流量"][i] = this.toMbps(xnumUp)
-            chartData.xdata["下行流量"][i] = this.toMbps(xnumDown)
+            chartData.xdata["Upstream"][i] = this.toMbps(xnumUp)
+            chartData.xdata["Downstream"][i] = this.toMbps(xnumDown)
         }
         this.lineChart[data.action] = chartData
     },
@@ -305,10 +304,10 @@ export default {
         let chartData = this.lineChart[data.action]
         let datas = data.datas        
         chartData.xname = []
-        chartData.xdata["内存"] = []        
+        chartData.xdata["Memory"] = []        
         for(var i=0; i<datas.length;i++){
             chartData.xname[i] = this.dateFormat(datas[i].created_at, timeFormat)
-            chartData.xdata["内存"][i] = this.toDecimal(datas[i].percent)
+            chartData.xdata["Memory"][i] = this.toDecimal(datas[i].percent)
         }
         this.lineChart[data.action] = chartData
     },  
@@ -347,13 +346,13 @@ export default {
       axios.get('/group/names_ids', {}).then(resp => {
         var data = resp.data.data
         var groupNames = []
-        groupNames[0] = {text:"全部", value:""}
+        groupNames[0] = {text:"All", value:""}
         for(var i=0; i<data.datas.length;i++){
             groupNames[i+1] = {text:data.datas[i].name, value:data.datas[i].id}
         }
         this.groupNames = groupNames
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     }, 

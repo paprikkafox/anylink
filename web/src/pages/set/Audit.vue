@@ -2,10 +2,10 @@
   <div>
     <el-card>    
     <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户活动日志" name="act_log">
+        <el-tab-pane label="User activity log" name="act_log">
             <AuditActLog ref="auditActLog"></AuditActLog>
         </el-tab-pane>        
-        <el-tab-pane label="用户访问日志" name="access_audit">
+        <el-tab-pane label="User access log" name="access_audit">
             <AuditAccess ref="auditAccess"></AuditAccess>
         </el-tab-pane>
     </el-tabs>
@@ -29,7 +29,7 @@ export default {
   },  
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['基础信息', '审计日志'])        
+    this.$emit('update:route_name', ['Basic info', 'Audit log'])        
   },
   data() {
     return {

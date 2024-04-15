@@ -7,7 +7,7 @@
               size="small"
               type="primary"
               icon="el-icon-plus"
-              @click="handleEdit('')">添加
+              @click="handleEdit('')">Add
           </el-button>
         </el-form-item>
       </el-form>
@@ -26,17 +26,17 @@
 
         <el-table-column
             prop="name"
-            label="组名">
+            label="Name">
         </el-table-column>
 
         <el-table-column
             prop="note"
-            label="备注">
+            label="Note">
         </el-table-column>
 
         <el-table-column
             prop="allow_lan"
-            label="本地网络">
+            label="Allow LAN">
           <template slot-scope="scope">
             <el-switch
                 v-model="scope.row.allow_lan"
@@ -47,17 +47,17 @@
 
         <el-table-column
             prop="bandwidth"
-            label="带宽限制"
+            label="Bandwidth"
             width="90">
             <template slot-scope="scope">
                 <el-row v-if="scope.row.bandwidth > 0">{{ convertBandwidth(scope.row.bandwidth, 'BYTE', 'Mbps') }} Mbps</el-row>
-                <el-row v-else>不限</el-row>
+                <el-row v-else>No limit</el-row>
             </template>
         </el-table-column>
 
         <el-table-column
             prop="client_dns"
-            label="客户端DNS"
+            label="Client DNS"
             width="160">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.client_dns" :key="inx">{{ item.val }}</el-row>
@@ -66,7 +66,7 @@
 
         <el-table-column
             prop="route_include"
-            label="路由包含"
+            label="Route include"
             width="180">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_include.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -74,14 +74,14 @@
               <div v-if="readMore[`ri_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_include.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲ 收起" : "▼ 更多" }}</el-button>
+              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲Collapse" : "▼More" }}</el-button>
             </div>
           </template>
         </el-table-column>
 
         <el-table-column
             prop="route_exclude"
-            label="路由排除"
+            label="Route exclude"
             width="180">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_exclude.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -89,7 +89,7 @@
               <div v-if="readMore[`re_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_exclude.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲ 收起" : "▼ 更多" }}</el-button>
+              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲Collapse" : "▼More" }}</el-button>
             </div>
           </template>
         </el-table-column>
@@ -108,46 +108,46 @@
                   {{ item.action }} => {{ item.val }} : {{ item.port }}
                 </el-row>
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`la_${ scope.row.id }`)">{{ readMore[`la_${ scope.row.id }`] ? "▲ 收起" : "▼ 更多" }}</el-button>
+              <el-button size="mini" type="text" @click="toggleMore(`la_${ scope.row.id }`)">{{ readMore[`la_${ scope.row.id }`] ? "▲Collapse" : "▼More" }}</el-button>
             </div>
           </template>
         </el-table-column>
 
         <el-table-column
             prop="status"
-            label="状态"
+            label="Status"
             width="70">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">可用</el-tag>
-            <el-tag v-else type="danger">停用</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">Available</el-tag>
+            <el-tag v-else type="danger">Inactive</el-tag>
           </template>
 
         </el-table-column>
 
         <el-table-column
             prop="updated_at"
-            label="更新时间"
+            label="Updated at"
             :formatter="tableDateFormat">
         </el-table-column>
 
         <el-table-column
-            label="操作"
+            label="Action"
             width="150">
           <template slot-scope="scope">
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">编辑
+                @click="handleEdit(scope.row)">Edit
             </el-button>
 
             <el-popconfirm
                 style="margin-left: 10px"
                 @confirm="handleDel(scope.row)"
-                title="确定要删除用户组吗？">
+                title="Are you sure you want to delete the user group?">
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">删除
+                  type="danger">Delete
               </el-button>
             </el-popconfirm>
           </template>
@@ -167,10 +167,9 @@
 
     </el-card>
 
-    <!--新增、修改弹出框-->
     <el-dialog
         :close-on-click-modal="false"
-        title="用户组"
+        title="User group"
         :visible.sync="user_edit_dialog"
         width="750px"
         @close='closeDialog'
@@ -178,38 +177,37 @@
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
         <el-tabs v-model="activeTab" :before-leave="beforeTabLeave">
-           <el-tab-pane label="通用" name="general">
-                <el-form-item label="用户组ID" prop="id">
+           <el-tab-pane label="General" name="general">
+                <el-form-item label="ID" prop="id">
                 <el-input v-model="ruleForm.id" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="组名" prop="name">
+                <el-form-item label="Name" prop="name">
                 <el-input v-model="ruleForm.name" :disabled="ruleForm.id > 0"></el-input>
                 </el-form-item>
 
-                <el-form-item label="备注" prop="note">
+                <el-form-item label="Note" prop="note">
                 <el-input v-model="ruleForm.note"></el-input>
                 </el-form-item>
 
-                <el-form-item label="带宽限制" prop="bandwidth_format" style="width:260px;">
+                <el-form-item label="Bandwidth" prop="bandwidth_format" style="width:260px;">
                 <el-input v-model="ruleForm.bandwidth_format" oninput="value= value.match(/\d+(\.\d{0,2})?/) ? value.match(/\d+(\.\d{0,2})?/)[0] : ''">
                     <template slot="append">Mbps</template>
                 </el-input>
                 </el-form-item>
-                <el-form-item label="排除本地网络" prop="allow_lan">
-                <!--  active-text="开启后 用户本地所在网段将不通过anylink加密传输" -->
+                <el-form-item label="Allow LAN" prop="allow_lan">
                 <el-switch v-model="ruleForm.allow_lan"></el-switch>
                 <div class="msg-info">
-                 注：本地网络 指的是：
-                 运行 anyconnect 客户端的PC 所在的的网络，既本地路由网段。
-                 开启后，PC本地路由网段的数据就不会走隧道链路转发数据了。
-                 同时 anyconnect 客户端需要勾选本地网络(Local Lan)的开关，功能才能生效。
+                  Note: Local network refers to:
+                  The network where the PC running anyconnect client is located, that is, the local routing network segment.
+                  After it is turned on, the data on the PC's local routing network segment will not be forwarded through the tunnel link.
+                  At the same time, the anyconnect client needs to check the local network (Local Lan) switch for the function to take effect.
                  </div>
                 </el-form-item>
 
-                <el-form-item label="客户端DNS" prop="client_dns">
+                <el-form-item label="Client DNS" prop="client_dns">
                 <el-row class="msg-info">
-                    <el-col :span="20">输入IP格式如: 192.168.0.10</el-col>
+                    <el-col :span="20">Enter the IP format such as: 192.168.0.10</el-col>
                     <el-col :span="4">
                     <el-button size="mini" type="success" icon="el-icon-plus" circle
                                 @click.prevent="addDomain(ruleForm.client_dns)"></el-button>
@@ -221,7 +219,7 @@
                     <el-input v-model="item.val"></el-input>
                     </el-col>
                     <el-col :span="12">
-                    <el-input v-model="item.note" placeholder="备注"></el-input>
+                    <el-input v-model="item.note" placeholder="Note"></el-input>
                     </el-col>
                     <el-col :span="2">
                     <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -229,63 +227,63 @@
                     </el-col>
                 </el-row>
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
+                <el-form-item label="Status" prop="status">
                     <el-radio-group v-model="ruleForm.status">
-                        <el-radio :label="1" border>启用</el-radio>
-                        <el-radio :label="0" border>停用</el-radio>
+                        <el-radio :label="1" border>Enable</el-radio>
+                        <el-radio :label="0" border>Disable</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-tab-pane>
 
-            <el-tab-pane label="认证方式" name="authtype">
-                <el-form-item label="认证" prop="authtype">
+            <el-tab-pane label="Authentication" name="authtype">
+                <el-form-item label="Method" prop="authtype">
                     <el-radio-group v-model="ruleForm.auth.type" @change="authTypeChange">
-                        <el-radio label="local" border>本地</el-radio>
+                        <el-radio label="local" border>Local</el-radio>
                         <el-radio label="radius" border>Radius</el-radio>
                         <el-radio label="ldap" border>LDAP</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <template v-if="ruleForm.auth.type == 'radius'">
-                  <el-form-item label="服务器地址" prop="auth.radius.addr" :rules="this.ruleForm.auth.type== 'radius' ? this.rules['auth.radius.addr'] : [{ required: false }]">
-                      <el-input v-model="ruleForm.auth.radius.addr" placeholder="例如 ip:1812"></el-input>
+                  <el-form-item label="Server" prop="auth.radius.addr" :rules="this.ruleForm.auth.type== 'radius' ? this.rules['auth.radius.addr'] : [{ required: false }]">
+                      <el-input v-model="ruleForm.auth.radius.addr" placeholder="For example IP:1812"></el-input>
                   </el-form-item>
-                  <el-form-item label="密钥" prop="auth.radius.secret" :rules="this.ruleForm.auth.type== 'radius' ? this.rules['auth.radius.secret'] : [{ required: false }]">
+                  <el-form-item label="Secret key" prop="auth.radius.secret" :rules="this.ruleForm.auth.type== 'radius' ? this.rules['auth.radius.secret'] : [{ required: false }]">
                       <el-input v-model="ruleForm.auth.radius.secret" placeholder=""></el-input>
                   </el-form-item>
                 </template>
 
                 <template v-if="ruleForm.auth.type == 'ldap'">
-                  <el-form-item label="服务器地址" prop="auth.ldap.addr" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.addr'] : [{ required: false }]">
-                      <el-input v-model="ruleForm.auth.ldap.addr" placeholder="例如 ip:389 / 域名:389"></el-input>
+                  <el-form-item label="Server" prop="auth.ldap.addr" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.addr'] : [{ required: false }]">
+                      <el-input v-model="ruleForm.auth.ldap.addr" placeholder="For example 192.168.1.100:389 / domain.com:389"></el-input>
                   </el-form-item>
-                  <el-form-item label="开启TLS" prop="auth.ldap.tls">
+                  <el-form-item label="Enable TLS" prop="auth.ldap.tls">
                     <el-switch v-model="ruleForm.auth.ldap.tls"></el-switch>
                   </el-form-item>
-                  <el-form-item label="管理员 DN" prop="auth.ldap.bind_name" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_name'] : [{ required: false }]">
-                    <el-input v-model="ruleForm.auth.ldap.bind_name" placeholder="例如 CN=bindadmin,DC=abc,DC=COM"></el-input>
+                  <el-form-item label="Bind DN" prop="auth.ldap.bind_name" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_name'] : [{ required: false }]">
+                    <el-input v-model="ruleForm.auth.ldap.bind_name" placeholder="For example CN=vpn-bind-user,DC=domain,DC=com"></el-input>
                   </el-form-item>
-                  <el-form-item label="管理员密码" prop="auth.ldap.bind_pwd" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_pwd'] : [{ required: false }]">
+                  <el-form-item label="Bind PW" prop="auth.ldap.bind_pwd" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_pwd'] : [{ required: false }]">
                     <el-input type="password" v-model="ruleForm.auth.ldap.bind_pwd" placeholder=""></el-input>
                   </el-form-item>
                   <el-form-item label="Base DN" prop="auth.ldap.base_dn" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.base_dn'] : [{ required: false }]">
-                    <el-input v-model="ruleForm.auth.ldap.base_dn" placeholder="例如 DC=abc,DC=com"></el-input>
+                    <el-input v-model="ruleForm.auth.ldap.base_dn" placeholder="For example DC=domain,DC=com"></el-input>
                   </el-form-item>
-                  <el-form-item label="用户对象类" prop="auth.ldap.object_class" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.object_class'] : [{ required: false }]">
-                    <el-input v-model="ruleForm.auth.ldap.object_class" placeholder="例如 person / user / posixAccount"></el-input>
+                  <el-form-item label="User class" prop="auth.ldap.object_class" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.object_class'] : [{ required: false }]">
+                    <el-input v-model="ruleForm.auth.ldap.object_class" placeholder="For example person / user / posixAccount"></el-input>
                   </el-form-item>
-                  <el-form-item label="用户唯一ID" prop="auth.ldap.search_attr" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.search_attr'] : [{ required: false }]">
-                    <el-input v-model="ruleForm.auth.ldap.search_attr" placeholder="例如 sAMAccountName / uid / cn"></el-input>
+                  <el-form-item label="User ID" prop="auth.ldap.search_attr" :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.search_attr'] : [{ required: false }]">
+                    <el-input v-model="ruleForm.auth.ldap.search_attr" placeholder="For example sAMAccountName / uid / cn"></el-input>
                   </el-form-item>
-                  <el-form-item label="受限用户组" prop="auth.ldap.member_of">
-                    <el-input v-model="ruleForm.auth.ldap.member_of" placeholder="选填, 只允许指定组登入, 例如 CN=HomeWork,DC=abc,DC=com"></el-input>
+                  <el-form-item label="User group" prop="auth.ldap.member_of">
+                    <el-input v-model="ruleForm.auth.ldap.member_of" placeholder="For example CN=vpn-users,DC=domain,DC=com"></el-input>
                   </el-form-item>
                 </template>
             </el-tab-pane>
 
-            <el-tab-pane label="路由设置" name="route">
-                <el-form-item label="包含路由" prop="route_include">
+            <el-tab-pane label="Routing settings" name="route">
+                <el-form-item label="Include" prop="route_include">
                 <el-row class="msg-info">
-                    <el-col :span="18">输入CIDR格式如: 192.168.1.0/24</el-col>
+                    <el-col :span="18">Enter IP in CIDR format such as: 192.168.1.0/24</el-col>
                     <el-col :span="2">
                     <el-button size="mini" type="success" icon="el-icon-plus" circle
                                 @click.prevent="addDomain(ruleForm.route_include)"></el-button>
@@ -302,7 +300,7 @@
                         <el-input v-model="item.val"></el-input>
                         </el-col>
                         <el-col :span="12">
-                        <el-input v-model="item.note" placeholder="备注"></el-input>
+                        <el-input v-model="item.note" placeholder="Note"></el-input>
                         </el-col>
                         <el-col :span="2">
                         <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -312,9 +310,9 @@
                 </templete>
                 </el-form-item>
 
-                <el-form-item label="排除路由" prop="route_exclude">
+                <el-form-item label="Exclude" prop="route_exclude">
                 <el-row class="msg-info">
-                    <el-col :span="18">输入CIDR格式如: 192.168.2.0/24</el-col>
+                    <el-col :span="18">Enter IP in CIDR format such as: 192.168.2.0/24</el-col>
                     <el-col :span="2">
                     <el-button size="mini" type="success" icon="el-icon-plus" circle
                                 @click.prevent="addDomain(ruleForm.route_exclude)"></el-button>
@@ -331,7 +329,7 @@
                         <el-input v-model="item.val"></el-input>
                         </el-col>
                         <el-col :span="12">
-                        <el-input v-model="item.note" placeholder="备注"></el-input>
+                        <el-input v-model="item.note" placeholder="Note"></el-input>
                         </el-col>
                         <el-col :span="2">
                         <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -341,10 +339,10 @@
                 </templete>
                 </el-form-item>
             </el-tab-pane>
-            <el-tab-pane label="权限控制" name="link_acl">
-                <el-form-item label="权限控制" prop="link_acl">
+            <el-tab-pane label="Access control" name="link_acl">
+                <el-form-item label="Permissions" prop="link_acl">
                 <el-row class="msg-info">
-                    <el-col :span="22">输入CIDR格式如: 192.168.3.0/24 端口0表示所有端口,多个端口用,号分隔,连续端口:1234-5678</el-col>
+                    <el-col :span="22">Enter IP in CIDR format such as: 192.168.3.0/24. Port 0 represents all ports, multiple ports are separated by numbers, port ranges are described as 1234-5678</el-col>
                     <el-col :span="2">
                     <el-button size="mini" type="success" icon="el-icon-plus" circle
                                 @click.prevent="addDomain(ruleForm.link_acl)"></el-button>
@@ -354,18 +352,18 @@
                 <el-row v-for="(item,index) in ruleForm.link_acl"
                         :key="index" style="margin-bottom: 5px" :gutter="1">
                     <el-col :span="10">
-                    <el-input placeholder="请输入CIDR地址" v-model="item.val">
+                    <el-input placeholder="IP in CIDR format" v-model="item.val">
                         <el-select v-model="item.action" slot="prepend">
-                        <el-option label="允许" value="allow"></el-option>
-                        <el-option label="禁止" value="deny"></el-option>
+                        <el-option label="Allow" value="allow"></el-option>
+                        <el-option label="Deny" value="deny"></el-option>
                         </el-select>
                     </el-input>
                     </el-col>
                     <el-col :span="6">
-                    <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" v-model="item.port"  placeholder="多端口,号分隔"></el-input>
+                    <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 2}" v-model="item.port"  placeholder="Ports"></el-input>
                     </el-col>
                     <el-col :span="6">
-                    <el-input v-model="item.note" placeholder="备注"></el-input>
+                    <el-input v-model="item.note" placeholder="Note"></el-input>
                     </el-col>
                     <el-col :span="2">
                     <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -375,62 +373,60 @@
                 </el-form-item>
             </el-tab-pane>
 
-            <el-tab-pane label="域名拆分隧道" name="ds_domains">
-                <el-form-item label="包含域名" prop="ds_include_domains">
-                    <el-input type="textarea" :rows="5" v-model="ruleForm.ds_include_domains" placeholder="输入域名用,号分隔，默认匹配所有子域名, 如baidu.com,163.com"></el-input>
+            <el-tab-pane label=" Domain name split tunneling" name="ds_domains">
+                <el-form-item label="Include" prop="ds_include_domains">
+                    <el-input type="textarea" :rows="5" v-model="ruleForm.ds_include_domains" placeholder="Enter domain names separated by ',' and match all subdomain names by default, such as example.com"></el-input>
                 </el-form-item>
-                <el-form-item label="排除域名" prop="ds_exclude_domains">
-                    <el-input type="textarea" :rows="5" v-model="ruleForm.ds_exclude_domains" placeholder="输入域名用,号分隔，默认匹配所有子域名, 如baidu.com,163.com"></el-input>
-                    <div class="msg-info">注：域名拆分隧道，仅支持AnyConnect的windows和MacOS桌面客户端，不支持移动端.</div>
+                <el-form-item label="Exclude" prop="ds_exclude_domains">
+                    <el-input type="textarea" :rows="5" v-model="ruleForm.ds_exclude_domains" placeholder="Enter domain names separated by ',' and match all subdomain names by default, such as example.com"></el-input>
+                    <div class="msg-info">Note: Domain name split tunneling only supports the Windows and MacOS desktop clients of AnyConnect, and does not support mobile clients.</div>
                 </el-form-item>
             </el-tab-pane>
             <el-form-item>
                 <templete v-if="activeTab == 'authtype' && ruleForm.auth.type != 'local'">
-                    <el-button @click="openAuthLoginDialog()" style="margin-right:10px">测试登录</el-button>
+                    <el-button @click="openAuthLoginDialog()" style="margin-right:10px">Test login</el-button>
                 </templete>
-                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-                <el-button @click="closeDialog">取消</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">Save</el-button>
+                <el-button @click="closeDialog">Close</el-button>
             </el-form-item>
           </el-tabs>
         </el-form>
     </el-dialog>
-    <!--测试用户登录弹出框-->
     <el-dialog
         :close-on-click-modal="false"
-        title="测试用户登录"
+        title="Test user login"
         :visible.sync="authLoginDialog"
         width="600px"
         custom-class="valgin-dialog"
         center>
         <el-form :model="authLoginForm" :rules="authLoginRules" ref="authLoginForm" label-width="100px">
-            <el-form-item label="账号" prop="name">
+            <el-form-item label="Username" prop="name">
                 <el-input v-model="authLoginForm.name" ref="authLoginFormName" @keydown.enter.native="testAuthLogin"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="pwd">
+            <el-form-item label="Password" prop="pwd">
                 <el-input type="password" v-model="authLoginForm.pwd" @keydown.enter.native="testAuthLogin"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="testAuthLogin()" :loading="authLoginLoading">登录</el-button>
-                <el-button @click="authLoginDialog = false">取 消</el-button>
+                <el-button type="primary" @click="testAuthLogin()" :loading="authLoginLoading">Login</el-button>
+                <el-button @click="authLoginDialog = false">Cancel</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
-    <!--编辑模式弹窗-->
     <el-dialog
     :close-on-click-modal="false"
-    title="编辑模式"
+    title="Edit mode"
     :visible.sync="ipListDialog"
     width="650px"
     custom-class="valgin-dialog"
     center>
       <el-form ref="ipEditForm" label-width="80px">
-          <el-form-item label="路由表" prop="ip_list">
-              <el-input type="textarea" :rows="10" v-model="ipEditForm.ip_list" placeholder="每行一条路由，例：192.168.1.0/24,备注 或 192.168.1.0/24"></el-input>
-              <div class="msg-info">当前共 {{ ipEditForm.ip_list.trim() === '' ? 0 : ipEditForm.ip_list.trim().split("\n").length }} 条（注：AnyConnect客户端最多支持{{ this.maxRouteRows }}条路由）</div>
+          <el-form-item label="Routes" prop="ip_list">
+              <el-input type="textarea" :rows="10" v-model="ipEditForm.ip_list" placeholder="One route per line, for example: 192.168.1.0/24"></el-input>
+              <div class="msg-info">Total {{ ipEditForm.ip_list.trim() === '' ? 0 : ipEditForm.ip_list.trim().split("\n").length }} (Note: AnyConnect client supports up to {{ this.maxRouteRows }} routes)</div>
           </el-form-item>
           <el-form-item>
-              <el-button type="primary" @click="ipEdit()" :loading="ipEditLoading">更新</el-button>
-              <el-button @click="ipListDialog = false">取 消</el-button>
+              <el-button type="primary" @click="ipEdit()" :loading="ipEditLoading">Replace</el-button>
+              <el-button @click="ipListDialog = false">Cancel</el-button>
           </el-form-item>
       </el-form>
     </el-dialog>
@@ -446,7 +442,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['用户组信息', '用户组列表'])
+    this.$emit('update:route_name', ['User group info', 'User group list'])
   },
   mounted() {
     this.getData(1);
@@ -481,7 +477,7 @@ export default {
         status: 1,
         allow_lan: true,
         client_dns: [{val: '114.114.114.114'}],
-        route_include: [{val: 'all', note: '默认全局代理'}],
+        route_include: [{val: 'all', note: 'Default global proxy'}],
         route_exclude: [],
         link_acl: [],
         auth : {},
@@ -500,48 +496,48 @@ export default {
       ipEditLoading : false,
       authLoginRules: {
         name: [
-          {required: true, message: '请输入账号', trigger: 'blur'},
+          {required: true, message: 'Please input username', trigger: 'blur'},
         ],
         pwd: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 6, message: '长度至少 6 个字符', trigger: 'blur'}
+          {required: true, message: 'Please enter password', trigger: 'blur'},
+          {min: 6, message: 'Password must be at least 6 characters in length', trigger: 'blur'}
         ],
       },
       rules: {
         name: [
-          {required: true, message: '请输入组名', trigger: 'blur'},
-          {max: 30, message: '长度小于 30 个字符', trigger: 'blur'}
+          {required: true, message: 'Please enter a group name', trigger: 'blur'},
+          {max: 30, message: 'Group name must be less than 30 characters long', trigger: 'blur'}
         ],
         bandwidth_format: [
-          {required: true, message: '请输入带宽限制', trigger: 'blur'},
-          {type: 'string', message: '带宽限制必须为数字值'}
+          {required: true, message: 'Please enter bandwidth limit', trigger: 'blur'},
+          {type: 'string', message: 'Bandwidth limit must be a numeric value'}
         ],
         status: [
           {required: true}
         ],
         "auth.radius.addr": [
-          {required: true, message: '请输入Radius服务器', trigger: 'blur'}
+          {required: true, message: 'Please enter Radius server', trigger: 'blur'}
         ],
         "auth.radius.secret": [
-          {required: true, message: '请输入Radius密钥', trigger: 'blur'}
+          {required: true, message: 'Please enter the Radius secretkey', trigger: 'blur'}
         ],
         "auth.ldap.addr": [
-          {required: true, message: '请输入服务器地址(含端口)', trigger: 'blur'}
+          {required: true, message: 'Please enter the server address (including port)', trigger: 'blur'}
         ],
         "auth.ldap.bind_name": [
-          {required: true, message: '请输入管理员 DN', trigger: 'blur'}
+          {required: true, message: 'Please enter Bind DN', trigger: 'blur'}
         ],
         "auth.ldap.bind_pwd": [
-          {required: true, message: '请输入管理员密码', trigger: 'blur'}
+          {required: true, message: 'Please enter Bind PW', trigger: 'blur'}
         ],
         "auth.ldap.base_dn": [
-          {required: true, message: '请输入Base DN值', trigger: 'blur'}
+          {required: true, message: 'Please enter the Base DN', trigger: 'blur'}
         ],
         "auth.ldap.object_class": [
-          {required: true, message: '请输入用户对象类', trigger: 'blur'}
+          {required: true, message: 'Please enter the user class', trigger: 'blur'}
         ],
         "auth.ldap.search_attr": [
-          {required: true, message: '请输入用户唯一ID', trigger: 'blur'}
+          {required: true, message: 'Please enter user ID', trigger: 'blur'}
         ],
       },
     }
@@ -568,7 +564,7 @@ export default {
         }
         console.log(rdata);
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -589,7 +585,7 @@ export default {
         this.ruleForm = resp.data.data;
         this.setAuthData(resp.data.data);
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -608,7 +604,7 @@ export default {
         this.tableData = rdata.datas;
         this.count = rdata.count
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -617,11 +613,6 @@ export default {
       if (index >= 0 && index < arr.length) {
         arr.splice(index, 1)
       }
-      // let index = arr.indexOf(item);
-      // if (index !== -1 && arr.length > 1) {
-      //   arr.splice(index, 1)
-      // }
-      // arr.pop()
     },
     addDomain(arr) {
       arr.push({val: "", action: "allow", port: 0});
@@ -629,7 +620,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (!valid) {
-          console.log('error submit!!');
+          console.log('Submitting error');
           return false;
         }
         this.ruleForm.bandwidth = this.convertBandwidth(this.ruleForm.bandwidth_format, 'Mbps', 'BYTE');
@@ -644,7 +635,7 @@ export default {
           }
           console.log(rdata);
         }).catch(error => {
-          this.$message.error('哦，请求出错');
+          this.$message.error('Request error');
           console.log(error);
         });
       });
@@ -652,7 +643,7 @@ export default {
     testAuthLogin() {
         this.$refs["authLoginForm"].validate((valid) => {
             if (!valid) {
-                console.log('error submit!!');
+                console.log('Submitting error');
                 return false;
             }
             this.authLoginLoading = true;
@@ -661,14 +652,14 @@ export default {
                                             auth:this.ruleForm.auth}).then(resp => {
                     const rdata = resp.data;
                     if (rdata.code === 0) {
-                        this.$message.success("登录成功");
+                        this.$message.success("Login successful");
                     } else {
                         this.$message.error(rdata.msg);
                     }
                     this.authLoginLoading = false;
                     console.log(rdata);
                 }).catch(error => {
-                    this.$message.error('哦，请求出错');
+                    this.$message.error('Request error');
                     console.log(error);
                     this.authLoginLoading = false;
             });
@@ -677,11 +668,10 @@ export default {
     openAuthLoginDialog() {
       this.$refs["ruleForm"].validate((valid) => {
         if (!valid) {
-          console.log('error submit!!');
+          console.log('Submitting error');
           return false;
         }
         this.authLoginDialog = true;
-        // set authLoginFormName focus
         this.$nextTick(() => {
             this.$refs['authLoginFormName'].focus();
         });
@@ -718,7 +708,7 @@ export default {
           }
           let valid = this.isValidCIDR(ip[0]);
           if (!valid.valid) {
-                this.$message.error("错误：CIDR格式错误，建议 " + ip[0] + " 改为 " + valid.suggestion);
+                this.$message.error("Error: CIDR format error, try change " + ip[0] + " to " + valid.suggestion);
                 this.ipEditLoading = false;
                 return;
           }
@@ -771,7 +761,7 @@ export default {
       }
       this.$refs['ruleForm'].validate((valid) => {
         if (!valid) {
-          this.$message.error("错误：您有必填项没有填写。")
+          this.$message.error("Error: You have not filled in any required fields")
           isSwitch = false;
           return false;
         }

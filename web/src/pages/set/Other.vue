@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="邮件配置" name="dataSmtp">
+      <el-tab-pane label="Email configuration" name="dataSmtp">
         <el-form
             :model="dataSmtp"
             ref="dataSmtp"
@@ -9,43 +9,43 @@
             label-width="100px"
             class="tab-one"
         >
-          <el-form-item label="服务器地址" prop="host">
+          <el-form-item label="Server" prop="host">
             <el-input v-model="dataSmtp.host"></el-input>
           </el-form-item>
-          <el-form-item label="服务器端口" prop="port">
+          <el-form-item label="Port" prop="port">
             <el-input v-model.number="dataSmtp.port"></el-input>
           </el-form-item>
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="Username" prop="username">
             <el-input v-model="dataSmtp.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="Password" prop="password">
             <el-input
                 type="password"
                 v-model="dataSmtp.password"
-                placeholder="密码为空则不修改"
+                placeholder="If the password is empty, it will not be modified"
             ></el-input>
           </el-form-item>
-          <el-form-item label="加密类型" prop="encryption">
+          <el-form-item label="Encryption" prop="encryption">
             <el-radio-group v-model="dataSmtp.encryption">
               <el-radio label="None">None</el-radio>
               <el-radio label="SSLTLS">SSLTLS</el-radio>
               <el-radio label="STARTTLS">STARTTLS</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="邮件from" prop="from">
+          <el-form-item label="Mail from" prop="from">
             <el-input v-model="dataSmtp.from"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataSmtp')"
-            >保存
+            >Save
             </el-button
             >
-            <el-button @click="resetForm('dataSmtp')">重置</el-button>
+            <el-button @click="resetForm('dataSmtp')">Cancel</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
 
-      <el-tab-pane label="审计日志" name="dataAuditLog">
+      <el-tab-pane label="Audit log" name="dataAuditLog">
         <el-form
             :model="dataAuditLog"
             ref="dataAuditLog"
@@ -53,35 +53,35 @@
             label-width="100px"
             class="tab-one"
         >
-          <el-form-item label="审计去重间隔" prop="audit_interval">
+          <el-form-item label="Audit interval" prop="audit_interval">
             <el-input-number
                 v-model="dataAuditLog.audit_interval"
                 :min="-1"
                 size="small"
-                label="秒"
+                label="Second"
                 :disabled="true"
             ></el-input-number>
-            秒
+            Second
             <p class="input_tip">
-              请手动修改配置文件中的 audit_interval 参数后，再重启服务,
-              <strong style="color: #ea3323">-1 代表关闭审计日志</strong>
+              Please manually modify the configuration file audit_interval and after setting the parameters, restart the service
+              <strong style="color: #ea3323">-1 means turning off the audit log</strong>
             </p>
           </el-form-item>
-          <el-form-item label="存储时长" prop="life_day">
+          <el-form-item label="Storage duration" prop="life_day">
             <el-input-number
                 v-model="dataAuditLog.life_day"
                 :min="0"
                 :max="365"
                 size="small"
-                label="天数"
+                label="Days"
             ></el-input-number>
-            天
+            day
             <p class="input_tip">
-              范围: 0 ~ 365天 ,
-              <strong style="color: #ea3323">0 代表永久保存</strong>
+              Scope: 0 ~ 365 days,
+              <strong style="color: #ea3323">0 means permanent storage</strong>
             </p>
           </el-form-item>
-          <el-form-item label="清理时间" prop="clear_time">
+          <el-form-item label="Cleanup time" prop="clear_time">
             <el-time-select
                 v-model="dataAuditLog.clear_time"
                 :picker-options="{
@@ -91,27 +91,27 @@
               }"
                 :editable="false"
                 size="small"
-                placeholder="请选择"
+                placeholder="Choose"
                 style="width: 130px"
             >
             </el-time-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataAuditLog')"
-            >保存
+            >Save
             </el-button
             >
-            <el-button @click="resetForm('dataAuditLog')">重置</el-button>
+            <el-button @click="resetForm('dataAuditLog')">Cancel</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="证书设置" name="datacertManage">
+      <el-tab-pane label="Certificate settings" name="datacertManage">
         <el-tabs
             tab-position="left"
             v-model="datacertManage"
             @tab-click="handleClick"
         >
-          <el-tab-pane label="自定义证书" name="customCert">
+          <el-tab-pane label="Custom certificate" name="customCert">
             <el-form
                 ref="customCert"
                 :model="customCert"
@@ -127,13 +127,13 @@
                     :limit="1"
                 >
                   <el-button size="mini" icon="el-icon-plus" slot="trigger"
-                  >证书文件
+                  >Certificate file
                   </el-button
                   >
                   <el-tooltip
                       class="item"
                       effect="dark"
-                      content="请上传 .pem 格式的 cert 文件"
+                      content="Please upload the cert file in .pem format"
                       placement="top"
                   >
                     <i class="el-icon-info"></i>
@@ -148,13 +148,13 @@
                     :limit="1"
                 >
                   <el-button size="mini" icon="el-icon-plus" slot="trigger"
-                  >私钥文件
+                  >Private key file
                   </el-button
                   >
                   <el-tooltip
                       class="item"
                       effect="dark"
-                      content="请上传 .pem 格式的 key 文件"
+                      content="Please upload the key file in .pem format"
                       placement="top"
                   >
                     <i class="el-icon-info"></i>
@@ -167,13 +167,13 @@
                     icon="el-icon-upload"
                     type="primary"
                     @click="submitForm('customCert')"
-                >上传
+                >Upload
                 </el-button
                 >
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="Let's Encrypt证书" name="letsCert">
+          <el-tab-pane label="Let's Encrypt certificate" name="letsCert">
             <el-form
                 :model="letsCert"
                 ref="letsCert"
@@ -182,17 +182,17 @@
                 size="small"
                 class="tab-one"
             >
-              <el-form-item label="域名" prop="domain">
+              <el-form-item label="Domain" prop="domain">
                 <el-input v-model="letsCert.domain"></el-input>
               </el-form-item>
-              <el-form-item label="邮箱" prop="legomail">
+              <el-form-item label="Mail" prop="legomail">
                 <el-input v-model="letsCert.legomail"></el-input>
               </el-form-item>
-              <el-form-item label="域名服务商" prop="name">
+              <el-form-item label="Provider" prop="name">
                 <el-radio-group v-model="letsCert.name">
-                  <el-radio label="aliyun">阿里云</el-radio>
-                  <el-radio label="txcloud">腾讯云</el-radio>
-                  <el-radio label="cfcloud">cloudflare</el-radio>
+                  <el-radio label="aliyun">Ali Cloud</el-radio>
+                  <el-radio label="txcloud">Tencent Cloud</el-radio>
+                  <el-radio label="cfcloud">Cloudflare</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item
@@ -213,22 +213,22 @@
                     v-model="letsCert.renew"
                     active-color="#13ce66"
                     inactive-color="#ff4949"
-                    inactive-text="自动续期"
+                    inactive-text="Automatic renewal"
                 >
                 </el-switch>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('letsCert')"
-                >申请
+                >Apply
                 </el-button
                 >
-                <el-button @click="resetForm('letsCert')">重置</el-button>
+                <el-button @click="resetForm('letsCert')">Cancel</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
-      <el-tab-pane label="其他设置" name="dataOther">
+      <el-tab-pane label="Other settings" name="dataOther">
         <el-form
             :model="dataOther"
             ref="dataOther"
@@ -236,22 +236,22 @@
             label-width="130px"
             class="tab-one"
         >
-          <el-form-item label="vpn对外地址" prop="link_addr">
-            <el-input placeholder="请输入内容" v-model="dataOther.link_addr">
+          <el-form-item label="VPN external address" prop="link_addr">
+            <el-input placeholder="Please enter content" v-model="dataOther.link_addr">
             </el-input>
           </el-form-item>
 
-          <el-form-item label="Banner信息" prop="banner">
+          <el-form-item label="Banner information" prop="banner">
             <el-input
                 type="textarea"
                 :rows="5"
-                placeholder="请输入内容"
+                placeholder="Please enter content"
                 v-model="dataOther.banner"
             >
             </el-input>
           </el-form-item>
 
-          <el-form-item label="自定义首页状态码" prop="homecode">
+          <el-form-item label="Custom home page status code" prop="homecode">
             <el-input-number
                 v-model="dataOther.homecode"
                 :min="0"
@@ -259,30 +259,30 @@
             ></el-input-number>
           </el-form-item>
 
-          <el-form-item label="自定义首页" prop="homeindex">
+          <el-form-item label="Customize home page" prop="homeindex">
             <el-input
                 type="textarea"
                 :rows="10"
-                placeholder="请输入内容"
+                placeholder="Please enter content"
                 v-model="dataOther.homeindex"
             >
             </el-input>
-            <el-tooltip content="自定义内容可以参考 index_template 目录下的文件" placement="top">
+            <el-tooltip content="For customized content, please refer to the files in the index_template directory." placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </el-form-item>
 
-          <el-form-item label="账户开通邮件模板" prop="account_mail">
+          <el-form-item label="Account creation email template" prop="account_mail">
             <el-input
                 type="textarea"
                 :rows="10"
-                placeholder="请输入内容"
+                placeholder="Please enter content"
                 v-model="dataOther.account_mail"
             >
             </el-input>
           </el-form-item>
 
-          <el-form-item label="邮件展示">
+          <el-form-item label="Email display">
             <iframe
                 width="500px"
                 height="300px"
@@ -293,10 +293,10 @@
 
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataOther')"
-            >保存
+            >Save
             </el-button
             >
-            <el-button @click="resetForm('dataOther')">重置</el-button>
+            <el-button @click="resetForm('dataOther')">Cancel</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -311,7 +311,7 @@ export default {
   name: "Other",
   created() {
     this.$emit("update:route_path", this.$route.path);
-    this.$emit("update:route_name", ["基础信息", "其他设置"]);
+    this.$emit("update:route_name", ["Basic info", "Other settings"]);
   },
   mounted() {
     this.getSmtp();
@@ -342,27 +342,27 @@ export default {
       customCert: {cert: "", key: ""},
       dataOther: {},
       rules: {
-        host: {required: true, message: "请输入服务器地址", trigger: "blur"},
+        host: {required: true, message: "Please enter server address", trigger: "blur"},
         port: [
-          {required: true, message: "请输入服务器端口", trigger: "blur"},
+          {required: true, message: "Please enter the server port", trigger: "blur"},
           {
             type: "number",
-            message: "请输入正确的服务器端口",
+            message: "Please enter the correct server port",
             trigger: ["blur", "change"],
           },
         ],
-        issuer: {required: true, message: "请输入系统名称", trigger: "blur"},
+        issuer: {required: true, message: "Please enter system name", trigger: "blur"},
         domain: {
           required: true,
-          message: "请输入需要申请证书的域名",
+          message: "Please enter the domain name for which you need to apply for a certificate",
           trigger: "blur",
         },
         legomail: {
           required: true,
-          message: "请输入申请证书的邮箱地址",
+          message: "Please enter the email address for applying for the certificate",
           trigger: "blur",
         },
-        name: {required: true, message: "请选择域名服务商", trigger: "blur"},
+        name: {required: true, message: "Please select a domain name service provider", trigger: "blur"},
       },
       certUpload: "/set/other/customcert",
       dnsProvider: {
@@ -374,7 +374,7 @@ export default {
             type: "password",
             rules: {
               required: true,
-              message: "请输入正确的APIKey",
+              message: "Please enter the correct APIKey",
               trigger: "blur",
             },
           },
@@ -385,7 +385,7 @@ export default {
             type: "password",
             rules: {
               required: true,
-              message: "请输入正确的SecretKey",
+              message: "Please enter the correct SecretKey",
               trigger: "blur",
             },
           },
@@ -398,7 +398,7 @@ export default {
             type: "password",
             rules: {
               required: true,
-              message: "请输入正确的APIKey",
+              message: "Please enter the correct APIKey",
               trigger: "blur",
             },
           },
@@ -409,7 +409,7 @@ export default {
             type: "password",
             rules: {
               required: true,
-              message: "请输入正确的APIKey",
+              message: "Please enter the correct APIKey",
               trigger: "blur",
             },
           },
@@ -422,7 +422,7 @@ export default {
             type: "password",
             rules: {
               required: true,
-              message: "请输入正确的AuthToken",
+              message: "Please enter the correct AuthToken",
               trigger: "blur",
             },
           },
@@ -449,17 +449,9 @@ export default {
       }
     },
     beforeCertUpload(file) {
-      // if (file.type !== 'application/x-pem-file') {
-      //   this.$message.error('只能上传 .pem 格式的证书文件')
-      //   return false
-      // }
       this.customCert.cert = file;
     },
     beforeKeyUpload(file) {
-      // if (file.type !== 'application/x-pem-file') {
-      //   this.$message.error('只能上传 .pem 格式的私钥文件')
-      //   return false
-      // }
       this.customCert.key = file;
     },
     getSmtp() {
@@ -475,7 +467,7 @@ export default {
             this.dataSmtp = rdata.data;
           })
           .catch((error) => {
-            this.$message.error("哦，请求出错");
+            this.$message.error("Request error");
             console.log(error);
           });
     },
@@ -492,7 +484,7 @@ export default {
             this.dataAuditLog = rdata.data;
           })
           .catch((error) => {
-            this.$message.error("哦，请求出错");
+            this.$message.error("Request error");
             console.log(error);
           });
     },
@@ -509,7 +501,7 @@ export default {
             this.letsCert = Object.assign({}, this.letsCert, rdata.data);
           })
           .catch((error) => {
-            this.$message.error("哦，请求出错");
+            this.$message.error("Request error");
             console.log(error);
           });
     },
@@ -526,14 +518,14 @@ export default {
             this.dataOther = rdata.data;
           })
           .catch((error) => {
-            this.$message.error("哦，请求出错");
+            this.$message.error("Request error");
             console.log(error);
           });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (!valid) {
-          alert("error submit!");
+          alert("Submitting error");
         }
 
         switch (formName) {
@@ -564,7 +556,7 @@ export default {
           case "letsCert":
             var loading = this.$loading({
               lock: true,
-              text: "证书申请中...",
+              text: "Certificate application in progress...",
               spinner: "el-icon-loading",
               background: "rgba(0, 0, 0, 0.7)",
             });

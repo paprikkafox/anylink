@@ -16,7 +16,6 @@
         type: String,
         default: '240px'
       },
-      // title,xAxis,series
       chartData: {
         type: Object,
         required: true
@@ -52,7 +51,7 @@
         let option = {
           color: ['#2D5CF6','#50B142'],
           title: {
-            text: this.chartData.title || '折线图',
+            text: this.chartData.title || 'Line chart',
             textStyle:{fontWeight:'normal',fontSize:16, color:'#8C8C8C'}
           },
           tooltip: {
@@ -67,11 +66,6 @@
             bottom: '10%',
             containLabel: true
           },
-          // toolbox: {
-          //   feature: {
-          //     saveAsImage: {}
-          //   }
-          // },
           xAxis: {
             type: 'category',
             boundaryGap: false,
@@ -88,13 +82,7 @@
                 lineStyle: {
                     color: "#F0F0F0",
                 },
-            },            
-            axisLabel: {
-                // formatter: (value) => {
-                //     value = value + " MB"
-                //     return value
-                // }
-            }            
+            }     
           },
           series: [],
         };
@@ -103,7 +91,6 @@
         }
         let xdata = this.chartData.xdata
         for (let key in xdata) {
-          // window.console.log(key);
           let a = {
             name: key,
             type: 'line',
@@ -112,8 +99,6 @@
           };
           option.series.push(a)
         }
-
-
         this.chart.setOption(option)
       },
     }    

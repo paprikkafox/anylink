@@ -6,25 +6,25 @@
 
         <el-table-column
             prop="info"
-            label="信息"
+            label="Name"
             width="260">
         </el-table-column>
 
         <el-table-column
             prop="name"
-            label="配置"
+            label="Config"
             width="200">
         </el-table-column>
 
         <el-table-column
             prop="env"
-            label="环境变量"
+            label="Env"
             width="220">
         </el-table-column>
 
         <el-table-column
             prop="data"
-            label="数据">
+            label="Data">
           <template slot-scope="scope">
             {{ scope.row.data }}
           </template>
@@ -41,7 +41,7 @@ export default {
   name: "Soft",
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['基础信息', '软件配置'])
+    this.$emit('update:route_name', ['Basic info', 'Server config'])
   },
   mounted() {
     this.getSoftInfo()
@@ -57,7 +57,7 @@ export default {
         console.log(data);
         this.soft_data = data.data;
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     }

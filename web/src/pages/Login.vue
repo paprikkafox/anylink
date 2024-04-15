@@ -3,18 +3,18 @@
   <div class="login">
     <el-card style="width: 550px;">
 
-      <div class="issuer">AnyLink SSL VPN管理后台</div>
+      <div class="issuer">AnyLink SSL VPN Server</div>
 
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
-        <el-form-item label="管理用户名" prop="admin_user">
+        <el-form-item label="Username" prop="admin_user">
           <el-input v-model="ruleForm.admin_user"></el-input>
         </el-form-item>
-        <el-form-item label="管理密码" prop="admin_pass">
+        <el-form-item label="Password" prop="admin_pass">
           <el-input type="password" v-model="ruleForm.admin_pass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">登录</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">Log in</el-button>
+          <el-button @click="resetForm('ruleForm')">Reset</el-button>
         </el-form-item>
       </el-form>
 
@@ -31,9 +31,7 @@ import {setToken, setUser} from "@/plugins/token";
 export default {
   name: "Login",
   mounted() {
-    // 进入login，删除登录信息
-    console.log("login created")
-    //绑定事件
+    console.log("Login created")
     window.addEventListener('keydown', this.keyDown);
   },
   destroyed(){
@@ -44,19 +42,18 @@ export default {
       ruleForm: {},
       rules: {
         admin_user: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-          {max: 50, message: '长度小于 50 个字符', trigger: 'blur'}
+          {required: true, message: 'Please enter username', trigger: 'blur'},
+          {max: 50, message: 'Username must be less than 50 characters long', trigger: 'blur'}
         ],
         admin_pass: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 6, message: '长度大于 6 个字符', trigger: 'blur'}
+          {required: true, message: 'Please enter password', trigger: 'blur'},
+          {min: 6, message: 'Password must be longer than 6 characters', trigger: 'blur'}
         ],
       },
     }
   },
   methods: {
     keyDown(e) {
-      //如果是回车则执行登录方法
       if (e.keyCode === 13) {
         this.submitForm('ruleForm');
       }
@@ -68,8 +65,6 @@ export default {
           return false;
         }
         this.isLoading = true
-
-        // alert('submit!');
         axios.post('/base/login', qs.stringify(this.ruleForm)).then(resp => {
           var rdata = resp.data
           if (rdata.code === 0) {
@@ -82,7 +77,7 @@ export default {
           }
           console.log(rdata);
         }).catch(error => {
-          this.$message.error('哦，请求出错');
+          this.$message.error('Request error');
           console.log(error);
         }).finally(() => {
               this.isLoading = false
@@ -100,9 +95,7 @@ export default {
 
 <style scoped>
 .login {
-  /*border: 1px solid red;*/
   height: 100%;
-  /*margin: 0 auto;*/
   text-align: center;
 
   display: flex;

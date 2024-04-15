@@ -7,7 +7,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 if (process.env.NODE_ENV !== 'production') {
     // 开发环境
-    axios.defaults.baseURL = 'https://192.168.8.24:8800';
+    axios.defaults.baseURL = 'https://localhost:8800';
 }
 
 function request(vm) {

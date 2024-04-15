@@ -1,55 +1,55 @@
 <template>
   <div>
 <el-form :model="searchForm" :rules="rules" ref="searchForm" :inline="true" class="search-form">
-        <el-form-item label="用户名:" prop="username">
+        <el-form-item label="Username:" prop="username">
           <el-input size="mini" v-model="searchForm.username" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>
-        <el-form-item label="源IP地址:" prop="src">
+        <el-form-item label="Source IP address:" prop="src">
           <el-input size="mini" v-model="searchForm.src" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>    
-        <el-form-item label="目的IP地址:" prop="dst">
+        <el-form-item label="Destination IP address:" prop="dst">
           <el-input size="mini" v-model="searchForm.dst" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item> 
-        <el-form-item label="目的端口:" prop="dst_port">
+        <el-form-item label="Destination port:" prop="dst_port">
           <el-input size="mini" v-model="searchForm.dst_port" clearable style="width: 80px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item> 
-        <el-form-item label="访问协议：">
-            <el-select size="mini" v-model="searchForm.access_proto" clearable placeholder="请选择" style="width: 100px">
+        <el-form-item label="Access protocol：">
+            <el-select size="mini" v-model="searchForm.access_proto" clearable placeholder="Please choose" style="width: 100px">
                     <el-option v-for="(item,index) in access_proto" :key="index" :label="item.text" :value="item.value">
                     </el-option>
             </el-select>           
         </el-form-item>  
-        <el-form-item label="日期范围：">
+        <el-form-item label="Data range：">
             <el-date-picker
                 v-model="searchForm.date"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 size="mini"
                 align="left"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
+                start-placeholder="Start date"
+                end-placeholder="End date"
                 :default-time="['00:00:00', '23:59:59']">
             </el-date-picker>
         </el-form-item>
-        <el-form-item label="详情:">
-          <el-input size="mini" v-model="searchForm.info" placeholder="请输入关键字" clearable style="width: 200px" @keydown.enter.native="searchEnterFun"></el-input>
+        <el-form-item label="Details:">
+          <el-input size="mini" v-model="searchForm.info" placeholder="Please enter key words" clearable style="width: 200px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>         
         <el-form-item>
           <el-button
               size="mini"
               type="primary"
               icon="el-icon-search"
-              @click="handleSearch">搜索
+              @click="handleSearch">Search
           </el-button>
           <el-button
               size="mini"
               icon="el-icon-refresh"
-              @click="rest">重置搜索
+              @click="rest">Reset search
           </el-button>
           <el-button
               size="mini"
               icon="el-icon-download"
-              @click="handleExport">导出
+              @click="handleExport">Export
           </el-button>          
         </el-form-item>
       </el-form>
@@ -58,7 +58,7 @@
           ref="multipleTable"
           :data="tableData"
           v-loading="loading"
-          element-loading-text="玩命加载中"
+          element-loading-text="Loading"
           element-loading-spinner="el-icon-loading"
           :default-sort="{ prop: 'id', order: 'descending' }"
           @sort-change="sortChange" 
@@ -74,43 +74,43 @@
 
         <el-table-column
             prop="username"
-            label="用户名"
+            label="Username"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="src"
-            label="源IP地址"
+            label="Source IP address"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="dst"
-            label="目的IP地址"
+            label="Destination IP address"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="dst_port"
-            label="目的端口"
+            label="Destination port"
             width="85">
         </el-table-column>
 
         <el-table-column
             prop="access_proto"
-            label="访问协议"
+            label="Access protocol"
             width="80"
             :formatter="protoFormat">
         </el-table-column>
 
         <el-table-column
             prop="info"
-            label="详情">
+            label="Details">
         </el-table-column>        
 
         <el-table-column
             prop="created_at"
-            label="创建时间"
+            label="Created at"
             width="160"
             :formatter="tableDateFormat">
         </el-table-column>
@@ -155,13 +155,13 @@ export default {
       loading: false,
       rules: {
         username: [
-          {max: 30, message: '长度小于 30 个字符', trigger: 'blur'}
+          {max: 30, message: 'Less than 30 characters long', trigger: 'blur'}
         ],
         src: [
-          {  message: '请输入正确的IP地址', validator: this.validateIP, trigger: 'blur' },
+          {  message: 'Please enter the correct IP address', validator: this.validateIP, trigger: 'blur' },
         ],        
         dst: [
-          { message: '请输入正确的IP地址', validator: this.validateIP, trigger: 'blur' },
+          { message: 'Please enter the correct IP address', validator: this.validateIP, trigger: 'blur' },
         ],               
       },            
     }
@@ -213,7 +213,7 @@ export default {
         this.loading = false
         this.currentPage = p;
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -225,7 +225,7 @@ export default {
         var formatNum = (this.maxExportNum + "").replace(/\d{1,3}(?=(\d{3})+$)/g,function(s){
            return s+','
         })
-        this.$message.error("你导出的数据量超过" + formatNum + "条，请调整搜索条件，再导出");
+        this.$message.error("The amount of data you exported exceeds " + formatNum + " items. Please adjust the search conditions and export again.");
         return ;
       }
       if (! this.searchForm.date) {
@@ -233,7 +233,7 @@ export default {
       }
       const exporting = this.$loading({
             lock: true,
-            text: '玩命导出中，请稍等片刻...',
+            text: 'Exporting, please wait a moment...',
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'
       });
@@ -249,12 +249,12 @@ export default {
             return ;
         }
         exporting.close();
-        this.$message.success("成功导出CSV文件")
+        this.$message.success("Successfully exported CSV file")
         let csvData = 'data:text/csv;charset=utf-8,\uFEFF' + rdata
         this.createDownLoadClick(csvData, `anylink_audit_log_` + Date.parse(new Date()) + `.csv`)
       }).catch(error => {
         exporting.close();
-        this.$message.error('哦，请求出错');
+        this.$message.error('Request error');
         console.log(error);
       });
     },
@@ -287,7 +287,7 @@ export default {
         } else {
             const reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
             if ((!reg.test(value)) && value !== '') {
-            callback(new Error('请输入正确的IP地址'))
+            callback(new Error('Please enter the correct IP address'))
             } else {
             callback()
             }
