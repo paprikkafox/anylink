@@ -76,8 +76,8 @@ jobs:
           build-args: |
             appVer=${{ env.APP_VER }}
             commitId=${{ env.commitId }}
-          tags: bjdgyc/anylink:${{ env.APP_VER }},bjdgyc/anylink:latest
-          #tags: bjdgyc/anylink:${{ env.APP_VER }}
+          tags: paprikkafox/anylink:${{ env.APP_VER }},paprikkafox/anylink:latest
+          #tags: paprikkafox/anylink:${{ env.APP_VER }}
 
       - name: Build deploy binary
         shell: bash
