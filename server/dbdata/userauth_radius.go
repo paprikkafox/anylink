@@ -25,15 +25,15 @@ func (auth AuthRadius) checkData(authData map[string]interface{}) error {
 	authType := authData["type"].(string)
 	bodyBytes, err := json.Marshal(authData[authType])
 	if err != nil {
-		return errors.New("Radius的密钥/服务器地址填写有误")
+		return errors.New("The Radius key/server address is incorrectly filled in")
 	}
 	json.Unmarshal(bodyBytes, &auth)
 	if !ValidateIpPort(auth.Addr) {
-		return errors.New("Radius的服务器地址填写有误")
+		return errors.New("The Radius server address is incorrectly entered.")
 	}
-	// freeradius官网最大8000字符, 这里限制200
+	// freeradius has a maximum of 8000 characters, here the limit is 200
 	if len(auth.Secret) < 8 || len(auth.Secret) > 200 {
-		return errors.New("Radius的密钥长度需在8～200个字符之间")
+		return errors.New("Radius key length needs to be between 8 and 200 characters")
 	}
 	return nil
 }
@@ -41,21 +41,21 @@ func (auth AuthRadius) checkData(authData map[string]interface{}) error {
 func (auth AuthRadius) checkUser(name, pwd string, g *Group) error {
 	pl := len(pwd)
 	if name == "" || pl < 1 {
-		return fmt.Errorf("%s %s", name, "密码错误")
+		return fmt.Errorf("%s %s", name, "wrong password")
 	}
 	authType := g.Auth["type"].(string)
 	if _, ok := g.Auth[authType]; !ok {
-		return fmt.Errorf("%s %s", name, "Radius的radius值不存在")
+		return fmt.Errorf("%s %s", name, "The radius value of Radius does not exist")
 	}
 	bodyBytes, err := json.Marshal(g.Auth[authType])
 	if err != nil {
-		return fmt.Errorf("%s %s", name, "Radius Marshal出现错误")
+		return fmt.Errorf("%s %s", name, "Radius Marshal error")
 	}
 	err = json.Unmarshal(bodyBytes, &auth)
 	if err != nil {
-		return fmt.Errorf("%s %s", name, "Radius Unmarshal出现错误")
+		return fmt.Errorf("%s %s", name, "Radius Unmarshal error")
 	}
-	// radius认证时，设置超时3秒
+	// During RADIUS authentication, set the timeout to 3 seconds
 	packet := radius.New(radius.CodeAccessRequest, []byte(auth.Secret))
 	rfc2865.UserName_SetString(packet, name)
 	rfc2865.UserPassword_SetString(packet, pwd)
@@ -63,10 +63,10 @@ func (auth AuthRadius) checkUser(name, pwd string, g *Group) error {
 	defer done()
 	response, err := radius.Exchange(ctx, packet, auth.Addr)
 	if err != nil {
-		return fmt.Errorf("%s %s", name, "Radius服务器连接异常, 请检测服务器和端口")
+		return fmt.Errorf("%s %s", name, "Radius server connection abnormality, please check the server and port")
 	}
 	if response.Code != radius.CodeAccessAccept {
-		return fmt.Errorf("%s %s", name, "Radius：用户名或密码错误")
+		return fmt.Errorf("%s %s", name, "Radius: Wrong username or password")
 	}
 	return nil
 }

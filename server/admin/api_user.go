@@ -37,7 +37,7 @@ func UserList(w http.ResponseWriter, r *http.Request) {
 		err      error
 	)
 
-	// 查询前缀匹配
+	// Query prefix matching
 	if len(prefix) > 0 {
 		fuzzy := "%" + prefix + "%"
 		where := "username LIKE ? OR nickname LIKE ? OR email LIKE ?"
@@ -68,7 +68,7 @@ func UserDetail(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "用户名错误")
+		RespError(w, RespParamErr, "Username error")
 		return
 	}
 
@@ -104,7 +104,7 @@ func UserSet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 发送邮件
+	// Send email
 	if data.SendEmail {
 		err = userAccountMail(data)
 		if err != nil {
@@ -112,7 +112,7 @@ func UserSet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	// 修改用户资料后执行过期用户检测
+	// Perform expired user detection after modifying user information
 	sessdata.CloseUserLimittimeSession()
 	RespSucess(w, nil)
 }
@@ -123,7 +123,7 @@ func UserDel(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(idS)
 
 	if id < 1 {
-		RespError(w, RespParamErr, "用户id错误")
+		RespError(w, RespParamErr, "Wrong user id")
 		return
 	}
 
@@ -178,7 +178,7 @@ func userOtpQr(uid int, b64 bool) (string, error) {
 	return buf.String(), err
 }
 
-// 在线用户
+// Online user
 func UserOnline(w http.ResponseWriter, r *http.Request) {
 	datas := sessdata.OnlineSess()
 
@@ -217,7 +217,7 @@ type userAccountMailData struct {
 }
 
 func userAccountMail(user *dbdata.User) error {
-	// 平台通知
+	// Platform notification
 	htmlBody := `
 <!DOCTYPE html>
 <html lang="en">
@@ -239,7 +239,7 @@ func userAccountMail(user *dbdata.User) error {
 	htmlBody = fmt.Sprintf(htmlBody, dataOther.AccountMail)
 	// fmt.Println(htmlBody)
 
-	// token有效期3天
+	// The token is valid for 3 days
 	expiresAt := time.Now().Unix() + 3600*24*3
 	jwtData := map[string]interface{}{"id": user.Id}
 	tokenString, err := SetJwtData(jwtData, expiresAt)

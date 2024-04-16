@@ -53,11 +53,11 @@ func TestIpPool(t *testing.T) {
 		_ = AcquireIp(getTestUser(i), getTestMacAddr(i), true)
 	}
 
-	// 回收
+	// Reclaim
 	ReleaseIp(net.IPv4(192, 168, 3, 140), getTestMacAddr(140))
 	time.Sleep(time.Second * 6)
 
-	// 从头循环获取可用ip
+	// Loop to obtain available IPs from the beginning
 	user_new := getTestUser(210)
 	mac_new := getTestMacAddr(210)
 	ip = AcquireIp(user_new, mac_new, true)
@@ -65,7 +65,7 @@ func TestIpPool(t *testing.T) {
 	assert.NotNil(ip)
 	assert.True(net.IPv4(192, 168, 3, 140).Equal(ip))
 
-	// 回收全部
+	// Reclaim all
 	for i := 100; i <= 150; i++ {
 		ReleaseIp(net.IPv4(192, 168, 3, byte(i)), getTestMacAddr(i))
 	}
@@ -76,7 +76,7 @@ func getTestUser(i int) string {
 }
 
 func getTestMacAddr(i int) string {
-	// 前缀mac
+	// Prefix mac
 	macAddr := "02:00:00:00:00"
 	return fmt.Sprintf("%s:%x", macAddr, i)
 }

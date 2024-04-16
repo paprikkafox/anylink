@@ -7,7 +7,7 @@ import (
 	"github.com/bjdgyc/anylink/sessdata"
 )
 
-// 不允许直接修改
+// Direct modification is not allowed
 // [6] => PType
 var plHeader = []byte{
 	'S', 'T', 'F', 1,
@@ -35,7 +35,7 @@ func getPayload() *sessdata.Payload {
 }
 
 func putPayload(pl *sessdata.Payload) {
-	// 错误数据丢弃
+	// Error data discarded
 	if cap(pl.Data) != BufferSize {
 		base.Warn("payload cap is err", cap(pl.Data))
 		return
@@ -70,7 +70,7 @@ func putByte(b *[]byte) {
 	bytePool.Put(b)
 }
 
-// 长度 34 小对象
+// Length 34 small objects
 var byte34Pool = sync.Pool{
 	New: func() interface{} {
 		b := make([]byte, 34)
@@ -92,7 +92,7 @@ type BufferPool struct {
 	sync.Pool
 }
 
-// 长度 51 小对象
+// Length 51 small objects
 var byte51Pool = sync.Pool{
 	New: func() interface{} {
 		b := make([]byte, 51)

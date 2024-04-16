@@ -5,7 +5,7 @@
 # Define Bridge Interface
 br="anylink0"
 
-# 请根据sever服务器信息，更新下面的信息
+# Please update the following information based on the sever server information
 eth="eth0"
 eth_ip="192.168.10.4/24"
 eth_broadcast="192.168.10.255"

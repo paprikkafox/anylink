@@ -17,7 +17,7 @@ func Start() {
 	sessdata.Start()
 	cron.Start()
 
-	// 开启服务器转发
+	// Enable server forwarding
 	err := execCmd([]string{"sysctl -w net.ipv4.ip_forward=1"})
 	if err != nil {
 		base.Fatal(err)
@@ -34,7 +34,7 @@ func Start() {
 		base.Fatal("LinkMode is err")
 	}
 
-	// 计算profile.xml的hash
+	// Calculate the hash of profile.xml
 	b, err := os.ReadFile(base.Cfg.Profile)
 	if err != nil {
 		panic(err)

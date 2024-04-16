@@ -17,11 +17,11 @@ import (
 
 var UiData embed.FS
 
-// StartAdmin 开启服务
+// StartAdmin start service
 func StartAdmin() {
 
 	r := mux.NewRouter()
-	// 所有路由添加安全头
+	// Add security headers to all routes
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			utils.SetSecureHeader(w)
@@ -32,7 +32,7 @@ func StartAdmin() {
 	r.Use(authMiddleware)
 	r.Use(handlers.CompressHandler)
 
-	// 监控检测
+	// Monitoring and detection
 	r.HandleFunc("/status.html", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))
 	}).Name("index")
@@ -104,7 +104,7 @@ func StartAdmin() {
 
 	base.Info("Listen admin", base.Cfg.AdminAddr)
 
-	// 修复 CVE-2016-2183
+	// Fix CVE-2016-2183
 	cipherSuites := tls.CipherSuites()
 	selectedCipherSuites := make([]uint16, 0, len(cipherSuites))
 	for _, s := range cipherSuites {
@@ -112,12 +112,12 @@ func StartAdmin() {
 	}
 
 	if tlscert, _, err := dbdata.ParseCert(); err != nil {
-		base.Fatal("证书加载失败", err)
+		base.Fatal("Certificate loading failed", err)
 	} else {
 		dbdata.LoadCertificate(tlscert)
 	}
 
-	// 设置tls信息
+	// Set TLS information
 	tlsConfig := &tls.Config{
 		NextProtos:   []string{"http/1.1"},
 		MinVersion:   tls.VersionTLS12,

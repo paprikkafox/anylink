@@ -22,7 +22,7 @@ func GetXdb() *xorm.Engine {
 func initDb() {
 	var err error
 	xdb, err = xorm.NewEngine(base.Cfg.DbType, base.Cfg.DbSource)
-	// 初始化xorm时区
+	// Initialize xorm time zone
 	xdb.DatabaseTZ = time.Local
 	xdb.TZLocation = time.Local
 	if err != nil {
@@ -33,7 +33,7 @@ func initDb() {
 		xdb.ShowSQL(true)
 	}
 
-	// 初始化数据库
+	// Initialize database
 	err = xdb.Sync2(&User{}, &Setting{}, &Group{}, &IpMap{}, &AccessAudit{}, &Policy{}, &StatsNetwork{}, &StatsCpu{}, &StatsMem{}, &StatsOnline{}, &UserActLog{})
 	if err != nil {
 		base.Fatal(err)
@@ -47,16 +47,16 @@ func initData() {
 		err error
 	)
 
-	// 判断是否初次使用
+	// Determine whether to use it for the first time
 	install := &SettingInstall{}
 	err = SettingGet(install)
 
 	if err == nil && install.Installed {
-		// 已经安装过
+		// Already installed
 		return
 	}
 
-	// 发生错误
+	// An error occurred
 	if err != ErrNotFound {
 		base.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func addInitData() error {
 	smtp := &SettingSmtp{
 		Host:       "127.0.0.1",
 		Port:       25,
-		From:       "vpn@xx.com",
+		From:       "vpn@example.com",
 		Encryption: "None",
 	}
 	err = SettingSessAdd(sess, smtp)
@@ -102,7 +102,7 @@ func addInitData() error {
 
 	// SettingDnsProvider
 	provider := &SettingLetsEncrypt{
-		Domain:      "vpn.xxx.com",
+		Domain:      "vpn.example.com",
 		Legomail:    "legomail",
 		Name:        "aliyun",
 		Renew:       false,
@@ -120,10 +120,10 @@ func addInitData() error {
 	}
 	// SettingOther
 	other := &SettingOther{
-		LinkAddr:    "vpn.xx.com",
-		Banner:      "您已接入公司网络，请按照公司规定使用。\n请勿进行非工作下载及视频行为！",
+		LinkAddr:    "vpn.example.com",
+		Banner:      "You have connected to the company network, please use it in accordance with company regulations. \nPlease do not perform non-work downloading and video activities!",
 		Homecode:    http.StatusOK,
-		Homeindex:   "AnyLink 是一个企业级远程办公 sslvpn 的软件，可以支持多人同时在线使用。",
+		Homeindex:   "AnyLink is an enterprise-level remote office sslvpn software that can support multiple people using it online at the same time",
 		AccountMail: accountMail,
 	}
 	err = SettingSessAdd(sess, other)
@@ -174,33 +174,33 @@ func CheckErrNotFound(err error) bool {
 	return err == ErrNotFound
 }
 
-const accountMail = `<p>您好:</p>
-<p>&nbsp;&nbsp;您的{{.Issuer}}账号已经审核开通。</p>
+const accountMail = `<p>Hello:</p>
+<p>&nbsp;&nbsp;Your {{.Issuer}} account has been reviewed and activated. </p>
 <p>
-    登陆地址: <b>{{.LinkAddr}}</b> <br/>
-    用户组: <b>{{.Group}}</b> <br/>
-    用户名: <b>{{.Username}}</b> <br/>
-    用户PIN码: <b>{{.PinCode}}</b> <br/>
-    <!-- 
-    用户动态码(3天后失效):<br/>
-    <img src="{{.OtpImg}}"/><br/>
+     Login address: <b>{{.LinkAddr}}</b> <br/>
+     User group: <b>{{.Group}}</b> <br/>
+     Username: <b>{{.Username}}</b> <br/>
+     User PIN code: <b>{{.PinCode}}</b> <br/>
+     <!--
+     User dynamic code (expires after 3 days):<br/>
+     <img src="{{.OtpImg}}"/><br/>
 
-    用户动态码(请妥善保存):<br/>
-    <img src="{{.OtpImgBase64}}"/><br/>
+     User dynamic code (please keep it properly):<br/>
+     <img src="{{.OtpImgBase64}}"/><br/>
 
-    下面是兼容 gmail 的写法
-    -->
-    用户动态码(请妥善保存):<br/>
-    <img src="cid:userOtpQr.png" alt="userOtpQr" /><br/>
+     The following is the way to write it that is compatible with gmail
+     -->
+     User dynamic code (please keep it properly):<br/>
+     <img src="cid:userOtpQr.png" alt="userOtpQr" /><br/>
 </p>
 <div>
-    使用说明:
-    <ul>
-        <li>请使用OTP软件扫描动态码二维码</li>
-        <li>然后使用anyconnect客户端进行登陆</li>
-        <li>登陆密码为 【PIN码+动态码】(中间没有+号)</li>
-    </ul>
+     Instructions for use:
+     <ul>
+         <li>Please use OTP software to scan the dynamic code QR code</li>
+         <li>Then use anyconnect client to log in</li>
+         <li>The login password is [PIN code + dynamic code] (no + sign in the middle)</li>
+     </ul>
 </div>
 <p>
-    软件下载地址: https://{{.LinkAddr}}/files/info.txt
+     Software download address: https://{{.LinkAddr}}/files/info.txt
 </p>`

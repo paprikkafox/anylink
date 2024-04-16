@@ -1,6 +1,6 @@
 package admin
 
-// 返回码
+// Return code
 const (
 	RespSuccess       = 0
 	RespInternalErr   = 1
@@ -10,6 +10,6 @@ const (
 )
 
 var RespMap = map[int]string{
-	RespTokenErr:      "客户端TOKEN错误",
-	RespUserOrPassErr: "用户名或密码错误",
+	RespTokenErr:      "Client TOKEN error",
+	RespUserOrPassErr: "Wrong user name or password",
 }

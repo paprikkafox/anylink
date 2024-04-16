@@ -1,22 +1,20 @@
 #AnyLink
 
-[![Go](https://github.com/bjdgyc/anylink/workflows/Go/badge.svg?branch=main)](https://github.com/bjdgyc/anylink/actions)
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/bjdgyc/anylink)](https://pkg.go.dev/github.com/bjdgyc/anylink)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bjdgyc/anylink)](https://goreportcard.com/report/github.com/bjdgyc/anylink)
-[![codecov](https://codecov.io/gh/bjdgyc/anylink/graph/badge.svg?token=JTFLIIIBQ0)](https://codecov.io/gh/bjdgyc/anylink)
-![GitHub release](https://img.shields.io/github/v/release/bjdgyc/anylink)
-![GitHub downloads total)](https://img.shields.io/github/downloads/bjdgyc/anylink/total)
-![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/bjdgyc/anylink/latest/total)
-[![Docker pulls)](https://img.shields.io/docker/pulls/bjdgyc/anylink.svg)](https://hub.docker.com/r/bjdgyc/anylink)
-![LICENSE](https://img.shields.io/github/license/bjdgyc/anylink)
+[![Go](https://github.com/paprikkafox/anylink/workflows/Go/badge.svg?branch=main)](https://github.com/paprikkafox/anylink/actions)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/paprikkafox/anylink)](https://pkg.go.dev/github.com/paprikkafox/anylink)
+[![Go Report Card](https://goreportcard.com/badge/github.com/paprikkafox/anylink)](https://goreportcard.com/report/github.com/paprikkafox/anylink)
+[![codecov](https://codecov.io/gh/paprikkafox/anylink/graph/badge.svg?token=JTFLIIIBQ0)](https://codecov.io/gh/paprikkafox/anylink)
+![GitHub release](https://img.shields.io/github/v/release/paprikkafox/anylink)
+![GitHub downloads total)](https://img.shields.io/github/downloads/paprikkafox/anylink/total)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/paprikkafox/anylink/latest/total)
+[![Docker pulls)](https://img.shields.io/docker/pulls/paprikkafox/anylink.svg)](https://hub.docker.com/r/paprikkafox/anylink)
+![LICENSE](https://img.shields.io/github/license/paprikkafox/anylink)
 
 AnyLink is an enterprise-level remote office sslvpn software that can support multiple people using it online at the same time.
 
 ## Repo
 
-> github: https://github.com/bjdgyc/anylink
-
-> gitee: https://gitee.com/bjdgyc/anylink
+> github: https://github.com/paprikkafox/anylink
 
 ## Introduction
 
@@ -32,35 +30,14 @@ Function, ip setting command, iptables command.
 
 ![online](doc/screenshot/online.jpg)
 
-## Donate
-
-> If you think anylink is helpful to you, you are welcome to give us a reward, which will also help anylink develop better.
->
-> [View reward list](doc/README.md)
-
-<p>
-     <img src="doc/screenshot/wxpay2.png" width="400" />
-</p>
-
 ## Installation
 
 > Students without programming foundation are recommended to download the release package directly and download anylink-deploy.tar.gz from the address below.
 >
-> https://github.com/bjdgyc/anylink/releases
->
-> https://gitee.com/bjdgyc/anylink/releases
->
-> If you don’t know how to install it, we can provide paid remote assistance service (200 CNY). Add QQ(68492170) to contact me
->
-> You can also add QQ group to consult the boss in the group
->
-> Add QQ group ① (full): 567510628
->
-> Add QQ group②: 739072205
+> https://github.com/paprikkafox/anylink/releases
 
 ### Usage issues
 
-> For the test environment, you can use vpn.test.vqilu.cn to bind the host for testing
 >
 > For the online environment, you must apply for a secure https certificate (the same type of certificate used by nginx). Private certificate connections are not supported.
 >
@@ -77,7 +54,7 @@ Function, ip setting command, iptables command.
 > Docker needs to be installed in advance
 
 ```shell
-git clone https://github.com/bjdgyc/anylink.git
+git clone https://github.com/paprikkafox/anylink.git
 
 # docker compile reference software version (no installation required)
 # go 1.20.12
@@ -96,10 +73,10 @@ bash build.sh
 cd anylink-deploy
 sudo ./anylink
 
-#Default management background access address
+# Default management background access address
 # https://host:8800
-#Default account password
-#admin 123456
+# Default account password
+# admin 123456
 
 
 ```
@@ -207,7 +184,7 @@ mode, please confirm that the virtual machine's network card is enabled in promi
 # file: /etc/sysctl.conf
 net.ipv4.ip_forward = 1
 
-#Execute the following command
+# Execute the following command
 sysctl -w net.ipv4.ip_forward=1
 
 # Check whether the settings take effect
@@ -273,7 +250,7 @@ Next hop: 10.1.2.10
 # file: /etc/sysctl.conf
 net.ipv4.conf.all.proxy_arp = 1
 
-#Execute the following command
+# Execute the following command
 sysctl -w net.ipv4.conf.all.proxy_arp=1
 
 
@@ -284,9 +261,9 @@ iptables_nat = false
 
 
 link_mode = "tun"
-#Internal network main network card name
+# Internal network main network card name
 ipv4_master = "eth0"
-#The following network segments need to be set the same as the ipv4_master network card
+# The following network segments need to be set the same as the ipv4_master network card
 ipv4_cidr = "10.1.2.0/24"
 ipv4_gateway = "10.1.2.99"
 ipv4_start = "10.1.2.100"
@@ -308,16 +285,16 @@ ip link set dev eth0 promisc on
 iptables_nat = false
 
 link_mode = "macvtap"
-#Internal network main network card name
+# Internal network main network card name
 ipv4_master = "eth0"
-#The following network segments need to be set the same as the ipv4_master network card
+# The following network segments need to be set the same as the ipv4_master network card
 ipv4_cidr = "10.1.2.0/24"
 ipv4_gateway = "10.1.2.1"
 ipv4_start = "10.1.2.100"
 ipv4_end = "10.1.2.200"
 ```
 
-##Deploy
+## Deploy
 
 > The deployment configuration file is placed in the `deploy` directory. Please modify the configuration file according to the actual situation.
 
@@ -349,30 +326,30 @@ ipv4_end = "10.1.2.200"
 1. Get the image
     ```bash
     # The specific tag can be obtained from docker hub
-    # https://hub.docker.com/r/bjdgyc/anylink/tags
-    docker pull bjdgyc/anylink:latest
+    # https://hub.docker.com/r/paprikkafox/anylink/tags
+    docker pull paprikkafox/anylink:latest
     ```
 
 2. View command information
     ```bash
-    docker run -it --rm bjdgyc/anylink -h
+    docker run -it --rm paprikkafox/anylink -h
     ```
 
 3. Generate password
     ```bash
-    docker run -it --rm bjdgyc/anylink tool -p 123456
+    docker run -it --rm paprikkafox/anylink tool -p 123456
     #Passwd:$2a$10$lCWTCcGmQdE/4Kb1wabbLelu4vY/cUwBwN64xIzvXcihFgRzUvH2a
     ```
 
 4. Generate jwt secret
     ```bash
-    docker run -it --rm bjdgyc/anylink tool -s
+    docker run -it --rm paprikkafox/anylink tool -s
     #Secret:9qXoIhY01jqhWIeIluGliOS4O_rhcXGGGu422uRZ1JjZxIZmh17WwzW36woEbA
     ```
 
 5. View all configuration items
     ```bash
-    docker run -it --rm bjdgyc/anylink tool -d
+    docker run -it --rm paprikkafox/anylink tool -d
     ```
 
 6. Start the container
@@ -381,7 +358,7 @@ ipv4_end = "10.1.2.200"
     docker run -itd --name anylink --privileged \
         -p 443:443 -p 8800:8800 -p 443:443/udp \
         --restart=always \
-        bjdgyc/anylink
+        paprikkafox/anylink
    
     # Custom configuration directory
     # A configuration file will be automatically created on first startup
@@ -390,7 +367,7 @@ ipv4_end = "10.1.2.200"
         -p 443:443 -p 8800:8800 -p 443:443/udp \
         -v /home/myconf:/app/conf \
         --restart=always \
-        bjdgyc/anylink
+        paprikkafox/anylink
    
     docker restart anylink
     ```
@@ -404,47 +381,28 @@ ipv4_end = "10.1.2.200"
         -p 443:443 -p 8800:8800 -p 443:443/udp \
         -v /home/myconf:/app/conf \
         --restart=always \
-        bjdgyc/anylink \
+        paprikkafox/anylink \
         --ip_lease=1209600 # IP address lease duration
     ```
 
 7. Build the image (optional)
     ```bash
     #Get the warehouse source code
-    git clone https://github.com/bjdgyc/anylink.git
+    git clone https://github.com/paprikkafox/anylink.git
     # Build image
     sh build_docker.sh
     or
     docker build -t anylink -f docker/Dockerfile .
     ```
 
-## common problem
+## Common problem
 
 Please go to [question address](doc/question.md) for detailed information
-
-<!--
-## Discussion
-
-Group shared files have related software downloads
-
-Add WeChat group: There are related software downloads for group shared files
-
-![contact_me_qr](doc/screenshot/contact_me_qr.png)
--->
-
-## Support Document
-
-- [Tripartite Document-Boy’s Duty](https://note.youdao.com/s/X4AxyWfL)
-- [Three-party documents-issues](https://github.com/bjdgyc/anylink/issues)
-- [Three-party documents-Siyouyun](https://www.ioiox.com/archives/128.html)
-- [Three-party documents-Bopin](https://yangpin.link/archives/1633.html)
 
 ## Support Client
 
 - [AnyConnect Secure Client](https://www.cisco.com/) (can be downloaded through the group file: Windows/macOS/Linux/Android/iOS)
 - [OpenConnect](https://gitlab.com/openconnect/openconnect) (Windows/macOS/Linux)
-- [Third-party AnyLink Secure Client](https://github.com/tlslink/anylink-client) (Windows/macOS/Linux)
-- [Three-party client download address](https://cisco.yangpin.link) (Windows/macOS/Linux/Android/iOS)
 
 
 ## Contribution
@@ -470,8 +428,3 @@ Note that when creating a new PR, you need to submit it to the dev branch, and o
 
 This project adopts the AGPL-3.0 open source license, and the complete authorization instructions have been placed in the LICENSE file.
 
-##Thank
-
-<a href="https://www.jetbrains.com">
-     <img src="doc/screenshot/jetbrains.png" width="200" alt="jetbrains.png" />
-</a>

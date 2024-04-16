@@ -42,7 +42,7 @@ func PolicyDetail(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "Id错误")
+		RespError(w, RespParamErr, "Wrong ID")
 		return
 	}
 
@@ -84,7 +84,7 @@ func PolicyDel(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "Id错误")
+		RespError(w, RespParamErr, "Wrong ID")
 		return
 	}
 

@@ -41,11 +41,11 @@ func SetAuditExport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if count == 0 {
-		RespError(w, RespParamErr, "你导出的总数量为0条，请调整搜索条件，再导出")
+		RespError(w, RespParamErr, "The total number of items you exported is 0. Please adjust the search conditions and export again")
 		return
 	}
 	if count > int64(maxNum) {
-		RespError(w, RespParamErr, "你导出的数据量超过100万条，请调整搜索条件，再导出")
+		RespError(w, RespParamErr, "The amount of data you exported exceeds 1 million. Please adjust the search conditions and export again")
 		return
 	}
 	gocsv.Marshal(datas, w)

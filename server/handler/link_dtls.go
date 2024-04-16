@@ -14,7 +14,7 @@ func LinkDtls(conn net.Conn, cSess *sessdata.ConnSession) {
 	base.Debug("LinkDtls connect ip:", cSess.IpAddr, "user:", cSess.Username, "udp-rip:", conn.RemoteAddr())
 	dSess := cSess.NewDtlsConn()
 	if dSess == nil {
-		// 创建失败，直接关闭链接
+		// Creation failed, close the link directly
 		_ = conn.Close()
 		return
 	}
@@ -47,7 +47,7 @@ func LinkDtls(conn net.Conn, cSess *sessdata.ConnSession) {
 			return
 		}
 
-		// 限流设置
+		// Current limiting settings
 		err = cSess.RateLimit(n, true)
 		if err != nil {
 			base.Error(err)
@@ -64,7 +64,7 @@ func LinkDtls(conn net.Conn, cSess *sessdata.ConnSession) {
 		case 0x03: // DPD-REQ
 			base.Trace("recv LinkDtls DPD-REQ", cSess.Username, cSess.IpAddr, conn.RemoteAddr(), n)
 			pl.PType = 0x04
-			// 从零开始 可以直接赋值
+			// Starting from zero, you can assign values directly
 			pl.Data = pl.Data[:n]
 			if payloadOutDtls(cSess, dSess, pl) {
 				return
@@ -87,15 +87,15 @@ func LinkDtls(conn net.Conn, cSess *sessdata.ConnSession) {
 			n = nn + 1
 			fallthrough
 		case 0x00: // DATA
-			// 去除数据头
+			// Remove data header
 			// copy(pl.Data, pl.Data[1:n])
-			// 更新切片长度
+			// Update slice length
 			// pl.Data = pl.Data[:n-1]
 			pl.Data = append(pl.Data[:0], pl.Data[1:n]...)
 			if payloadIn(cSess, pl) {
 				return
 			}
-			// 只记录返回正确的数据时间
+			// Only record the time when correct data is returned
 			cSess.LastDataTime.Store(utils.NowSec().Unix())
 		}
 
@@ -114,7 +114,7 @@ func dtlsWrite(conn net.Conn, dSess *sessdata.DtlsSession, cSess *sessdata.ConnS
 	)
 
 	for {
-		// dtls优先推送数据
+		// DTLS pushes data first
 		select {
 		case pl = <-cSess.PayloadOutDtls:
 		case <-dSess.CloseChan:
@@ -138,19 +138,19 @@ func dtlsWrite(conn net.Conn, dSess *sessdata.DtlsSession, cSess *sessdata.ConnS
 				}
 				putByte(dst)
 			}
-			// 未压缩
+			// Uncompressed
 			if !isCompress {
-				// 获取数据长度
+				// Get data length
 				l := len(pl.Data)
-				// 先扩容 +1
+				// Expand capacity first +1
 				pl.Data = pl.Data[:l+1]
-				// 数据后移
+				// Move data backward
 				copy(pl.Data[1:], pl.Data)
-				// 添加头信息
+				// Add header information
 				pl.Data[0] = pl.PType
 			}
 		} else {
-			// 设置头类型
+			// Set header type
 			if pl.PType == 0x04 {
 				pl.Data[0] = pl.PType
 			} else {
@@ -165,7 +165,7 @@ func dtlsWrite(conn net.Conn, dSess *sessdata.DtlsSession, cSess *sessdata.ConnS
 
 		putPayload(pl)
 
-		// 限流设置
+		// Current limiting settings
 		err = cSess.RateLimit(n, false)
 		if err != nil {
 			base.Error(err)

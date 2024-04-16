@@ -18,9 +18,9 @@ import (
 // 	// Password  string    `json:"password"`
 // 	PinCode    string    `json:"pin_code"`
 // 	OtpSecret  string    `json:"otp_secret"`
-// 	DisableOtp bool      `json:"disable_otp"` // 禁用otp
+// 	DisableOtp bool      `json:"disable_otp"` // Disable otp
 // 	Groups     []string  `json:"groups"`
-// 	Status     int8      `json:"status"` // 1正常
+// 	Status     int8      `json:"status"` // 1 is normal
 // 	SendEmail  bool      `json:"send_email"`
 // 	CreatedAt  time.Time `json:"created_at"`
 // 	UpdatedAt  time.Time `json:"updated_at"`
@@ -29,11 +29,11 @@ import (
 func SetUser(v *User) error {
 	var err error
 	if v.Username == "" || len(v.Groups) == 0 {
-		return errors.New("用户名或组错误")
+		return errors.New("Username or group error")
 	}
 
 	planPass := v.PinCode
-	// 自动生成密码
+	// Automatically generate password
 	if len(planPass) < 6 {
 		planPass = utils.RandomRunes(8)
 	}
@@ -43,7 +43,7 @@ func SetUser(v *User) error {
 		v.OtpSecret = gotp.RandomSecret(32)
 	}
 
-	// 判断组是否有效
+	// Determine whether the group is valid
 	ng := []string{}
 	groups := GetGroupNames()
 	for _, g := range v.Groups {
@@ -52,7 +52,7 @@ func SetUser(v *User) error {
 		}
 	}
 	if len(ng) == 0 {
-		return errors.New("用户名或组错误")
+		return errors.New("Username or group error")
 	}
 	v.Groups = ng
 
@@ -66,74 +66,74 @@ func SetUser(v *User) error {
 	return err
 }
 
-// 验证用户登录信息
+// Verify user login information
 func CheckUser(name, pwd, group string) error {
-	// 获取登入的group数据
+	// Get logged in group data
 	groupData := &Group{}
 	err := One("Name", group, groupData)
 	if err != nil || groupData.Status != 1 {
-		return fmt.Errorf("%s - %s", name, "用户组错误")
+		return fmt.Errorf("%s - %s", name, "User group error")
 	}
-	// 初始化Auth
+	// InitializeAuth
 	if len(groupData.Auth) == 0 {
 		groupData.Auth["type"] = "local"
 	}
 	authType := groupData.Auth["type"].(string)
-	// 本地认证方式
+	// Local authentication method
 	if authType == "local" {
 		return checkLocalUser(name, pwd, group)
 	}
-	// 其它认证方式, 支持自定义
+	// Other authentication methods, support customization
 	_, ok := authRegistry[authType]
 	if !ok {
-		return fmt.Errorf("%s %s", "未知的认证方式: ", authType)
+		return fmt.Errorf("%s %s", "Unknown authentication method: ", authType)
 	}
 	auth := makeInstance(authType).(IUserAuth)
 	return auth.checkUser(name, pwd, groupData)
 }
 
-// 验证本地用户登录信息
+// Verify local user login information
 func checkLocalUser(name, pwd, group string) error {
-	// TODO 严重问题
+	// TODO Serious Problem
 	// return nil
 
 	pl := len(pwd)
 	if name == "" || pl < 6 {
-		return fmt.Errorf("%s %s", name, "密码错误")
+		return fmt.Errorf("%s %s", name, "wrong password")
 	}
 	v := &User{}
 	err := One("Username", name, v)
 	if err != nil || v.Status != 1 {
 		switch v.Status {
 		case 0:
-			return fmt.Errorf("%s %s", name, "用户不存在或用户已停用")
+			return fmt.Errorf("%s %s", name, "The user does not exist or the user is deactivated")
 		case 2:
-			return fmt.Errorf("%s %s", name, "用户已过期")
+			return fmt.Errorf("%s %s", name, "User has expired")
 		}
 	}
-	// 判断用户组信息
+	// Determine user group information
 	if !utils.InArrStr(v.Groups, group) {
-		return fmt.Errorf("%s %s", name, "用户组错误")
+		return fmt.Errorf("%s %s", name, "User group error")
 	}
-	// 判断otp信息
+	// Determine OTP information
 	pinCode := pwd
 	if !v.DisableOtp {
 		pinCode = pwd[:pl-6]
 		otp := pwd[pl-6:]
 		if !checkOtp(name, otp, v.OtpSecret) {
-			return fmt.Errorf("%s %s", name, "动态码错误")
+			return fmt.Errorf("%s %s", name, "dynamic code error")
 		}
 	}
 
-	// 判断用户密码
+	// Determine user password
 	if pinCode != v.PinCode {
-		return fmt.Errorf("%s %s", name, "密码错误")
+		return fmt.Errorf("%s %s", name, "wrong password")
 	}
 
 	return nil
 }
 
-// 用户过期时间到达后，更新用户状态，并返回一个状态为过期的用户切片
+// After the user expiration time is reached, update the user status and return a user slice whose status is expired
 func CheckUserlimittime() (limitUser []interface{}) {
 	if _, err := xdb.Where("limittime <= ?", time.Now()).And("status = ?", 1).Update(&User{Status: 2}); err != nil {
 		return
@@ -170,16 +170,16 @@ func init() {
 	}()
 }
 
-// 判断令牌信息
+// Determine token information
 func checkOtp(name, otp, secret string) bool {
 	key := fmt.Sprintf("%s:%s", name, otp)
 
 	userOtpMux.Lock()
 	defer userOtpMux.Unlock()
 
-	// 令牌只能使用一次
+	// Token can only be used once
 	if _, ok := userOtp[key]; ok {
-		// 已经存在
+		// Already exists
 		return false
 	}
 	userOtp[key] = time.Now()

@@ -23,7 +23,7 @@ func doPing(ip string) error {
 	}
 
 	ipv4Conn := conn.IPv4PacketConn()
-	// 限制跳跃数
+	// Limit number of hops
 	err = ipv4Conn.SetTTL(10)
 	if err != nil {
 		return err

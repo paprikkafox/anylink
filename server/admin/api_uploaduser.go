@@ -21,17 +21,17 @@ func UserUpload(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(8 << 20)
 	file, header, err := r.FormFile("file")
 	if err != nil || !strings.Contains(header.Filename, ".xlsx") || !strings.Contains(header.Filename, ".xls") {
-		RespError(w, RespInternalErr, "文件解析失败:仅支持xlsx或xls文件")
+		RespError(w, RespInternalErr, "File parsing failed: only xlsx or xls files supported")
 		return
 	}
 	defer file.Close()
 
 	// go/path-injection
-	// base.Cfg.FilesPath 可以直接对外访问，不能上传文件到此
+	// base.Cfg.FilesPath It can be accessed directly from the outside, but files cannot be uploaded here.
 	fileName := path.Join(os.TempDir(), utils.RandomRunes(10))
 	newFile, err := os.Create(fileName)
 	if err != nil {
-		RespError(w, RespInternalErr, "创建文件失败:", err)
+		RespError(w, RespInternalErr, "Failed to create file:", err)
 		return
 	}
 	defer newFile.Close()
@@ -43,7 +43,7 @@ func UserUpload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	os.Remove(fileName)
-	RespSucess(w, "批量添加成功")
+	RespSucess(w, "Batch added successfully")
 }
 
 func UploadUser(file string) error {
@@ -61,7 +61,7 @@ func UploadUser(file string) error {
 		return err
 	}
 	if rows[0][0] != "id" || rows[0][1] != "username" || rows[0][2] != "nickname" || rows[0][3] != "email" || rows[0][4] != "pin_code" || rows[0][5] != "limittime" || rows[0][6] != "otp_secret" || rows[0][7] != "disable_otp" || rows[0][8] != "groups" || rows[0][9] != "status" || rows[0][10] != "send_email" {
-		return fmt.Errorf("批量添加失败，表格格式不正确")
+		return fmt.Errorf("Batch addition failed, table format is incorrect")
 	}
 	var k []interface{}
 	for _, v := range dbdata.GetGroupNames() {
@@ -79,13 +79,13 @@ func UploadUser(file string) error {
 		disableOtp, _ := strconv.ParseBool(row[7])
 		var group []string
 		if row[8] == "" {
-			return fmt.Errorf("第%d行数据错误，用户组不允许为空", index)
+			return fmt.Errorf("Data error in line %d, user group is not allowed to be empty", index)
 		}
 		for _, v := range strings.Split(row[8], ",") {
 			if s := mapset.NewSetFromSlice(k); s.Contains(v) {
 				group = append(group, v)
 			} else {
-				return fmt.Errorf("用户组【%s】不存在,请检查第%d行数据", v, index)
+				return fmt.Errorf("User group [%s] does not exist, please check the data in row %d", v, index)
 			}
 		}
 		status := cast.ToInt8(row[9])
@@ -108,7 +108,7 @@ func UploadUser(file string) error {
 			// UpdatedAt:  updatedAt,
 		}
 		if err := dbdata.AddBatch(user); err != nil {
-			return fmt.Errorf("请检查第%d行数据是否导入有重复用户", index)
+			return fmt.Errorf("Please check whether the data in row %d contains duplicate users", index)
 		}
 		if user.SendEmail {
 			if err := userAccountMail(user); err != nil {

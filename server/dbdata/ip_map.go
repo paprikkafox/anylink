@@ -23,14 +23,14 @@ func SetIpMap(v *IpMap) error {
 	var err error
 
 	if len(v.IpAddr) < 4 || len(v.MacAddr) < 6 {
-		return errors.New("IP或MAC错误")
+		return errors.New("IP or MAC error")
 	}
 
 	macHw, err := net.ParseMAC(v.MacAddr)
 	if err != nil {
-		return errors.New("MAC错误")
+		return errors.New("MAC error")
 	}
-	// 统一macAddr的格式
+	// Unify the format of macAddr
 	v.MacAddr = macHw.String()
 
 	v.UpdatedAt = time.Now()

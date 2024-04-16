@@ -2,7 +2,7 @@
 
 mkdir -p /ssl
 
-OUTPUT_FILENAME="vpn.xx.com"
+OUTPUT_FILENAME="vpn.example.com"
 
 printf "[req]
 prompt                  = no
@@ -19,9 +19,9 @@ x509_extensions         = req_x509v3_extensions
 C  = CN
 ST = BJ
 L  = BJ
-O  = xx.com
-OU = xx.com
-CN = xx.com
+O  = example.com
+OU = example.com
+CN = example.com
 
 [req_x509v3_extensions]
 basicConstraints        = critical,CA:true

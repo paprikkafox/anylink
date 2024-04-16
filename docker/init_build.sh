@@ -2,7 +2,7 @@
 
 set -x
 
-#TODO 本地打包时使用镜像
+#TODO Use mirroring when packaging locally
 if [[ $CN == "yes" ]]; then
   #sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
   sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
@@ -28,7 +28,7 @@ go build -v -o anylink -trimpath -ldflags "$ldflags"
 
 ls -lh /server/
 
-# 压缩文件
+# Compress file
 upx -9 -k anylink
 
 /server/anylink -v

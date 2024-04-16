@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	// 每秒时间缓存
+	// Time cache per second
 	timeNowSec = &atomic.Value{}
 )
 

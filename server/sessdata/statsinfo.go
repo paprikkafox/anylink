@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	StatsCycleSec = 10 // 统计周期（秒）
-	AddCycleSec   = 60 // 记录到数据表周期（秒）
+	StatsCycleSec = 10 // Statistical cycle (seconds)
+	AddCycleSec   = 60 // Record to data table cycle (seconds)
 )
 
 func saveStatsInfo() {
@@ -29,10 +29,10 @@ func saveStatsInfo() {
 			for _, v := range sessions {
 				v.mux.Lock()
 				if v.IsActive {
-					// 在线人数
+					// Online users
 					onlineNum += 1
 					numGroups[v.CSess.Group.Id] += 1
-					// 网络吞吐
+					// Network throughput
 					userUp := v.CSess.BandwidthUpPeriod.Load()
 					userDown := v.CSess.BandwidthDownPeriod.Load()
 					if userUp > 0 {
@@ -61,20 +61,20 @@ func saveStatsInfo() {
 			// mem
 			sm := dbdata.StatsMem{Percent: getMemPercent(), CreatedAt: tNow}
 			count++
-			// 是否保存至数据库
+			// Whether to save to database
 			save := count*StatsCycleSec >= AddCycleSec
-			// 历史数据
+			// Historical data
 			if save {
 				count = 0
 			}
-			// 设置统计数据
+			// Set statistics
 			setStatsData(save, so, sn, sc, sm)
 		}
 	}()
 }
 
 func setStatsData(save bool, so dbdata.StatsOnline, sn dbdata.StatsNetwork, sc dbdata.StatsCpu, sm dbdata.StatsMem) {
-	// 实时数据
+	// Real-time data
 	dbdata.StatsInfoIns.SetRealTime("online", so)
 	dbdata.StatsInfoIns.SetRealTime("network", sn)
 	dbdata.StatsInfoIns.SetRealTime("cpu", sc)

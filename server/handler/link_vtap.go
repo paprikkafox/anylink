@@ -13,7 +13,7 @@ import (
 	"github.com/bjdgyc/anylink/sessdata"
 )
 
-// link vtap
+// Link vtap
 const vTapPrefix = "lvtap"
 
 type Vtap struct {
@@ -28,7 +28,7 @@ func (v *Vtap) Close() error {
 }
 
 func checkMacvtap() {
-	// 加载 macvtap
+	// Load macvtap
 	base.CheckModOrLoad("macvtap")
 
 	_setGateway()
@@ -36,9 +36,9 @@ func checkMacvtap() {
 
 	ifName := "anylinkMacvtap"
 
-	// 开启主网卡混杂模式
+	// Enable promiscuous mode for the primary network card
 	cmdstr1 := fmt.Sprintf("ip link set dev %s promisc on", base.Cfg.Ipv4Master)
-	// 测试 macvtap 功能
+	// Test macvtap functionality
 	cmdstr2 := fmt.Sprintf("ip link add link %s name %s type macvtap mode bridge", base.Cfg.Ipv4Master, ifName)
 	cmdstr3 := fmt.Sprintf("ip link del %s", ifName)
 	err := execCmd([]string{cmdstr1, cmdstr2, cmdstr3})
@@ -47,7 +47,7 @@ func checkMacvtap() {
 	}
 }
 
-// 创建 Macvtap 网卡
+// Create Macvtap network card
 func LinkMacvtap(cSess *sessdata.ConnSession) error {
 	capL := sessdata.IpPool.IpLongMax - sessdata.IpPool.IpLongMin
 	ipN := utils.Ip2long(cSess.IpAddr) % capL
@@ -74,7 +74,7 @@ func LinkMacvtap(cSess *sessdata.ConnSession) error {
 
 // }
 
-// 创建 Ipvtap 网卡
+// Create Ipvtap network card
 func LinkIpvtap(cSess *sessdata.ConnSession) error {
 	return nil
 }
@@ -86,7 +86,7 @@ type ifReq struct {
 }
 
 func createVtap(cSess *sessdata.ConnSession, ifName string) error {
-	// 初始化 ifName
+	// Initialize ifName
 	inf, err := net.InterfaceByName(ifName)
 	if err != nil {
 		base.Error(err)
@@ -124,7 +124,7 @@ func createVtap(cSess *sessdata.ConnSession, ifName string) error {
 	return nil
 }
 
-// 销毁未关闭的vtap
+// Destroy unclosed vtap
 func destroyVtap() {
 	its, err := net.Interfaces()
 	if err != nil {
@@ -133,7 +133,7 @@ func destroyVtap() {
 	}
 	for _, v := range its {
 		if strings.HasPrefix(v.Name, vTapPrefix) {
-			// 删除原来的网卡
+			// Delete the original network card
 			cmdstr := fmt.Sprintf("ip link del %s", v.Name)
 			execCmd([]string{cmdstr})
 		}

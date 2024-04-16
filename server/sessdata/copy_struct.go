@@ -5,23 +5,23 @@ import (
 	"reflect"
 )
 
-// 用b的所有字段覆盖a的
-// 如果fields不为空, 表示用b的特定字段覆盖a的
-// a应该为结构体指针
+// Overwrite a's with all fields of b
+// If fields is not empty, it means that the specific fields of b are used to overwrite a's
+// a should be a structure pointer
 func CopyStruct(a interface{}, b interface{}, fields ...string) (err error) {
 	at := reflect.TypeOf(a)
 	av := reflect.ValueOf(a)
 	bt := reflect.TypeOf(b)
 	bv := reflect.ValueOf(b)
 
-	// 简单判断下
+	// Make a simple judgment
 	if at.Kind() != reflect.Ptr {
 		err = fmt.Errorf("a must be a struct pointer")
 		return
 	}
 	av = reflect.ValueOf(av.Interface())
 
-	// 要复制哪些字段
+	// Which fields to copy
 	_fields := make([]string, 0)
 	if len(fields) > 0 {
 		_fields = fields
@@ -36,13 +36,13 @@ func CopyStruct(a interface{}, b interface{}, fields ...string) (err error) {
 		return
 	}
 
-	// 复制
+	// Copy
 	for i := 0; i < len(_fields); i++ {
 		name := _fields[i]
 		f := av.Elem().FieldByName(name)
 		bValue := bv.FieldByName(name)
 
-		// a中有同名的字段并且类型一致才复制
+		// Copy only if there are fields with the same name in a and the types are consistent
 		if f.IsValid() && f.Kind() == bValue.Kind() {
 			f.Set(bValue)
 		}

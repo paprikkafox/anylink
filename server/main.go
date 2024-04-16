@@ -19,7 +19,7 @@ import (
 //go:embed ui
 var uiData embed.FS
 
-// 程序版本
+// Program Version
 var (
 	appVer    string
 	commitId  string

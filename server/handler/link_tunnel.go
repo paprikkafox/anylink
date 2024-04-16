@@ -21,7 +21,7 @@ var (
 )
 
 func init() {
-	// 获取主机名称
+	// Get hostname
 	hn, _ = os.Hostname()
 }
 
@@ -34,13 +34,13 @@ func HttpAddHeader(w http.ResponseWriter, key string, value string) {
 }
 
 func LinkTunnel(w http.ResponseWriter, r *http.Request) {
-	// TODO 调试信息输出
+	// TODO Debug information output
 	if base.GetLogLevel() == base.LogLevelTrace {
 		hd, _ := httputil.DumpRequest(r, true)
 		base.Trace("LinkTunnel: ", string(hd))
 	}
 
-	// 判断session-token的值
+	// Determine the value of session-token
 	cookie, err := r.Cookie("webvpn")
 	if err != nil || cookie.Value == "" {
 		w.WriteHeader(http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 开启link
+	// Open link
 	cSess := sess.NewConn()
 	if cSess == nil {
 		log.Println(err)
@@ -61,12 +61,12 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 客户端信息
+	// Client information
 	cstpMtu := r.Header.Get("X-CSTP-MTU")
 	cstpBaseMtu := r.Header.Get("X-CSTP-Base-MTU")
 	masterSecret := r.Header.Get("X-DTLS-Master-Secret")
 	localIp := r.Header.Get("X-Cstp-Local-Address-Ip4")
-	// 出口ip
+	// Export ip
 	exportIp4 := r.Header.Get("X-Cstp-Remote-Address-Ip4")
 	mobile := r.Header.Get("X-Cstp-License")
 
@@ -79,7 +79,7 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 	cstpDpd := base.Cfg.CstpDpd
 	cSess.Client = "pc"
 	if mobile == "mobile" {
-		// 手机客户端
+		// Mobile client
 		cstpKeepalive = base.Cfg.MobileKeepalive
 		cstpDpd = base.Cfg.MobileDpd
 		cSess.Client = "mobile"
@@ -94,11 +94,11 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 
 	base.Info(sess.Username, cSess.IpAddr, cSess.MacHw, cSess.Client, mobile)
 
-	// 检测密码套件
+	// Detect cipher suites
 	dtlsCiphersuite := checkDtls12Ciphersuite(r.Header.Get("X-Dtls12-Ciphersuite"))
 	base.Trace("dtlsCiphersuite", dtlsCiphersuite)
 
-	// 返回客户端数据
+	// Return client data
 	HttpSetHeader(w, "Server", fmt.Sprintf("%s %s", base.APP_NAME, base.APP_VER))
 	HttpSetHeader(w, "X-CSTP-Version", "1")
 	HttpSetHeader(w, "X-CSTP-Server-Name", fmt.Sprintf("%s %s", base.APP_NAME, base.APP_VER))
@@ -107,12 +107,12 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 	HttpSetHeader(w, "X-CSTP-Netmask", sessdata.IpPool.Ipv4Mask.String()) // 子网掩码
 	HttpSetHeader(w, "X-CSTP-Hostname", hn)                               // 机器名称
 	HttpSetHeader(w, "X-CSTP-Base-MTU", cstpBaseMtu)
-	// 客户端dns的默认搜索域
+	// Default search domain for client dns
 	if base.Cfg.DefaultDomain != "" {
 		HttpSetHeader(w, "X-CSTP-Default-Domain", base.Cfg.DefaultDomain)
 	}
 
-	// 压缩
+	// Compression
 	if cmpName, ok := cSess.SetPickCmp("cstp", r.Header.Get("X-Cstp-Accept-Encoding")); ok {
 		HttpSetHeader(w, "X-CSTP-Content-Encoding", cmpName)
 	}
@@ -120,34 +120,34 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 		HttpSetHeader(w, "X-DTLS-Content-Encoding", cmpName)
 	}
 
-	// 设置用户策略
+	// Set user policy
 	SetUserPolicy(cSess.Username, cSess.Group)
 
-	// 允许本地LAN访问vpn网络，必须放在路由的第一个
+	// Allow the local LAN to access the VPN network and must be placed first in the route
 	if cSess.Group.AllowLan {
 		HttpSetHeader(w, "X-CSTP-Split-Exclude", "0.0.0.0/255.255.255.255")
 	}
-	// dns地址
+	// DNS address
 	for _, v := range cSess.Group.ClientDns {
 		HttpAddHeader(w, "X-CSTP-DNS", v.Val)
 	}
-	// 允许的路由
+	// Allowed routes
 	for _, v := range cSess.Group.RouteInclude {
 		if strings.ToLower(v.Val) == dbdata.All {
 			continue
 		}
 		HttpAddHeader(w, "X-CSTP-Split-Include", v.IpMask)
 	}
-	// 不允许的路由
+	// Route not allowed
 	for _, v := range cSess.Group.RouteExclude {
 		HttpAddHeader(w, "X-CSTP-Split-Exclude", v.IpMask)
 	}
-	// 排除出口ip路由(出口ip不加密传输)
+	// Exclude export ip routing (export ip is not encrypted for transmission)
 	if base.Cfg.ExcludeExportIp && exportIp4 != "" {
 		HttpAddHeader(w, "X-CSTP-Split-Exclude", exportIp4+"/255.255.255.255")
 	}
 
-	HttpSetHeader(w, "X-CSTP-Lease-Duration", "1209600") // ip地址租期
+	HttpSetHeader(w, "X-CSTP-Lease-Duration", "1209600") // IP address lease period
 	HttpSetHeader(w, "X-CSTP-Session-Timeout", "none")
 	HttpSetHeader(w, "X-CSTP-Session-Timeout-Alert-Interval", "60")
 	HttpSetHeader(w, "X-CSTP-Session-Timeout-Remaining", "none")
@@ -182,7 +182,7 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 	HttpSetHeader(w, "X-CSTP-Disable-Always-On-VPN", "false")
 	HttpSetHeader(w, "X-CSTP-Client-Bypass-Protocol", "false")
 	HttpSetHeader(w, "X-CSTP-TCP-Keepalive", "false")
-	// 设置域名拆分隧道（移动端不支持）
+	// Set up domain name split tunneling (not supported on mobile devices)
 	if mobile != "mobile" {
 		SetPostAuthXml(cSess.Group, w)
 	}
@@ -202,7 +202,7 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 开始数据处理
+	// Start data processing
 	switch base.Cfg.LinkMode {
 	case base.LinkModeTUN:
 		err = LinkTun(cSess)
@@ -229,7 +229,7 @@ func LinkTunnel(w http.ResponseWriter, r *http.Request) {
 	go LinkCstp(conn, bufRW, cSess)
 }
 
-// 设置域名拆分隧道
+// Set up domain name split tunneling
 func SetPostAuthXml(g *dbdata.Group, w http.ResponseWriter) error {
 	if g.DsExcludeDomains == "" && g.DsIncludeDomains == "" {
 		return nil
@@ -251,7 +251,7 @@ func SetPostAuthXml(g *dbdata.Group, w http.ResponseWriter) error {
 	return nil
 }
 
-// 设置用户策略, 覆盖Group的属性值
+// Set user policies to override Group attribute values
 func SetUserPolicy(username string, g *dbdata.Group) {
 	userPolicy := dbdata.GetPolicy(username)
 	if userPolicy.Id != 0 && userPolicy.Status == 1 {

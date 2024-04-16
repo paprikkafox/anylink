@@ -12,7 +12,7 @@ func TestGetPolicy(t *testing.T) {
 	preIpData()
 	defer closeIpdata()
 
-	// 添加 Policy
+	// Add Policy
 	p1 := Policy{Username: "a1", ClientDns: []ValData{{Val: "114.114.114.114"}}, DsExcludeDomains: "baidu.com,163.com"}
 	err := SetPolicy(&p1)
 	ast.Nil(err)
@@ -25,17 +25,17 @@ func TestGetPolicy(t *testing.T) {
 	p3 := Policy{Username: "a3", ClientDns: []ValData{{Val: "114.114.114.114"}}, RouteInclude: route, DsExcludeDomains: "com.cn,qq.com"}
 	err = SetPolicy(&p3)
 	ast.Nil(err)
-	// 判断 IpMask
+	// Judgment IpMask
 	ast.Equal(p3.RouteInclude[0].IpMask, "192.168.1.0/255.255.255.0")
 
 	route2 := []ValData{{Val: "192.168.2.0/24"}}
 	p4 := Policy{Username: "a4", ClientDns: []ValData{{Val: "114.114.114.114"}}, RouteExclude: route2, DsIncludeDomains: "com.cn,qq.com"}
 	err = SetPolicy(&p4)
 	ast.Nil(err)
-	// 判断 IpMask
+	// Judgment IpMask
 	ast.Equal(p4.RouteExclude[0].IpMask, "192.168.2.0/255.255.255.0")
 
-	// 判断所有数据
+	// Judge all data
 	var userPolicy *Policy
 	pAll := []string{"a1", "a2", "a3", "a4"}
 	for _, v := range pAll {

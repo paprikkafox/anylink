@@ -47,7 +47,7 @@ func respHttp(w http.ResponseWriter, respCode int, data interface{}, errS ...int
 	if err != nil {
 		base.Error(err)
 	}
-	// 记录返回数据
+	// Record return data
 	// logger.Category("response").Debug(string(b))
 }
 

@@ -9,8 +9,8 @@
 # sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 
-# 配合 github action 使用
-# 需要先编译出ui文件后 再执行docker编译
+# Use with github action
+# You need to compile the ui file first and then execute docker compilation
 
 # server
 FROM golang:1.20-alpine3.19 as builder_golang
@@ -19,7 +19,7 @@ ARG CN="no"
 ARG appVer="appVer"
 ARG commitId="commitId"
 
-ENV TZ=Asia/Shanghai
+ENV TZ=Europe/Moscow
 
 WORKDIR /server
 COPY docker/init_build.sh /tmp/
@@ -32,7 +32,7 @@ RUN sh /tmp/init_build.sh
 
 # anylink
 FROM alpine:3.19
-LABEL maintainer="github.com/bjdgyc"
+LABEL maintainer="github.com/paprikkafox"
 
 ARG CN="no"
 
@@ -48,7 +48,7 @@ COPY ./deploy /app/deploy
 COPY ./index_template  /app/index_template
 COPY ./server/conf  /app/conf
 
-#TODO 本地打包时使用镜像
+#TODO Use mirroring when packaging locally
 RUN sh /tmp/init_release.sh
 
 

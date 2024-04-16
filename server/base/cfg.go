@@ -88,11 +88,11 @@ type ServerConfig struct {
 
 func initServerCfg() {
 
-	// TODO 取消绝对地址转换
+	// TODO Cancel absolute path translation
 	// sf, _ := filepath.Abs(cfgFile)
 	// base := filepath.Dir(sf)
 
-	// 转换成绝对路径
+	// Convert to absolute path
 	// Cfg.DbFile = getAbsPath(base, Cfg.DbFile)
 	// Cfg.CertFile = getAbsPath(base, Cfg.CertFile)
 	// Cfg.CertKey = getAbsPath(base, Cfg.CertKey)
@@ -101,11 +101,11 @@ func initServerCfg() {
 	// Cfg.LogPath = getAbsPath(base, Cfg.LogPath)
 
 	if Cfg.AdminPass == defaultPwd {
-		fmt.Fprintln(os.Stderr, "=== 使用默认的admin_pass有安全风险，请设置新的admin_pass ===")
+		fmt.Fprintln(os.Stderr, "=== Using the default admin_pass has security risks, please set a new admin_pass ===")
 	}
 
 	if Cfg.JwtSecret == defaultJwt {
-		fmt.Fprintln(os.Stderr, "=== 使用默认的jwt_secret有安全风险，请设置新的jwt_secret ===")
+		fmt.Fprintln(os.Stderr, "=== Using the default jwt_secret has security risks, please set a new jwt_secret ===")
 	}
 
 	fmt.Printf("ServerCfg: %+v \n", Cfg)

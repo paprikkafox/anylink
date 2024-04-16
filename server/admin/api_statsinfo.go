@@ -14,12 +14,12 @@ func StatsInfoList(w http.ResponseWriter, r *http.Request) {
 	scope := r.FormValue("scope")
 	ok = dbdata.StatsInfoIns.ValidAction(action)
 	if !ok {
-		RespError(w, RespParamErr, errors.New("不存在的图表类别"))
+		RespError(w, RespParamErr, errors.New("Chart category does not exist"))
 		return
 	}
 	ok = dbdata.StatsInfoIns.ValidScope(scope)
 	if !ok {
-		RespError(w, RespParamErr, errors.New("不存在的日期范围"))
+		RespError(w, RespParamErr, errors.New("Date range does not exist"))
 		return
 	}
 	datas, err := dbdata.StatsInfoIns.GetData(action, scope)

@@ -1,35 +1,33 @@
 ---
-name: 问题描述
-about: 问题描述
+name: problem description
+about: problem description
 title: "affected/package: "
 ---
 
 <!--
-请先填写下面的问题，再填写具体遇到的问题，感谢！
+Please fill in the following questions first, and then fill in the specific problems encountered, thank you!
 -->
 
-### 使用的anylink版本 ?
+### Anylink version used?
 
 <pre>
 ./anylink tool -v
-管理后台也可以查看
+You can also view it in the management background
 </pre>
 
 
-### 使用操作系统的类型和版本?
-如： centos 7.9
+### What type and version of operating system are you using?
+Such as: centos 7.9
 <pre>
 cat /etc/issue
 cat /etc/redhat-release
 
 </pre>
 
-### 使用linux 内核版本?
+### Which linux kernel version to use?
 <pre>
 uname -a
 
 </pre>
 
-### 具体遇到的问题，可上传截图
-
-
+### If you encounter specific problems, you can upload screenshots.

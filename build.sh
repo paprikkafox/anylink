@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#当前目录
+# Current directory
 cpath=$(pwd)
 
 ver=$(cat version)
 echo $ver
 
-#前端编译 仅需要执行一次
+# Frontend compilation only needs to be executed once
 #bash ./build_web.sh
 
 bash build_docker.sh
@@ -22,7 +22,7 @@ tar zcf ${deploy}.tar.gz anylink-deploy
 ./anylink-deploy/anylink -v
 
 
-echo "anylink 编译完成，目录: anylink-deploy"
+echo "anylink compilation is completed, directory: anylink-deploy"
 ls -lh anylink-deploy
 
 

@@ -5,13 +5,13 @@ import (
 	"github.com/bjdgyc/anylink/dbdata"
 )
 
-// 清除用户活动日志
+// Clear user activity log
 func ClearUserActLog() {
 	lifeDay, timesUp := isClearTime()
 	if !timesUp {
 		return
 	}
-	// 当审计日志永久保存时，则退出
+	// When the audit log is saved permanently, exit
 	if lifeDay <= 0 {
 		return
 	}

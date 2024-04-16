@@ -76,7 +76,7 @@ builds:
       # go tool compile -help
       # -linkmode external
       # -extld=$CC
-      # -fpic 作为动态链接库的时候 需要添加
+      # -fpic When using it as a dynamic link library, you need to add
 
       - -s -w -extldflags '-static' -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=dcross
 

@@ -1,60 +1,120 @@
-#示例配置信息
+# Sample configuration
 
-#其他配置文件,可以使用绝对路径
-#或者相对于 anylink 二进制文件的路径
+# Other configuration files, you can use absolute paths
+# or relative to the path to the anylink binary
 
-#数据文件
-db_type = "sqlite3"
-db_source = "./conf/anylink.db"
-#证书文件
-cert_file = "./conf/vpn_cert.pem"
-cert_key = "./conf/vpn_cert.key"
 files_path = "./conf/files"
 
-#日志目录,默认为空写入标准输出
-#log_path = "./log"
+# Log directory, default is empty and writes to standard output
+log_path = ""
+
+# Log level [debug info warn error]
 log_level = "debug"
 
-#系统名称
+# Database
+db_type = "sqlite3"
+db_source = "./conf/anylink.db"
+
+# Certificate file and key. Use the same certificate as nginx
+cert_file = "./conf/vpn_cert.pem"
+cert_key = "./conf/vpn_cert.key"
+
+# Client profile
+profile = "./conf/profile.xml"
+
+# Used to distinguish configurations of different servers
+profile_name = "anylink"
+
+# Enable pprof
+pprof = true
+
+# System name
 issuer = "XX公司VPN"
-#后台管理用户
+
+# Admin user
 admin_user = "admin"
-#pass 123456
+
+# Default password is 123456
 admin_pass = "$2a$10$UQ7C.EoPifDeJh6d8.31TeSPQU7hM/NOM2nixmBucJpAuXDQNqNke"
-# 留空表示不开启 otp, 开启otp后密码为  pass + 6位otp
-# 生成 ./anylink tool -o
+
+# Leave it blank to disable otp. After otp is enabled, the password is pass + 6-digit otp.
+# Generate ./anylink tool -o
 admin_otp = ""
+
+# JWT secret
 jwt_secret = "abcdef.0123456789.abcdef"
 
-#TCP服务监听地址(任意端口)
+# TCP service listening address (any port)
 server_addr = ":443"
-#开启 DTLS
+
+# Enable DTLS
 server_dtls = false
-#UDP监听地址(任意端口)
+
+# UDP listening address (any port)
 server_dtls_addr = ":443"
-#后台服务监听地址
+
+# Web UI listening address
 admin_addr = ":8800"
 
-#最大客户端数量
-max_client = 200
-#单个用户同时在线数量
-max_user_client = 3
+# Enable tcp proxy protocol
+proxy_protocol = false
 
-#虚拟网络类型[tun macvtap]
+# Virtual network type [tun macvtap tap]
 link_mode = "tun"
-#客户端分配的ip地址池
-#docker环境一般默认 eth0，其他情况根据实际网卡信息填写
+
+# IP address pool assigned by the client
+# The Docker environment generally defaults to eth0. In other cases, fill in the information based on the actual network card information.
 ipv4_master = "eth0"
 ipv4_cidr = "192.168.90.0/24"
 ipv4_gateway = "192.168.90.1"
 ipv4_start = "192.168.90.100"
 ipv4_end = "192.168.90.200"
 
-#是否自动添加nat
-iptables_nat = true
+# Maximum number of clients
+max_client=200
+# The number of simultaneous online users for a single user
+max_user_client = 3
+# IP lease period (seconds)
+ip_lease = 86400
 
+# Default selected group
+default_group = "one"
 
-#客户端显示详细错误信息(线上环境慎开启)
-display_error = true
+# Client failure detection time (seconds) dpd > keepalive
+cstp_keepalive=3
+cstp_dpd = 20
+mobile_keepalive = 4
+mobile_dpd = 60
 
+# Set the Maximum transmission unit (MTU)
+mtu = 1460
 
+# Default search domain for client DNS (separated by spaces)
+default_domain = "example.com"
+
+# Idle link timeout (seconds) - disconnect the link after timeout, 0 turns off this function
+idle_timeout = 0
+
+# Session expiration time, used for disconnection and reconnection, 0 will never expire
+session_timeout = 3600
+
+# Auth_timeout = 0
+audit_interval = 600
+
+# Display SQL statements for debugging
+show_sql = false
+
+# Whether to automatically add NAT rule
+iptables_nat=true
+
+# Enable compression
+compression = false
+
+# How many bytes less than and equal to are not compressed
+no_compress_limit = 256
+
+# Client displays detailed error information (be careful to enable online environment)
+display_error = false
+
+# Exclude export IP routing (export IP is not encrypted for transmission)
+exclude_export_ip = true

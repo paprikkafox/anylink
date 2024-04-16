@@ -10,14 +10,14 @@ type LimitRater struct {
 	limit *rate.Limiter
 }
 
-// lim: 令牌产生速率
-// burst: 允许的最大爆发速率
+// lim: token generation rate
+// burst: maximum allowed burst rate
 func NewLimitRater(lim, burst int) *LimitRater {
 	limit := rate.NewLimiter(rate.Limit(lim), burst)
 	return &LimitRater{limit: limit}
 }
 
-// bt 不能超过burst大小
+// bt cannot exceed the burst size
 func (l *LimitRater) Wait(bt int) error {
 	return l.limit.WaitN(context.Background(), bt)
 }

@@ -26,17 +26,17 @@ func startTls() {
 		ln   net.Listener
 	)
 
-	// 判断证书文件
+	// Determine certificate file
 	// _, err = os.Stat(certFile)
 	// if errors.Is(err, os.ErrNotExist) {
-	//	// 自动生成证书
+	//	// Automatically generate certificates
 	//	certs[0], err = selfsign.GenerateSelfSignedWithDNS("vpn.anylink")
 	// } else {
-	//	// 使用自定义证书
+	//	// Use custom certificate
 	//	certs[0], err = tls.LoadX509KeyPair(certFile, keyFile)
 	// }
 
-	// 修复 CVE-2016-2183
+	// Fix CVE-2016-2183
 	// https://segmentfault.com/a/1190000038486901
 	// nmap -sV --script ssl-enum-ciphers -p 443 www.example.com
 	cipherSuites := tls.CipherSuites()
@@ -45,7 +45,7 @@ func startTls() {
 		selectedCipherSuites = append(selectedCipherSuites, s.ID)
 	}
 
-	// 设置tls信息
+	// Set TLS information
 	tlsConfig := &tls.Config{
 		NextProtos:   []string{"http/1.1"},
 		MinVersion:   tls.VersionTLS12,
@@ -86,7 +86,7 @@ func startTls() {
 
 func initRoute() http.Handler {
 	r := mux.NewRouter()
-	// 所有路由添加安全头
+	// Add security headers to all routes
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			utils.SetSecureHeader(w)
@@ -107,7 +107,7 @@ func initRoute() http.Handler {
 			http.FileServer(http.Dir(base.Cfg.FilesPath)),
 		),
 	)
-	// 健康检测
+	// Healthcheck
 	r.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, "ok")
 	}).Methods(http.MethodGet)

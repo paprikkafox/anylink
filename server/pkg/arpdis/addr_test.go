@@ -30,6 +30,6 @@ func TestLookup(t *testing.T) {
 	}
 	Add(addr3)
 	addr4 := Lookup(ip, true)
-	// 静态地址只能设置一次
+	// Static addresses can only be set once
 	assert.NotEqual(addr3, addr4)
 }
