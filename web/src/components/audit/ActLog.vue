@@ -50,7 +50,7 @@
           <el-button
               size="mini"
               icon="el-icon-refresh"
-              @click="rest">Reset search
+              @click="rest">Reset
           </el-button>
         </el-form-item>
       </el-form>
@@ -108,7 +108,7 @@
                     <span v-for="(value, item, index) in osOps" :key="index">
                     {{ row.os == item? value: "" }}
                     </span>
-                    <div class="sub_txt">型号: 
+                    <div class="sub_txt">Model: 
                         <span v-if="row.device_type != ''">{{ row.device_type }} / {{ row.platform_version }}</span>
                         <span v-else> - </span>
                     </div>
@@ -251,10 +251,12 @@ export default {
 .search-form >>> .el-form-item__label {
   font-size: 12px;
 }
-/deep/ .el-table th {
+/* /deep/  */
+.el-table th {
     padding: 5px 0;
 }
-/deep/ .el-table td {
+/* /deep/  */
+.el-table td {
     padding: 5px 0;
 }
 .sub_txt {

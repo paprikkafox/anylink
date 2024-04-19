@@ -1,12 +1,5 @@
 <template>
 
-  <!--background-color="#304156"-->
-  <!--text-color="#bfcbd9"-->
-  <!--active-text-color="#409EFF"-->
-  <!--:unique-opened="false"-->
-
-  <!--<div class="layout-aside" :style="aside_style">-->
-
   <el-menu :collapse="!is_active"
            :default-active="route_path"
            :style="is_active?'width:200px':''"

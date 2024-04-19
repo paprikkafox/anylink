@@ -5,14 +5,12 @@ import "./plugins/mixin";
 import request from './plugins/request'
 import router from "./plugins/router";
 
-
-//TODO
 Vue.config.productionTip = false
 
 
 const vm = new Vue({
     data: {
-        // 判断是否登录
+        // Determine whether to log in
         isLogin: false,
     },
     router,

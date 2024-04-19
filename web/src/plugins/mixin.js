@@ -41,11 +41,5 @@ var Mixin = {
     },
 }
 
-// Vue.filter("dateFormat", function (p) {
-//     return gDateFormat(p);
-// })
+
 Vue.mixin(Mixin)
-
-
-// export default Mixin
-

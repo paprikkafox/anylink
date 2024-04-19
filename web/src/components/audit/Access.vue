@@ -44,7 +44,7 @@
           <el-button
               size="mini"
               icon="el-icon-refresh"
-              @click="rest">Reset search
+              @click="rest">Reset
           </el-button>
           <el-button
               size="mini"
@@ -155,7 +155,7 @@ export default {
       loading: false,
       rules: {
         username: [
-          {max: 30, message: 'Less than 30 characters long', trigger: 'blur'}
+          {max: 30, message: 'Username must be less than 30 characters long', trigger: 'blur'}
         ],
         src: [
           {  message: 'Please enter the correct IP address', validator: this.validateIP, trigger: 'blur' },
@@ -315,7 +315,8 @@ export default {
 .search-form >>> .el-form-item__label {
   font-size: 12px;
 }
-/deep/ .el-table th {
+/* /deep/  */
+.el-table th {
     padding: 5px 0;
 }
 </style>
