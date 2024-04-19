@@ -55,7 +55,7 @@ func TestCheckUser(t *testing.T) {
 	ast.Nil(err)
 	err = CheckUser("aaa", "bbbbbbb", group2)
 	if ast.NotNil(err) {
-		ast.Equal("aaa Radius server connection exception, please check the server and port", err.Error())
+		ast.Equal("aaa Radius server connection abnormality, please check the server and port", err.Error())
 	}
 	// Add user policy
 	dns2 := []ValData{{Val: "8.8.8.8"}}
