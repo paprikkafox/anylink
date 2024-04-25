@@ -21,7 +21,7 @@ AnyLink is an enterprise-level remote office sslvpn software that can support mu
 AnyLink is based on [ietf-openconnect](https://tools.ietf.org/html/draft-mavrogiannopoulos-openconnect-02)
 Protocol development, and draws on the development ideas of [ocserv](http://ocserv.gitlab.io/www/index.html) to make it compatible with the AnyConnect client at the same time.
 
-AnyLink uses TLS/DTLS for data encryption, so an RSA or ECC certificate is required. You can apply for a free SSL certificate through Let's Encrypt and TrustAsia.
+AnyLink uses TLS/DTLS for data encryption, so an RSA or ECC certificate is required. A private self-signed certificate can be used. You can apply for a free SSL certificate through Let's Encrypt and TrustAsia.
 
 The AnyLink server is only tested on CentOS 7, CentOS 8, Ubuntu 18.04, and Ubuntu 20.04. If it needs to be installed on other systems, the server needs to support tun/tap.
 Function, ip setting command, iptables command.
@@ -110,6 +110,7 @@ sudo ./anylink
 - [x] Traffic compression function
 - [x] Automatic release of egress IP
 - [x] Support configuration differentiation of multiple services
+- [x] Support private self-signed certificates
 - [ ] Bridge access mode based on ipvtap device
 
 ## Config

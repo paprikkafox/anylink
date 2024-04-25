@@ -89,28 +89,28 @@ func checkLinkAcl(group *dbdata.Group, pl *sessdata.Payload) bool {
 		// Loop to determine IP and port
 		if v.IpNet.Contains(ipDst) {
 
-			// Release and allow ping of IP
-			if v.Ports == nil || len(v.Ports) == 0 {
-				// Single port historical data compatible
-				port := uint16(v.Port.(float64))
-				if port == ipPort || port == 0 || ipProto == waterutil.ICMP {
-					if v.Action == dbdata.Allow {
-						return true
-					} else {
-						return false
-					}
-				}
-			} else {
-				if dbdata.ContainsInPorts(v.Ports, ipPort) || dbdata.ContainsInPorts(v.Ports, 0) || ipProto == waterutil.ICMP {
-					if v.Action == dbdata.Allow {
-						return true
-					} else {
-						return false
-					}
+			// Allow PING of allowed IP
+			// if v.Ports == nil || len(v.Ports) == 0 {
+			// Single port historical data compatible
+			// 	port := uint16(v.Port.(float64))
+			// 	if port == ipPort || port == 0 || ipProto == waterutil.ICMP {
+			// 		if v.Action == dbdata.Allow {
+			// 			return true
+			// 		} else {
+			// 			return false
+			// 		}
+			// 	}
+			// } else {
+
+			if dbdata.ContainsInPorts(v.Ports, ipPort) || dbdata.ContainsInPorts(v.Ports, 0) || ipProto == waterutil.ICMP {
+				if v.Action == dbdata.Allow {
+					return true
+				} else {
+					return false
 				}
 			}
 		}
-	}
 
+	}
 	return false
 }

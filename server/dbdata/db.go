@@ -174,6 +174,9 @@ func CheckErrNotFound(err error) bool {
 	return err == ErrNotFound
 }
 
+// base64 image
+// User dynamic code (please save it properly):<br/>
+// <img src="{{.OtpImgBase64}}"/><br/>
 const accountMail = `<p>Hello:</p>
 <p>&nbsp;&nbsp;Your {{.Issuer}} account has been reviewed and activated. </p>
 <p>
@@ -181,17 +184,17 @@ const accountMail = `<p>Hello:</p>
      User group: <b>{{.Group}}</b> <br/>
      Username: <b>{{.Username}}</b> <br/>
      User PIN code: <b>{{.PinCode}}</b> <br/>
+	 {{if .DisableOtp}}
+	 <!-- nothing -->
+	 {{else}}
      <!--
      User dynamic code (expires after 3 days):<br/>
      <img src="{{.OtpImg}}"/><br/>
-
-     User dynamic code (please keep it properly):<br/>
-     <img src="{{.OtpImgBase64}}"/><br/>
-
      The following is the way to write it that is compatible with gmail
      -->
      User dynamic code (please keep it properly):<br/>
      <img src="cid:userOtpQr.png" alt="userOtpQr" /><br/>
+	 {{end}}
 </p>
 <div>
      Instructions for use:

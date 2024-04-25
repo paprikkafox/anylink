@@ -27,7 +27,7 @@ type GroupLinkAcl struct {
 	// Top-down matching default allow * *
 	Action string          `json:"action"` // allow, deny
 	Val    string          `json:"val"`
-	Port   interface{}     `json:"port"` // Compatible with single-port historical data type uint16
+	Port   string          `json:"port"` // Compatible with single-port historical data type uint16
 	Ports  map[uint16]int8 `json:"ports"`
 	IpNet  *net.IPNet      `json:"ip_net"`
 	Note   string          `json:"note"`
@@ -164,13 +164,14 @@ func SetGroup(g *Group) error {
 			}
 			v.IpNet = ipNet
 
-			portsStr := ""
-			switch vp := v.Port.(type) {
-			case float64:
-				portsStr = strconv.Itoa(int(vp))
-			case string:
-				portsStr = vp
-			}
+			portsStr := v.Port
+			v.Port = strings.TrimSpace(portsStr)
+			// switch vp := v.Port.(type) {
+			// case float64:
+			// 	portsStr = strconv.Itoa(int(vp))
+			// case string:
+			// 	portsStr = vp
+			// }
 
 			if regexp.MustCompile(`^\d{1,5}(-\d{1,5})?(,\d{1,5}(-\d{1,5})?)*$`).MatchString(portsStr) {
 				ports := map[uint16]int8{}
@@ -214,6 +215,7 @@ func SetGroup(g *Group) error {
 	// DNS judgment
 	clientDns := []ValData{}
 	for _, v := range g.ClientDns {
+		v.Val = strings.TrimSpace(v.Val)
 		if v.Val != "" {
 			ip := net.ParseIP(v.Val)
 			if ip.String() != v.Val {
@@ -228,6 +230,20 @@ func SetGroup(g *Group) error {
 		return errors.New("Default route, a DNS must be set")
 	}
 	g.ClientDns = clientDns
+
+	splitDns := []ValData{}
+	for _, v := range g.SplitDns {
+		v.Val = strings.TrimSpace(v.Val)
+		if v.Val != "" {
+			ValidateDomainName(v.Val)
+			if !ValidateDomainName(v.Val) {
+				return errors.New("DNS error")
+			}
+			splitDns = append(splitDns, v)
+		}
+	}
+	g.SplitDns = splitDns
+
 	// Domain name split tunneling, cannot be filled in at the same time
 	g.DsIncludeDomains = strings.TrimSpace(g.DsIncludeDomains)
 	g.DsExcludeDomains = strings.TrimSpace(g.DsExcludeDomains)
