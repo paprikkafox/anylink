@@ -395,8 +395,8 @@
               </templete>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="权限控制" name="link_acl">
-            <el-form-item label="权限控制" prop="link_acl">
+          <el-tab-pane label="Access control" name="link_acl">
+            <el-form-item label="Access control" prop="link_acl">
               <el-row class="msg-info">
                 <el-col :span="22">IP in CIDR format: 192.168.3.0/24
                   Port 0 means all ports. Multiple ports are separated by ','. Continuous ports: 1234-5678
