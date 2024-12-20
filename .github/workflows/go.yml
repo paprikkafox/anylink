@@ -43,7 +43,7 @@ jobs:
           go test ./...
           go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: 28d52fb0-8fc9-460f-95b9-fb84f9138e58
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v3
+      #   env:
+      #     CODECOV_TOKEN: 28d52fb0-8fc9-460f-95b9-fb84f9138e58

@@ -2,10 +2,11 @@ name: release
 
 on:
   workflow_dispatch:
+  
   push:
-    tags:
-      - "v0.*"
-      - "v1.*"
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
 
 jobs:
   Build:
