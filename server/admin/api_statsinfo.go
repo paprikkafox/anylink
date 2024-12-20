@@ -16,7 +16,7 @@ func StatsInfoList(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		RespError(w, RespParamErr, errors.New("Chart category does not exist"))
 		return
-	}z
+	}
 	ok = dbdata.StatsInfoIns.ValidScope(scope)
 	if !ok {
 		RespError(w, RespParamErr, errors.New("Date range does not exist"))
