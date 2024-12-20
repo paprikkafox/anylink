@@ -24,16 +24,16 @@ const (
 	ICMP  = "icmp"
 )
 
-// 域名分流最大字符2万
+// The maximum number of characters for domain name diversion is 20,000
 const DsMaxLen = 20000
 
 type GroupLinkAcl struct {
-	// 自上而下匹配 默认 allow * *
-	Action   string               `json:"action"`      // allow、deny
-	Protocol string               `json:"protocol"`    // 支持 ALL、TCP、UDP、ICMP 协议
-	IpProto  waterutil.IPProtocol `json:"ip_protocol"` // 判断协议使用
+	// Top-down matching default allow **
+	Action   string               `json:"action"`      // Allow、deny
+	Protocol string               `json:"protocol"`    // Support ALL, TCP, UDP, ICMP protocols
+	IpProto  waterutil.IPProtocol `json:"ip_protocol"` // Determine protocol usage
 	Val      string               `json:"val"`
-	Port     string               `json:"port"` // 兼容单端口历史数据类型uint16
+	Port     string               `json:"port"` // Compatible with single-port historical data type uint16
 	Ports    map[uint16]int8      `json:"ports"`
 	IpNet    *net.IPNet           `json:"ip_net"`
 	Note     string               `json:"note"`
@@ -113,10 +113,10 @@ func GetGroupNamesIds() []GroupNameId {
 func SetGroup(g *Group) error {
 	var err error
 	if g.Name == "" {
-		return errors.New("用户组名错误")
+		return errors.New("Wrong user group name")
 	}
 
-	// 判断数据
+	// Judgment data
 	routeInclude := []ValData{}
 	for _, v := range g.RouteInclude {
 		if v.Val != "" {
@@ -128,12 +128,12 @@ func SetGroup(g *Group) error {
 			ipMask, ipNet, err := parseIpNet(v.Val)
 
 			if err != nil {
-				return errors.New("RouteInclude 错误" + err.Error())
+				return errors.New("RouteInclude mistake" + err.Error())
 			}
 
-			// 给Mac系统下发路由时，必须是标准的网络地址
+			// When delivering routes to the mac system, they must be standard network addresses.
 			if strings.Split(ipMask, "/")[0] != ipNet.IP.String() {
-				errMsg := fmt.Sprintf("RouteInclude 错误: 网络地址错误，建议： %s 改为 %s", v.Val, ipNet)
+				errMsg := fmt.Sprintf("RouteInclude Error: Wrong network address, suggestion： %s Change to %s", v.Val, ipNet)
 				return errors.New(errMsg)
 			}
 
@@ -147,11 +147,11 @@ func SetGroup(g *Group) error {
 		if v.Val != "" {
 			ipMask, ipNet, err := parseIpNet(v.Val)
 			if err != nil {
-				return errors.New("RouteExclude 错误" + err.Error())
+				return errors.New("RouteExclude mistake" + err.Error())
 			}
 
 			if strings.Split(ipMask, "/")[0] != ipNet.IP.String() {
-				errMsg := fmt.Sprintf("RouteInclude 错误: 网络地址错误，建议： %s 改为 %s", v.Val, ipNet)
+				errMsg := fmt.Sprintf("RouteInclude Error: Wrong network address, suggestion： %s Change to %s", v.Val, ipNet)
 				return errors.New(errMsg)
 			}
 
@@ -160,17 +160,17 @@ func SetGroup(g *Group) error {
 		}
 	}
 	g.RouteExclude = routeExclude
-	// 转换数据
+	// Transform data
 	linkAcl := []GroupLinkAcl{}
 	for _, v := range g.LinkAcl {
 		if v.Val != "" {
 			_, ipNet, err := parseIpNet(v.Val)
 			if err != nil {
-				return errors.New("GroupLinkAcl 错误" + err.Error())
+				return errors.New("GroupLinkAcl mistake" + err.Error())
 			}
 			v.IpNet = ipNet
 
-			// 设置协议数据
+			// Set protocol data
 			switch v.Protocol {
 			case TCP:
 				v.IpProto = waterutil.TCP
@@ -179,7 +179,7 @@ func SetGroup(g *Group) error {
 			case ICMP:
 				v.IpProto = waterutil.ICMP
 			default:
-				// 其他类型都是 all
+				// All other types are all
 				v.Protocol = ALL
 			}
 
@@ -203,12 +203,12 @@ func SetGroup(g *Group) error {
 						// portfrom, err := strconv.Atoi(rp[0])
 						portfrom, err := strconv.ParseUint(rp[0], 10, 16)
 						if err != nil {
-							return errors.New("端口:" + rp[0] + " 格式错误, " + err.Error())
+							return errors.New("port:" + rp[0] + " Format error, " + err.Error())
 						}
-						// portto, err := strconv.Atoi(rp[1])
+						// ported, err := strconv.Atoi(rp[1])
 						portto, err := strconv.ParseUint(rp[1], 10, 16)
 						if err != nil {
-							return errors.New("端口:" + rp[1] + " 格式错误, " + err.Error())
+							return errors.New("port:" + rp[1] + " Format error, " + err.Error())
 						}
 						for i := portfrom; i <= portto; i++ {
 							ports[uint16(i)] = 1
@@ -217,7 +217,7 @@ func SetGroup(g *Group) error {
 					} else {
 						port, err := strconv.ParseUint(p, 10, 16)
 						if err != nil {
-							return errors.New("端口:" + p + " 格式错误, " + err.Error())
+							return errors.New("port:"+ p + " Format error, " + err.Error())
 						}
 						ports[uint16(port)] = 1
 					}
@@ -225,7 +225,7 @@ func SetGroup(g *Group) error {
 				v.Ports = ports
 				linkAcl = append(linkAcl, v)
 			} else {
-				return errors.New("端口: " + portsStr + " 格式错误,请用逗号分隔的端口,比如: 22,80,443 连续端口用-,比如:1234-5678")
+				return errors.New("port: " + portsStr + "Format error, please use comma separated ports, for example: 22,80,443 Use -for consecutive ports, for example: 1234-5678")
 			}
 
 		}
@@ -233,7 +233,7 @@ func SetGroup(g *Group) error {
 
 	g.LinkAcl = linkAcl
 
-	// DNS 判断
+	// DNS judgment
 	clientDns := []ValData{}
 	for _, v := range g.ClientDns {
 		v.Val = strings.TrimSpace(v.Val)
@@ -245,10 +245,10 @@ func SetGroup(g *Group) error {
 			clientDns = append(clientDns, v)
 		}
 	}
-	// 是否默认路由
+	// Whether to default route
 	isDefRoute := len(routeInclude) == 0 || (len(routeInclude) == 1 && routeInclude[0].Val == "all")
 	if isDefRoute && len(clientDns) == 0 {
-		return errors.New("默认路由，必须设置一个DNS")
+		return errors.New("Default route, a DN must be setS")
 	}
 	g.ClientDns = clientDns
 
@@ -258,33 +258,33 @@ func SetGroup(g *Group) error {
 		if v.Val != "" {
 			ValidateDomainName(v.Val)
 			if !ValidateDomainName(v.Val) {
-				return errors.New("域名 错误")
+				return errors.New("Domain name error")
 			}
 			splitDns = append(splitDns, v)
 		}
 	}
 	g.SplitDns = splitDns
 
-	// 域名拆分隧道，不能同时填写
+	// Domain name split tunneling, cannot be filled in at the same time
 	g.DsIncludeDomains = strings.TrimSpace(g.DsIncludeDomains)
 	g.DsExcludeDomains = strings.TrimSpace(g.DsExcludeDomains)
 	if g.DsIncludeDomains != "" && g.DsExcludeDomains != "" {
-		return errors.New("包含/排除域名不能同时填写")
+		return errors.New("Include/exclude domain names cannot be filled in at the same time")
 	}
-	// 校验包含域名的格式
+	// Verify the format containing the domain name
 	err = CheckDomainNames(g.DsIncludeDomains)
 	if err != nil {
-		return errors.New("包含域名有误：" + err.Error())
+		return errors.New("Incorrect domain name included:" + err.Error())
 	}
-	// 校验排除域名的格式
+	// Verify the format of excluded domain names
 	err = CheckDomainNames(g.DsExcludeDomains)
 	if err != nil {
-		return errors.New("排除域名有误：" + err.Error())
+		return errors.New("Wrong domain name to exclude:" + err.Error())
 	}
 	if isDefRoute && g.DsIncludeDomains != "" {
-		return errors.New("默认路由, 不允许设置\"包含域名\", 请重新配置")
+		return errors.New("Default route, setting \"include domain name\" is not allowed, please reconfigure it.")
 	}
-	// 处理登入方式的逻辑
+	// Logic for handling login methods
 	defAuth := map[string]interface{}{
 		"type": "local",
 	}
@@ -296,14 +296,14 @@ func SetGroup(g *Group) error {
 		g.Auth = defAuth
 	} else {
 		if _, ok := authRegistry[authType]; !ok {
-			return errors.New("未知的认证方式: " + authType)
+			return errors.New("Unknown authentication method: " + authType)
 		}
 		auth := makeInstance(authType).(IUserAuth)
 		err = auth.checkData(g.Auth)
 		if err != nil {
 			return err
 		}
-		// 重置Auth， 删除多余的key
+		// Reset Auth and delete redundant keys
 		g.Auth = map[string]interface{}{
 			"type":   authType,
 			authType: g.Auth[authType],
@@ -333,7 +333,7 @@ func GroupAuthLogin(name, pwd string, authData map[string]interface{}) error {
 	g := &Group{Auth: authData}
 	authType := g.Auth["type"].(string)
 	if _, ok := authRegistry[authType]; !ok {
-		return errors.New("未知的认证方式: " + authType)
+		return errors.New("Unknown authentication method: " + authType)
 	}
 	auth := makeInstance(authType).(IUserAuth)
 	err := auth.checkData(g.Auth)
@@ -364,16 +364,16 @@ func CheckDomainNames(domains string) error {
 	str_slice := strings.Split(domains, ",")
 	for _, val := range str_slice {
 		if val == "" {
-			return errors.New(val + " 请以逗号分隔域名")
+			return errors.New(val + " Please separate domain names with commas")
 		}
 		if !ValidateDomainName(val) {
-			return errors.New(val + " 域名有误")
+			return errors.New(val + " Wrong domain name")
 		}
 		strLen += len(val)
 	}
 	if strLen > DsMaxLen {
 		p := message.NewPrinter(language.English)
-		return fmt.Errorf("字符长度超出限制，最大%s个(不包含逗号), 请删减一些域名", p.Sprintf("%d", DsMaxLen))
+		return fmt.Errorf("The character length exceeds the limit, the maximum is %s (excluding commas), please delete some domain names", p.Sprintf("%d", DsMaxLen))
 	}
 	return nil
 }

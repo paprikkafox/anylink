@@ -2,11 +2,11 @@ package utils
 
 import "net/http"
 
-// SetSecureHeader 设置安全的header头
+// SetSecureHeader Set security headers
 // https://blog.csdn.net/liwan09/article/details/130248003
 // https://zhuanlan.zhihu.com/p/335165168
 func SetSecureHeader(w http.ResponseWriter) {
-	// Content-Length Date 默认已经存在
+	// Content-Length Date Already exists by default
 	w.Header().Set("Server", "AnyLinkOpenSource")
 	// w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	// w.Header().Set("Transfer-Encoding", "chunked")

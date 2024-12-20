@@ -62,7 +62,7 @@ func GroupDetail(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "Id错误")
+		RespError(w, RespParamErr, "Wrong ID")
 		return
 	}
 
@@ -75,7 +75,7 @@ func GroupDetail(w http.ResponseWriter, r *http.Request) {
 	if len(data.Auth) == 0 {
 		data.Auth["type"] = "local"
 	}
-	// 兼容旧数据
+	// Compatible with old data
 	if data.SplitDns == nil {
 		data.SplitDns = []dbdata.ValData{}
 	}
@@ -110,7 +110,7 @@ func GroupDel(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "Id错误")
+		RespError(w, RespParamErr, "Wrong ID")
 		return
 	}
 

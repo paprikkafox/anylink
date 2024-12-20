@@ -2,7 +2,7 @@
 
 set -x
 
-#TODO 本地打包时使用镜像
+#TODO Use mirroring when packaging locally
 if [[ $CN == "yes" ]]; then
   #sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
   sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
@@ -10,10 +10,10 @@ if [[ $CN == "yes" ]]; then
 fi
 
 
-# docker 启动使用 4.19 以上内核
+# Docker starts using kernel 4.19 or above
 apk add --no-cache ca-certificates bash iproute2 tzdata iptables
 
-# alpine:3.19 兼容老版 iptables
+# alpine:3.19 compatible with older versions of iptables
 apk add --no-cache iptables-legacy
 rm /sbin/iptables
 ln -s /sbin/iptables-legacy /sbin/iptables
@@ -22,7 +22,7 @@ ln -s /sbin/iptables-legacy /sbin/iptables
 chmod +x /app/docker_entrypoint.sh
 mkdir /app/log
 
-#备份配置文件
+#Backup configuration files
 cp -r /app/conf /home/conf-bak
 
 tree /app

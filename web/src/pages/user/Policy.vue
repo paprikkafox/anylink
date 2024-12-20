@@ -26,11 +26,11 @@
 
         <el-table-column
             prop="username"
-            label="用户名">
+            label="username">
         </el-table-column>
         <el-table-column
             prop="allow_lan"
-            label="本地网络">
+            label="local network">
           <template slot-scope="scope">
             <el-switch
                 v-model="scope.row.allow_lan"
@@ -41,7 +41,7 @@
 
         <el-table-column
             prop="client_dns"
-            label="客户端DNS"
+            label="Client DNS"
             width="160">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.client_dns" :key="inx">{{ item.val }}</el-row>
@@ -50,7 +50,7 @@
 
         <el-table-column
             prop="route_include"
-            label="路由包含"
+            label="Route contains"
             width="200">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_include.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -58,14 +58,14 @@
               <div v-if="readMore[`ri_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_include.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>              
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲ 收起" : "▼ 更多" }}</el-button>              
+              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲ close" : "▼ More" }}</el-button>              
             </div>            
           </template>
         </el-table-column>
 
         <el-table-column
             prop="route_exclude"
-            label="路由排除"
+            label="route exclusion"
             width="200">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_exclude.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -73,45 +73,45 @@
               <div v-if="readMore[`re_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_exclude.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>              
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲ 收起" : "▼ 更多" }}</el-button>              
+              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲ close" : "▼ More" }}</el-button>              
             </div>
           </template>
         </el-table-column>
         <el-table-column
             prop="status"
-            label="状态"
+            label="state"
             width="70">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">可用</el-tag>
-            <el-tag v-else type="danger">停用</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">Available</el-tag>
+            <el-tag v-else type="danger">deactivate</el-tag>
           </template>
 
         </el-table-column>
 
         <el-table-column
             prop="updated_at"
-            label="更新时间"
+            label="Update time"
             :formatter="tableDateFormat">
         </el-table-column>
 
         <el-table-column
-            label="操作"
+            label="operate"
             width="150">
           <template slot-scope="scope">
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">编辑
+                @click="handleEdit(scope.row)">edit
             </el-button>
 
             <el-popconfirm
                 style="margin-left: 10px"
                 @confirm="handleDel(scope.row)"
-                title="确定要删除用户策略项吗？">
+                title="Are you sure you want to delete the user policy item?">
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">删除
+                  type="danger">delete
               </el-button>
             </el-popconfirm>
           </template>
@@ -129,10 +129,10 @@
 
     </el-card>
 
-    <!--新增、修改弹出框-->
+    <!--Add and modify pop-up boxes-->
     <el-dialog
         :close-on-click-modal="false"
-        title="用户策略"
+        title="User policy"
         :visible.sync="user_edit_dialog"
         width="750px"
         top="50px"
@@ -141,23 +141,23 @@
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
         <el-tabs v-model="activeTab" :before-leave="beforeTabLeave">
-           <el-tab-pane label="通用" name="general">
+           <el-tab-pane label="Universal" name="general">
                 <el-form-item label="ID" prop="id">
                 <el-input v-model="ruleForm.id" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="用户名" prop="username">
+                <el-form-item label="username" prop="username">
                 <el-input v-model="ruleForm.username" :disabled="ruleForm.id > 0"></el-input>
                 </el-form-item>
 
-                <el-form-item label="本地网络" prop="allow_lan">
+                <el-form-item label="local network" prop="allow_lan">
                   <el-switch
                       v-model="ruleForm.allow_lan">
                   </el-switch>
                 </el-form-item>
-                <el-form-item label="客户端DNS" prop="client_dns">
+                <el-form-item label="Client DNS" prop="client_dns">
                     <el-row class="msg-info">
-                        <el-col :span="20">输入IP格式如: 192.168.0.10</el-col>
+                        <el-col :span="20">Enter the IP format such as: 192.168.0.10</el-col>
                         <el-col :span="4">
                         <el-button size="mini" type="success" icon="el-icon-plus" circle
                                     @click.prevent="addDomain(ruleForm.client_dns)"></el-button>
@@ -179,16 +179,16 @@
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                     <el-radio-group v-model="ruleForm.status">
-                        <el-radio :label="1" border>启用</el-radio>
-                        <el-radio :label="0" border>停用</el-radio>
+                        <el-radio :label="1" border>enable</el-radio>
+                        <el-radio :label="0" border>deactivate</el-radio>
                     </el-radio-group>
                 </el-form-item>                
             </el-tab-pane>
 
-            <el-tab-pane label="路由设置" name="route">
-                <el-form-item label="包含路由" prop="route_include">
+            <el-tab-pane label="Routing settings" name="route">
+                <el-form-item label="Contains routing" prop="route_include">
                     <el-row class="msg-info">
-                        <el-col :span="20">输入CIDR格式如: 192.168.1.0/24</el-col>
+                        <el-col :span="20">Enter the CIDR format such as: 192.168.1.0/24</el-col>
                         <el-col :span="4">
                         <el-button size="mini" type="success" icon="el-icon-plus" circle
                                     @click.prevent="addDomain(ruleForm.route_include)"></el-button>
@@ -209,9 +209,9 @@
                     </el-row>      
                 </el-form-item>
 
-                <el-form-item label="排除路由" prop="route_exclude">
+                <el-form-item label="exclude route" prop="route_exclude">
                     <el-row class="msg-info">
-                        <el-col :span="20">输入CIDR格式如: 192.168.2.0/24</el-col>
+                        <el-col :span="20">Enter the CIDR format such as: 192.168.2.0/24</el-col>
                         <el-col :span="4">
                         <el-button size="mini" type="success" icon="el-icon-plus" circle
                                     @click.prevent="addDomain(ruleForm.route_exclude)"></el-button>
@@ -223,7 +223,7 @@
                         <el-input v-model="item.val"></el-input>
                         </el-col>
                         <el-col :span="12">
-                        <el-input v-model="item.note" placeholder="备注"></el-input>
+                        <el-input v-model="item.note" placeholder="Remark"></el-input>
                         </el-col>
                         <el-col :span="2">
                         <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -233,18 +233,18 @@
                 </el-form-item> 
             </el-tab-pane>
             
-            <el-tab-pane label="动态拆分隧道" name="ds_domains">
-                <el-form-item label="包含域名" prop="ds_include_domains">
+            <el-tab-pane label="Dynamic split tunneling" name="ds_domains">
+                <el-form-item label="Contains domain name" prop="ds_include_domains">
                     <el-input type="textarea" :rows="5" v-model="ruleForm.ds_include_domains"></el-input>
                 </el-form-item>                
-                <el-form-item label="排除域名" prop="ds_exclude_domains">
+                <el-form-item label="Exclude domain name" prop="ds_exclude_domains">
                     <el-input type="textarea" :rows="5" v-model="ruleForm.ds_exclude_domains"></el-input>
                 </el-form-item>
             </el-tab-pane>
         </el-tabs>
         <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-            <el-button @click="disVisible">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">keep</el-button>
+            <el-button @click="disVisible">Cancel</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -261,7 +261,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['用户信息', '用户策略'])
+    this.$emit('update:route_name', ['User information', 'User policy'])
   },
   mounted() {
     this.getData(1)
@@ -279,18 +279,18 @@ export default {
         status: 1,
         allow_lan: true,
         client_dns: [{val: '114.114.114.114'}],
-        route_include: [{val: 'all', note: '默认全局代理'}],
+        route_include: [{val: 'all', note: 'Default global proxy'}],
         route_exclude: [],
         re_upper_limit : 0,        
       },
       rules: {
         username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-          {max: 30, message: '长度小于 30 个字符', trigger: 'blur'}
+          {required: true, message: 'Please enter username', trigger: 'blur'},
+          {max: 30, message: 'Less than 30 characters long', trigger: 'blur'}
         ],
         bandwidth: [
-          {required: true, message: '请输入带宽限制', trigger: 'blur'},
-          {type: 'number', message: '带宽必须为数字值'}
+          {required: true, message: 'Please enter bandwidth limit', trigger: 'blur'},
+          {type: 'number', message: 'Bandwidth must be a numeric value'}
         ],
         status: [
           {required: true}
@@ -310,7 +310,7 @@ export default {
         }
         console.log(rdata);
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },
@@ -330,7 +330,7 @@ export default {
       }).then(resp => {
         this.ruleForm = resp.data.data
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },
@@ -349,7 +349,7 @@ export default {
         this.tableData = rdata.datas;
         this.count = rdata.count
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },
@@ -385,7 +385,7 @@ export default {
           }
           console.log(rdata);
         }).catch(error => {
-          this.$message.error('哦，请求出错');
+          this.$message.error('Oh, request error');
           console.log(error);
         });
       });
@@ -407,7 +407,7 @@ export default {
       }      
       this.$refs['ruleForm'].validate((valid) => {
         if (!valid) {
-          this.$message.error("错误：您有必填项没有填写。")
+          this.$message.error("Error: You have not filled in any required fields.")
           isSwitch = false;
           return false;
         }

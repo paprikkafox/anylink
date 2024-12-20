@@ -9,7 +9,7 @@ import (
 
 const siLifeDay = 30
 
-// 清除图表数据
+// Clear chart data
 func ClearStatsInfo() {
 	_, timesUp := isClearTime()
 	if !timesUp {
@@ -22,7 +22,7 @@ func ClearStatsInfo() {
 	}
 }
 
-// 是否到了"清理时间"
+// Is it time to "clean up"?
 func isClearTime() (int, bool) {
 	dataLog, err := dbdata.SettingGetAuditLog()
 	if err != nil {
@@ -30,14 +30,14 @@ func isClearTime() (int, bool) {
 		return -1, false
 	}
 	currentTime := time.Now().Format("15:04")
-	// 未到"清理时间"时, 则返回
+	// When the "cleaning time" has not arrived, return
 	if dataLog.ClearTime != currentTime {
 		return -1, false
 	}
 	return dataLog.LifeDay, true
 }
 
-// 根据存储时长，获取清理日期
+// Get the cleanup date based on the storage duration
 func getTimeAgo(days int) string {
 	var timeS string
 	ts := time.Now().AddDate(0, 0, -days)

@@ -8,23 +8,23 @@
               style="width: 86px;"                      
               @change="handleSearch">
             <el-option
-                label="用户名"
+                label="username"
                 value="username">
             </el-option>
             <el-option
-                label="登录组"
+                label="Login group"
                 value="group">
             </el-option>            
             <el-option
-                label="MAC地址"
+                label="MAC address"
                 value="mac_addr">
             </el-option>
             <el-option
-                label="IP地址"
+                label="IP address"
                 value="ip">
             </el-option>
             <el-option
-                label="远端地址"
+                label="remote address"
                 value="remote_addr">
             </el-option>
           </el-select>
@@ -32,12 +32,12 @@
         <el-form-item>
           <el-input
               v-model="searchText"
-              placeholder="请输入搜索内容"
+              placeholder="Please enter search content"
               @input="handleSearch">
           </el-input>
         </el-form-item>        
         <el-form-item>
-          显示休眠用户：
+          Show dormant users:
             <el-switch
                 v-model="showSleeper"
                 @change="handleSearch">
@@ -50,8 +50,9 @@
               size="mini"
               :loading="loadingOneOffline"
               @click="handleOneOffline">
-            一键下线
+            One-click offline
           </el-button>
+        </el-form-item>
       </el-form>
       
       <el-table
@@ -62,28 +63,28 @@
         <el-table-column
             sortable="true"
             type="index"
-            label="序号"
+            label="serial number"
             width="50">
         </el-table-column>
 
         <el-table-column
             prop="username"
-            label="用户名">
+            label="username">
         </el-table-column>
 
         <el-table-column
             prop="group"
-            label="登录组">
+            label="Login group">
         </el-table-column>
 
         <el-table-column
             prop="mac_addr"
-            label="MAC地址">
+            label="MAC address">
         </el-table-column>
 
         <el-table-column
             prop="unique_mac"
-            label="唯一MAC">
+            label="only MAC">
             <template slot-scope="scope">
                 <el-tag v-if="scope.row.unique_mac" type="success">是</el-tag>
             </template>
@@ -91,18 +92,18 @@
 
         <el-table-column
             prop="ip"
-            label="IP地址"
+            label="IP address"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="remote_addr"
-            label="远端地址">
+            label="remote address">
         </el-table-column>
 
         <el-table-column
             prop="tun_name"
-            label="虚拟网卡">
+            label="virtual network card">
         </el-table-column>
 
         <el-table-column
@@ -112,7 +113,7 @@
 
         <el-table-column
             prop="is_mobile"
-            label="客户端">
+            label="client">
           <template slot-scope="scope">
             <i v-if="scope.row.client === 'mobile'" class="el-icon-mobile-phone" style="font-size: 20px;color: red"></i>
             <i v-else class="el-icon-s-platform" style="font-size: 20px;color: blue"></i>
@@ -120,7 +121,7 @@
         </el-table-column>
 
         <el-table-column
-            label="实时 上行/下行"
+            label="Real-time uplink/download"
             width="220">
           <template slot-scope="scope">
             <el-tag type="success">{{ scope.row.bandwidth_up }}</el-tag>
@@ -129,7 +130,7 @@
         </el-table-column>
 
         <el-table-column
-            label="总量 上行/下行"
+            label="Total Up/Down"
             width="200">
           <template slot-scope="scope">
             <el-tag effect="dark" type="success">{{ scope.row.bandwidth_up_all }}</el-tag>
@@ -139,29 +140,29 @@
 
         <el-table-column
             prop="last_login"
-            label="登录时间"
+            label="Login time"
             :formatter="tableDateFormat">
         </el-table-column>
 
         <el-table-column
-            label="操作"
+            label="operate"
             width="150">
           <template slot-scope="scope">
             <el-button
                 size="mini"
                 type="primary"
                 v-if="scope.row.remote_addr !== ''"
-                @click="handleReline(scope.row)">重连
+                @click="handleReline(scope.row)">Reconnect
             </el-button>
 
             <el-popconfirm
                 class="m-left-10"
                 @confirm="handleOffline(scope.row)"
-                title="确定要下线用户吗？">
+                title="Are you sure you want to log the user offline?">
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">下线
+                  type="danger">offline
               </el-button>
             </el-popconfirm>
 
@@ -183,7 +184,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['用户信息', '在线用户'])
+    this.$emit('update:route_name', ['User information', 'Online users'])
   },
   mounted() {
     this.getData();
@@ -218,7 +219,7 @@ export default {
         }
         console.log(data);
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },
@@ -234,7 +235,7 @@ export default {
         }
         console.log(data);
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },
@@ -244,24 +245,24 @@ export default {
     },
     handleOneOffline() {
         if (this.tableData === null || this.tableData.length === 0) {
-            this.$message.error('错误：当前在线用户表为空，无法执行一键下线操作！');
+            this.$message.error('Error: The current online user table is empty and one-click offline operation cannot be performed!');
             return;
         }
-        MessageBox.confirm('当前搜索条件下的所有用户将会“下线”，你确定执行吗?', '危险', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+        MessageBox.confirm('All users under the current search conditions will be "offline". Are you sure you want to execute this??', 'Danger', {
+            confirmButtonText: 'Sure',
+            cancelButtonText: 'Cancel',
             type: 'danger'
         }).then(() => {   
             try {
                 this.loadingOneOffline = true;
                 this.getData();        
-                this.$message.success('操作成功');
+                this.$message.success('Operation successful');
                 this.loadingOneOffline = false;
-                // 清空当前表格
+                // Clear current form
                 this.tableData = [];
             } catch (error) {
                 this.loadingOneOffline = false;
-                this.$message.error('操作失败');
+                this.$message.error('Operation failed');
             }
         });        
     },
@@ -284,7 +285,7 @@ export default {
         this.tableData = data.datas;
         this.count = data.count
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },

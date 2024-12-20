@@ -13,7 +13,7 @@ type IMaps interface {
 }
 
 /**
- * 基础的Map结构
+ * Basic Map structure
  *
  */
 type BaseMap struct {
@@ -32,7 +32,7 @@ func (m *BaseMap) Del(key string) {
 }
 
 /**
- * CMap 并发结构
+ * CMap Concurrency structure
  *
  */
 type ConcurrentMap struct {
@@ -52,7 +52,7 @@ func (m *ConcurrentMap) Del(key string) {
 }
 
 /**
- * Map 读写结构
+ * Map Read and write structures
  *
  */
 type RWLockMap struct {
@@ -80,7 +80,7 @@ func (m *RWLockMap) Del(key string) {
 }
 
 /**
- * sync.Map 结构
+ * sync.Map structure
  *
  */
 type SyncMap struct {

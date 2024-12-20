@@ -18,7 +18,7 @@ import (
 const bridgeName = "anylink0"
 
 var (
-	// 网关mac地址
+	// Gateway mac address
 	gatewayHw net.HardwareAddr
 )
 
@@ -30,7 +30,7 @@ type LinkDriver interface {
 func _setGateway() {
 	dstAddr := arpdis.Lookup(sessdata.IpPool.Ipv4Gateway, false)
 	gatewayHw = dstAddr.HardwareAddr
-	// 设置为静态地址映射
+	// Set to static address mapping
 	dstAddr.Type = arpdis.TypeStatic
 	arpdis.Add(dstAddr)
 }
@@ -65,7 +65,7 @@ func checkTap() {
 	_checkTapIp(bridgeName)
 }
 
-// 创建tap网卡
+// Create tap network card
 func LinkTap(cSess *sessdata.ConnSession) error {
 	cfg := water.Config{
 		DeviceType: water.TAP,
@@ -96,7 +96,7 @@ func LinkTap(cSess *sessdata.ConnSession) error {
 	return nil
 }
 
-// ========================通用代码===========================
+// ======================== Common code ======================== ===
 
 func allTapWrite(ifce LinkDriver, cSess *sessdata.ConnSession) {
 	defer func() {
@@ -122,7 +122,7 @@ func allTapWrite(ifce LinkDriver, cSess *sessdata.ConnSession) {
 			return
 		}
 
-		// var frame ethernet.Frame
+		// was frame ethernet.Frame
 		switch pl.LType {
 		default:
 			// log.Println(payload)
@@ -132,22 +132,22 @@ func allTapWrite(ifce LinkDriver, cSess *sessdata.ConnSession) {
 
 			// packet := gopacket.NewPacket(frame, layers.LayerTypeEthernet, gopacket.Default)
 			// fmt.Println("wirteArp:", packet)
-		case sessdata.LTypeIPData: // 需要转换成 Ethernet 数据
+		case sessdata.LTypeIPData: // Need to be converted to Ethernet data
 			ipSrc := waterutil.IPv4Source(pl.Data)
 			if !ipSrc.Equal(cSess.IpAddr) {
-				// 非分配给客户端ip，直接丢弃
+				// If the IP address is not assigned to the client, it will be discarded directly.
 				continue
 			}
 
 			if waterutil.IsIPv6(pl.Data) {
-				// 过滤掉IPv6的数据
+				// Filter out i pv6 data
 				continue
 			}
 
 			// packet := gopacket.NewPacket(pl.Data, layers.LayerTypeIPv4, gopacket.Default)
 			// fmt.Println("get:", packet)
 
-			// 手动设置ipv4地址
+			// Manually set ipv4 address
 			ipDst[12] = pl.Data[16]
 			ipDst[13] = pl.Data[17]
 			ipDst[14] = pl.Data[18]
@@ -208,12 +208,12 @@ func allTapRead(ifce LinkDriver, cSess *sessdata.ConnSession) {
 		case ethernet.IPv6:
 			continue
 		case ethernet.IPv4:
-			// 发送IP数据
+			// Send ip data
 			data = frame.Payload()
 
 			ip_dst := waterutil.IPv4Destination(data)
 			if !ip_dst.Equal(cSess.IpAddr) {
-				// 过滤非本机地址
+				// Filter non-native addresses
 				// log.Println(ip_dst, sess.Ip)
 				continue
 			}
@@ -222,29 +222,29 @@ func allTapRead(ifce LinkDriver, cSess *sessdata.ConnSession) {
 			// fmt.Println("put:", packet)
 
 			pl := getPayload()
-			// 拷贝数据到pl
+			// Copy data to pl
 			copy(pl.Data, data)
-			// 更新切片长度
+			// Update slice length
 			pl.Data = pl.Data[:len(data)]
 			if payloadOut(cSess, pl) {
 				return
 			}
 
 		case ethernet.ARP:
-			// 暂时仅实现了ARP协议
+			// Currently only the arp protocol is implemented
 			packet := gopacket.NewPacket(frame, layers.LayerTypeEthernet, gopacket.NoCopy)
 			layer := packet.Layer(layers.LayerTypeARP)
 			arpReq := layer.(*layers.ARP)
 
 			if !cSess.IpAddr.Equal(arpReq.DstProtAddress) {
-				// 过滤非本机地址
+				// Filter non-native addresses
 				continue
 			}
 
 			// fmt.Println("arp", time.Now(), net.IP(arpReq.SourceProtAddress), cSess.IpAddr)
 			// fmt.Println(packet)
 
-			// 返回ARP数据
+			// Return arp data
 			src := &arpdis.Addr{IP: cSess.IpAddr, HardwareAddr: cSess.MacHw}
 			dst := &arpdis.Addr{IP: arpReq.SourceProtAddress, HardwareAddr: arpReq.SourceHwAddress}
 			data, err = arpdis.NewARPReply(src, dst)
@@ -253,7 +253,7 @@ func allTapRead(ifce LinkDriver, cSess *sessdata.ConnSession) {
 				return
 			}
 
-			// 从接受的arp信息添加arp地址
+			// Add arp address from accepted arp information
 			addr := &arpdis.Addr{
 				IP:           append([]byte{}, dst.IP...),
 				HardwareAddr: append([]byte{}, dst.HardwareAddr...),
@@ -261,11 +261,11 @@ func allTapRead(ifce LinkDriver, cSess *sessdata.ConnSession) {
 			arpdis.Add(addr)
 
 			pl := getPayload()
-			// 设置为二层数据类型
+			// Set to layer 2 data type
 			pl.LType = sessdata.LTypeEthernet
-			// 拷贝数据到pl
+			// Copy data to pl
 			copy(pl.Data, data)
-			// 更新切片长度
+			// Update slice length
 			pl.Data = pl.Data[:len(data)]
 
 			if payloadIn(cSess, pl) {

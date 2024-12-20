@@ -171,7 +171,7 @@ func httpParser(data []byte) (uint8, string) {
 	return acc_proto_tcp, ""
 }
 
-// 校验域名的合法字符, 处理乱码问题
+// Verify the legal characters of the domain name and solve the problem of garbled characters
 func validDomainChar(addr string) bool {
 	// Allow a-z A-Z . - 0-9
 	for i := 0; i < len(addr); i++ {

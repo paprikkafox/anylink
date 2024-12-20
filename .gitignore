@@ -1,5 +1,6 @@
 # Binaries for programs and plugins
 .idea/
+.vscode/
 anylink-deploy
 anylink-deploy.tar.gz
 anylink-deploy-*

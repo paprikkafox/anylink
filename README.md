@@ -1,22 +1,22 @@
 # AnyLink
 
-[![Go](https://github.com/bjdgyc/anylink/workflows/Go/badge.svg?branch=main)](https://github.com/bjdgyc/anylink/actions)
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/bjdgyc/anylink)](https://pkg.go.dev/github.com/bjdgyc/anylink)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bjdgyc/anylink)](https://goreportcard.com/report/github.com/bjdgyc/anylink)
-[![codecov](https://codecov.io/gh/bjdgyc/anylink/graph/badge.svg?token=JTFLIIIBQ0)](https://codecov.io/gh/bjdgyc/anylink)
-![GitHub release](https://img.shields.io/github/v/release/bjdgyc/anylink)
-![GitHub downloads total)](https://img.shields.io/github/downloads/bjdgyc/anylink/total)
-![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/bjdgyc/anylink/latest/total)
-[![Docker pulls)](https://img.shields.io/docker/pulls/bjdgyc/anylink.svg)](https://hub.docker.com/r/bjdgyc/anylink)
-![LICENSE](https://img.shields.io/github/license/bjdgyc/anylink)
+[![Go](https://github.com/paprikkafox/anylink/workflows/Go/badge.svg?branch=main)](https://github.com/paprikkafox/anylink/actions)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/paprikkafox/anylink)](https://pkg.go.dev/github.com/paprikkafox/anylink)
+[![Go Report Card](https://goreportcard.com/badge/github.com/paprikkafox/anylink)](https://goreportcard.com/report/github.com/paprikkafox/anylink)
+[![codecov](https://codecov.io/gh/paprikkafox/anylink/graph/badge.svg?token=JTFLIIIBQ0)](https://codecov.io/gh/paprikkafox/anylink)
+![GitHub release](https://img.shields.io/github/v/release/paprikkafox/anylink)
+![GitHub downloads total)](https://img.shields.io/github/downloads/paprikkafox/anylink/total)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/paprikkafox/anylink/latest/total)
+[![Docker pulls)](https://img.shields.io/docker/pulls/paprikkafox/anylink.svg)](https://hub.docker.com/r/paprikkafox/anylink)
+![LICENSE](https://img.shields.io/github/license/paprikkafox/anylink)
 
 AnyLink 是一个企业级远程办公 sslvpn 的软件，可以支持多人同时在线使用。
 
 ## Repo
 
-> github: https://github.com/bjdgyc/anylink
+> github: https://github.com/paprikkafox/anylink
 
-> gitee: https://gitee.com/bjdgyc/anylink
+> gitee: https://gitee.com/paprikkafox/anylink
 
 ## Introduction
 
@@ -47,9 +47,9 @@ AnyLink 服务端仅在 CentOS 7、CentOS 8、Ubuntu 18.04、Ubuntu 20.04 测试
 
 > 没有编程基础的同学建议直接下载 release 包，从下面的地址下载 anylink-deploy.tar.gz
 >
-> https://github.com/bjdgyc/anylink/releases
+> https://github.com/paprikkafox/anylink/releases
 >
-> https://gitee.com/bjdgyc/anylink/releases
+> https://gitee.com/paprikkafox/anylink/releases
 >
 > 如果不会安装，可以提供有偿远程协助服务(200 CNY)。添加QQ(68492170)联系我
 >
@@ -78,7 +78,7 @@ AnyLink 服务端仅在 CentOS 7、CentOS 8、Ubuntu 18.04、Ubuntu 20.04 测试
 > 需要提前安装好 docker
 
 ```shell
-git clone https://github.com/bjdgyc/anylink.git
+git clone https://github.com/paprikkafox/anylink.git
 
 # docker编译 参考软件版本(不需要安装)
 # go 1.20.12
@@ -355,39 +355,39 @@ ipv4_end = "10.1.2.200"
 
 |    支持设备/平台    |       DockerHub       |                             阿里云镜像仓库                             |
 |:-------------:|:---------------------:|:---------------------------------------------------------------:|
-| x86_64/amd64  | bjdgyc/anylink:latest |     registry.cn-hangzhou.aliyuncs.com/bjdgyc/anylink:latest     |
-| x86_64/amd64  | bjdgyc/anylink:0.12.2 |     registry.cn-hangzhou.aliyuncs.com/bjdgyc/anylink:0.12.2     |
-| armv8/aarch64 | bjdgyc/anylink:latest | registry.cn-hangzhou.aliyuncs.com/bjdgyc/anylink:arm64v8-latest |
-| armv8/aarch64 | bjdgyc/anylink:0.12.2 | registry.cn-hangzhou.aliyuncs.com/bjdgyc/anylink:arm64v8-0.12.2 |
+| x86_64/amd64  | paprikkafox/anylink:latest |     registry.cn-hangzhou.aliyuncs.com/paprikkafox/anylink:latest     |
+| x86_64/amd64  | paprikkafox/anylink:0.12.2 |     registry.cn-hangzhou.aliyuncs.com/paprikkafox/anylink:0.12.2     |
+| armv8/aarch64 | paprikkafox/anylink:latest | registry.cn-hangzhou.aliyuncs.com/paprikkafox/anylink:arm64v8-latest |
+| armv8/aarch64 | paprikkafox/anylink:0.12.2 | registry.cn-hangzhou.aliyuncs.com/paprikkafox/anylink:arm64v8-0.12.2 |
 
 1. 获取镜像
    ```bash
    # 具体tag可以从docker hub获取
-   # https://hub.docker.com/r/bjdgyc/anylink/tags
-   docker pull bjdgyc/anylink:latest
-   docker pull registry.cn-hangzhou.aliyuncs.com/bjdgyc/anylink:latest
+   # https://hub.docker.com/r/paprikkafox/anylink/tags
+   docker pull paprikkafox/anylink:latest
+   docker pull registry.cn-hangzhou.aliyuncs.com/paprikkafox/anylink:latest
    ```
 
 2. 查看命令信息
    ```bash
-   docker run -it --rm bjdgyc/anylink -h
+   docker run -it --rm paprikkafox/anylink -h
    ```
 
 3. 生成密码
    ```bash
-   docker run -it --rm bjdgyc/anylink tool -p 123456
+   docker run -it --rm paprikkafox/anylink tool -p 123456
    #Passwd:$2a$10$lCWTCcGmQdE/4Kb1wabbLelu4vY/cUwBwN64xIzvXcihFgRzUvH2a
    ```
 
 4. 生成 jwt secret
    ```bash
-   docker run -it --rm bjdgyc/anylink tool -s
+   docker run -it --rm paprikkafox/anylink tool -s
    #Secret:9qXoIhY01jqhWIeIluGliOS4O_rhcXGGGu422uRZ1JjZxIZmh17WwzW36woEbA
    ```
 
 5. 查看所有配置项
    ```bash
-   docker run -it --rm bjdgyc/anylink tool -d
+   docker run -it --rm paprikkafox/anylink tool -d
    ```
 
 6. 启动容器
@@ -396,7 +396,7 @@ ipv4_end = "10.1.2.200"
    docker run -itd --name anylink --privileged \
        -p 443:443 -p 8800:8800 -p 443:443/udp \
        --restart=always \
-       bjdgyc/anylink
+       paprikkafox/anylink
    
    # 自定义配置目录
    # 首次启动会自动创建配置文件
@@ -405,7 +405,7 @@ ipv4_end = "10.1.2.200"
        -p 443:443 -p 8800:8800 -p 443:443/udp \
        -v /home/myconf:/app/conf \
        --restart=always \
-       bjdgyc/anylink
+       paprikkafox/anylink
    
    docker restart anylink
    ```
@@ -419,14 +419,14 @@ ipv4_end = "10.1.2.200"
        -p 443:443 -p 8800:8800 -p 443:443/udp \
        -v /home/myconf:/app/conf \
        --restart=always \
-       bjdgyc/anylink \
+       paprikkafox/anylink \
        --ip_lease=1209600 # IP地址租约时长
    ```
 
 7. 构建镜像 (非必需)
    ```bash
    #获取仓库源码
-   git clone https://github.com/bjdgyc/anylink.git
+   git clone https://github.com/paprikkafox/anylink.git
    # 构建镜像
    sh build_docker.sh
    或
@@ -450,7 +450,7 @@ ipv4_end = "10.1.2.200"
 ## Support Document
 
 - [三方文档-男孩的天职](https://note.youdao.com/s/X4AxyWfL)
-- [三方文档-issues](https://github.com/bjdgyc/anylink/issues)
+- [三方文档-issues](https://github.com/paprikkafox/anylink/issues)
 - [三方文档-思有云](https://www.ioiox.com/archives/128.html)
 - [三方文档-杨杨得亿](https://yangpin.link/archives/1897.html)  [Windows电脑连接步骤-杨杨得亿](https://yangpin.link/archives/1697.html)
 

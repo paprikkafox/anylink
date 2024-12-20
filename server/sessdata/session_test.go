@@ -61,6 +61,6 @@ func TestConnSession(t *testing.T) {
 
 	cSess.Close()
 
-	// 等待日志执行完成
+	// Wait for log execution to complete
 	time.Sleep(time.Second * 10)
 }

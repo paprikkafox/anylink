@@ -1,57 +1,53 @@
 ## Donate
 
-> 如果您觉得 AnyLink 对你有帮助，欢迎给我们打赏，也是帮助 AnyLink 更好的发展。
+> If you think AnyLink is helpful to you, you are welcome to give us a reward, which will also help AnyLink develop better.
 
 <p>
-    <img src="screenshot/wxpay2.png" width="435" alt="anylink捐赠二维码" />
+    <img src="screenshot/wxpay2.png" width="435" alt="anylink donation QR code" />
 </p>
 
 ## Donator
 
-> 感谢以下同学的打赏，AnyLink 有你更美好！
+> Thanks to the following students for their tips, AnyLink will be better with you!
 >
-> 需要展示主页的同学，可以在QQ群 直接联系我添加。
+> Students who need to display their homepage can contact me directly in the QQ group to add them.
 
-| 昵称          | 主页 / 联系方式                    |
+| Nickname | Home /Contact |
 |-------------|------------------------------|
-| 代码 oo8      |                              |
-| 甘磊          | https://github.com/ganlei333 |
-| Oo@         | https://github.com/chooop    |
-| 虚极静笃        |                              |
-| 请喝可乐        |                              |
-| 加油加油        |                              |
-| 李建          |                              |
-| lanbin      |                              |
-| 乐在东途        |                              |
-| 孤鸿          |                              |
-| 刘国华         |                              |
-| 改名好无聊       |                              |
-| 全能互联网专家     |                              |
-| JCM         |                              |
-| Eh...       |                              |
-| 沉           |                              |
-| 刘国华         |                              |
-| 忧郁的豚骨拉面     |                              |
-| 张小旋当爹地      |                              |
-| 对方正在输入      |                              |
-| Ronny       |                              |
-| 奔跑的少年       |                              |
-| ZBW         |                              |
-| 悲鸣          |                              |
-| 谢谢          |                              |
-| 云思科技        |                              |
-| 哆啦A伟(张佳伟)   |                              |
-| 人类的悲欢并不相通   |                              |
-| 做人要低调       |                              |
-| 洛洛          |                              |
-| Dragon Liao |                              |
-| 诸葛御风        |                              |
-| 杨杨得亿        |                              |
-| Thanataos   |                              |
-| 憨大叔         |                              |
-| 明月          |                              |
-| Amis        |                              |
-
-
-
-
+| Code oo8 | |
+| Gan Lei | https://github.com/ganlei333 |
+| Oo@ | https://github.com/chooop |
+| Xujijingdu | |
+| A Coke please | |
+| Come on, come on | |
+| Li Jian | |
+| lanbin | |
+| Enjoy the journey eastward | |
+| Guhong | |
+| Liu Guohua | |
+| Changing the name is so boring | |
+| All-around Internet Expert | |
+| JCM | |
+| Eh... | |
+| Shen | |
+| Liu Guohua | |
+| Melancholy Tonkotsu Ramen | |
+| Zhang Xiaoxuan becomes a daddy | |
+| The other party is typing | |
+| Ronny | |
+| Running boy | |
+| ZBW | |
+| Wail | |
+| Thank you | |
+| Yunsi Technology | |
+| Doraemon (Zhang Jiawei) | |
+| The joys and sorrows of human beings are not the same | |
+| Be low-key | |
+| Lolo | |
+| Dragon Liao | |
+| Zhuge Yufeng | |
+| Yang Yang Deyi | |
+| Thanataos | |
+| Uncle Silly | |
+| 明月 | |
+| Amis | |

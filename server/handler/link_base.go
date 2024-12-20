@@ -11,12 +11,12 @@ const BufferSize = 2048
 
 type ClientRequest struct {
 	XMLName              xml.Name       `xml:"config-auth"`
-	Client               string         `xml:"client,attr"`                 // 一般都是 vpn
-	Type                 string         `xml:"type,attr"`                   // 请求类型 init logout auth-reply
-	AggregateAuthVersion string         `xml:"aggregate-auth-version,attr"` // 一般都是 2
-	Version              string         `xml:"version"`                     // 客户端版本号
-	GroupAccess          string         `xml:"group-access"`                // 请求的地址
-	GroupSelect          string         `xml:"group-select"`                // 选择的组名
+	Client               string         `xml:"client,attr"`                 // Usually it’s a VPN
+	Type                 string         `xml:"type,attr"`                   // Request type init logout auth-reply
+	AggregateAuthVersion string         `xml:"aggregate-auth-version,attr"` // Usually 2
+	Version              string         `xml:"version"`                     // Client version number
+	GroupAccess          string         `xml:"group-access"`                // Requested address
+	GroupSelect          string         `xml:"group-select"`                // Selected group name
 	SessionId            string         `xml:"session-id"`
 	SessionToken         string         `xml:"session-token"`
 	Auth                 auth           `xml:"auth"`

@@ -49,7 +49,7 @@ func tableLookup(ip net.IP) *Addr {
 		return nil
 	}
 
-	// 判断老化过期时间
+	// Determine aging expiration time
 	tSub := utils.NowSec().Sub(addr.disTime)
 	switch addr.Type {
 	case TypeStatic:
@@ -78,7 +78,7 @@ func Add(addr *Addr) {
 	tableMu.Lock()
 	defer tableMu.Unlock()
 	if a, ok := table[ip]; ok {
-		// 静态地址只能设置一次
+		// Static addresses can only be set once
 		if a.Type == TypeStatic {
 			return
 		}

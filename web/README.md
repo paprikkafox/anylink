@@ -2,9 +2,9 @@
 
 ## Repo
 
-> github: https://github.com/bjdgyc/anylink-web
+> github: https://github.com/paprikkafox/anylink-web
 
-> gitee: https://gitee.com/bjdgyc/anylink-web
+> gitee: https://gitee.com/paprikkafox/anylink-web
 
 ## Project setup
 ```

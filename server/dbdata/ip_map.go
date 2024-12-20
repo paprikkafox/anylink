@@ -12,9 +12,9 @@ type IpMap struct {
 	MacAddr   string    `json:"mac_addr" xorm:"varchar(32) not null unique"`
 	UniqueMac bool      `json:"unique_mac" xorm:"Bool index"`
 	Username  string    `json:"username" xorm:"varchar(60)"`
-	Keep      bool      `json:"keep" xorm:"Bool"` // 保留 ip-mac 绑定
+	Keep      bool      `json:"keep" xorm:"Bool"` // Keep ip-mac binding
 	KeepTime  time.Time `json:"keep_time" xorm:"DateTime"`
-	Note      string    `json:"note" xorm:"varchar(255)"` // 备注
+	Note      string    `json:"note" xorm:"varchar(255)"` // Remark
 	LastLogin time.Time `json:"last_login" xorm:"DateTime"`
 	UpdatedAt time.Time `json:"updated_at" xorm:"DateTime updated"`
 }
@@ -23,14 +23,14 @@ func SetIpMap(v *IpMap) error {
 	var err error
 
 	if len(v.IpAddr) < 4 || len(v.MacAddr) < 6 {
-		return errors.New("IP或MAC错误")
+		return errors.New("IP or MAC error")
 	}
 
 	macHw, err := net.ParseMAC(v.MacAddr)
 	if err != nil {
-		return errors.New("MAC错误")
+		return errors.New("MAC error")
 	}
-	// 统一macAddr的格式
+	// Unify the format of macAddr
 	v.MacAddr = macHw.String()
 
 	v.UpdatedAt = time.Now()

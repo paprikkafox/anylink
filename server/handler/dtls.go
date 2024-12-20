@@ -23,7 +23,7 @@ func startDtls() {
 		return
 	}
 
-	// rsa 兼容 open connect
+	// rsa compatible open connect
 	priv, _ := rsa.GenerateKey(rand.Reader, 2048)
 	certificate, err := selfsign.SelfSign(priv)
 	if err != nil {
@@ -112,7 +112,7 @@ func (ms *sessionStore) Del(key []byte) error {
 	return nil
 }
 
-// 客户端和服务端映射 X-DTLS12-CipherSuite
+// Client and server mapping X-DTLS12-CipherSuite
 var dtlsCipherSuites = map[string]dtls.CipherSuiteID{
 	// "ECDHE-ECDSA-AES256-GCM-SHA384": dtls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
 	// "ECDHE-ECDSA-AES128-GCM-SHA256": dtls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
@@ -128,6 +128,6 @@ func checkDtls12Ciphersuite(ciphersuite string) string {
 			return v
 		}
 	}
-	// 返回默认值
+	// Return to default value
 	return "ECDHE-RSA-AES128-GCM-SHA256"
 }

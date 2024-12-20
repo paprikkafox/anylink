@@ -1,6 +1,6 @@
 services:
   anylink:
-    image: bjdgyc/anylink:latest
+    image: paprikkafox/anylink:latest
     container_name: anylink
     restart: always
     privileged: true

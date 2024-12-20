@@ -48,9 +48,9 @@ func OnlineSess() []Online {
 
 /**
  * @Description: GetOnlineSess
- * @param search_cate 分类：用户名、登录组、MAC地址、IP地址、远端地址
- * @param search_text 关键字，模糊搜索
- * @param show_sleeper 是否显示休眠用户
+ * @param search_cate Category: user name, login group, MAC address, IP address, remote address
+ * @param search_text keyword, fuzzy search
+ * @param show_sleeper Whether to display dormant users
  * @return []Online
  */
 func GetOnlineSess(search_cate string, search_text string, show_sleeper bool) []Online {
@@ -66,7 +66,7 @@ func GetOnlineSess(search_cate string, search_text string, show_sleeper bool) []
 		if cSess == nil {
 			cSess = &ConnSession{}
 		}
-		// 选择需要比较的字符串
+		// Select the string to compare
 		var compareText string
 		switch search_cate {
 		case "username":

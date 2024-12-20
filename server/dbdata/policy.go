@@ -20,10 +20,10 @@ func GetPolicy(Username string) *Policy {
 func SetPolicy(p *Policy) error {
 	var err error
 	if p.Username == "" {
-		return errors.New("用户名错误")
+		return errors.New("Wrong username")
 	}
 
-	// 包含路由
+	// Contains routing
 	routeInclude := []ValData{}
 	for _, v := range p.RouteInclude {
 		if v.Val != "" {
@@ -34,11 +34,11 @@ func SetPolicy(p *Policy) error {
 
 			ipMask, ipNet, err := parseIpNet(v.Val)
 			if err != nil {
-				return errors.New("RouteInclude 错误" + err.Error())
+				return errors.New("RouteIncludeError" + err.Error())
 			}
 
 			if strings.Split(ipMask, "/")[0] != ipNet.IP.String() {
-				errMsg := fmt.Sprintf("RouteInclude 错误: 网络地址错误，建议： %s 改为 %s", v.Val, ipNet)
+				errMsg := fmt.Sprintf("RouteInclude error: Wrong network address, suggestion: change %s to %s", v.Val, ipNet)
 				return errors.New(errMsg)
 			}
 
@@ -47,7 +47,7 @@ func SetPolicy(p *Policy) error {
 		}
 	}
 	p.RouteInclude = routeInclude
-	// 排除路由
+	// exclude route
 	routeExclude := []ValData{}
 	for _, v := range p.RouteExclude {
 		if v.Val != "" {
@@ -57,7 +57,7 @@ func SetPolicy(p *Policy) error {
 			}
 
 			if strings.Split(ipMask, "/")[0] != ipNet.IP.String() {
-				errMsg := fmt.Sprintf("RouteInclude 错误: 网络地址错误，建议： %s 改为 %s", v.Val, ipNet)
+				errMsg := fmt.Sprintf("RouteInclude error: Wrong network address. Recommendation: Change %s to %s", v.Val, ipNet)
 				return errors.New(errMsg)
 			}
 			v.IpMask = ipMask
@@ -66,39 +66,39 @@ func SetPolicy(p *Policy) error {
 	}
 	p.RouteExclude = routeExclude
 
-	// DNS 判断
+	// DNS judgment
 	clientDns := []ValData{}
 	for _, v := range p.ClientDns {
 		if v.Val != "" {
 			ip := net.ParseIP(v.Val)
 			if ip.String() != v.Val {
-				return errors.New("DNS IP 错误")
+				return errors.New("DNS IP mistake")
 			}
 			clientDns = append(clientDns, v)
 		}
 	}
 	if len(routeInclude) == 0 || (len(routeInclude) == 1 && routeInclude[0].Val == "all") {
 		if len(clientDns) == 0 {
-			return errors.New("默认路由，必须设置一个DNS")
+			return errors.New("Default route, a DNS must be set")
 		}
 	}
 	p.ClientDns = clientDns
 
-	// 域名拆分隧道，不能同时填写
+	// Domain name split tunneling, cannot be filled in at the same time
 	p.DsIncludeDomains = strings.TrimSpace(p.DsIncludeDomains)
 	p.DsExcludeDomains = strings.TrimSpace(p.DsExcludeDomains)
 	if p.DsIncludeDomains != "" && p.DsExcludeDomains != "" {
-		return errors.New("包含/排除域名不能同时填写")
+		return errors.New("Include/Excluded domain names cannot be filled in at the same time")
 	}
-	// 校验包含域名的格式
+	// Verify the format containing the domain name
 	err = CheckDomainNames(p.DsIncludeDomains)
 	if err != nil {
-		return errors.New("包含域名有误：" + err.Error())
+		return errors.New("Incorrect domain name included:" + err.Error())
 	}
-	// 校验排除域名的格式
+	// Verify the format of excluded domain names
 	err = CheckDomainNames(p.DsExcludeDomains)
 	if err != nil {
-		return errors.New("排除域名有误：" + err.Error())
+		return errors.New("Wrong domain name to exclude:" + err.Error())
 	}
 
 	p.UpdatedAt = time.Now()

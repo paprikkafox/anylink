@@ -11,10 +11,10 @@ import (
 )
 
 func checkTun() {
-	// 测试ip命令
+	// test ip command
 	base.CheckModOrLoad("tun")
 
-	// 测试tun
+	// Test tun
 	cfg := water.Config{
 		DeviceType: water.TUN,
 	}
@@ -30,25 +30,25 @@ func checkTun() {
 	if err != nil {
 		base.Fatal("testTun err: ", err)
 	}
-	// 开启服务器转发
+	// Enable server forwarding
 	err = execCmd([]string{"sysctl -w net.ipv4.ip_forward=1"})
 	if err != nil {
 		base.Fatal(err)
 	}
 	if base.Cfg.IptablesNat {
-		// 添加NAT转发规则
+		// Add nat forwarding rules
 		ipt, err := iptables.New()
 		if err != nil {
 			base.Fatal(err)
 			return
 		}
 
-		// 修复 rockyos nat 不生效
+		// Fix rockyos nat not taking effect
 		base.CheckModOrLoad("iptable_filter")
 		base.CheckModOrLoad("iptable_nat")
 		// base.CheckModOrLoad("xt_comment")
 
-		// 添加注释
+		// Add comment
 		natRule := []string{"-s", base.Cfg.Ipv4CIDR, "-o", base.Cfg.Ipv4Master, "-m", "comment",
 			"--comment", "AnyLink", "-j", "MASQUERADE"}
 		if base.InContainer {
@@ -59,7 +59,7 @@ func checkTun() {
 			base.Error(err)
 		}
 
-		// 添加注释
+		// Add comment
 		forwardRule := []string{"-m", "comment", "--comment", "AnyLink", "-j", "ACCEPT"}
 		if base.InContainer {
 			forwardRule = []string{"-j", "ACCEPT"}
@@ -74,7 +74,7 @@ func checkTun() {
 	}
 }
 
-// 创建tun网卡
+// Create tun network card
 func LinkTun(cSess *sessdata.ConnSession) error {
 	cfg := water.Config{
 		DeviceType: water.TUN,
@@ -88,7 +88,7 @@ func LinkTun(cSess *sessdata.ConnSession) error {
 	// log.Printf("Interface Name: %s\n", ifce.Name())
 	cSess.SetIfName(ifce.Name())
 
-	// 通过 ip link show  查看 alias 信息
+	// View alias information through ip link show
 	alias := utils.ParseName(cSess.Group.Name + "." + cSess.Username)
 	cmdstr1 := fmt.Sprintf("ip link set dev %s up mtu %d multicast off alias %s", ifce.Name(), cSess.Mtu, alias)
 	cmdstr2 := fmt.Sprintf("ip addr add dev %s local %s peer %s/32",
@@ -156,7 +156,7 @@ func tunRead(ifce *water.Interface, cSess *sessdata.ConnSession) {
 			return
 		}
 
-		// 更新数据长度
+		// Update data length
 		pl.Data = (pl.Data)[:n]
 
 		// data = data[:n]

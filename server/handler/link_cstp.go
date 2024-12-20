@@ -34,7 +34,7 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 
 	for {
 
-		// 设置超时限制
+		// Set timeout limit
 		err = conn.SetReadDeadline(utils.NowSec().Add(dead))
 		if err != nil {
 			base.Error("SetDeadline: ", cSess.Username, cSess.IpAddr, err)
@@ -48,7 +48,7 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 			return
 		}
 
-		// 限流设置
+		// Current limiting settings
 		err = cSess.RateLimit(n, true)
 		if err != nil {
 			base.Error(err)
@@ -58,7 +58,7 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 		case 0x07: // KEEPALIVE
 			// do nothing
 			base.Trace("recv LinkCstp Keepalive", cSess.Username, cSess.IpAddr, conn.RemoteAddr())
-			// 判断超时时间
+			// Determine timeout time
 			if checkIdle {
 				lastTime = cSess.LastDataTime.Load()
 				if lastTime < (utils.NowSec().Unix() - idle) {
@@ -67,12 +67,12 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 					return
 				}
 			}
-		case 0x05: // DISCONNECT
+		case 0x05: // Disconnect
 			cSess.UserLogoutCode = dbdata.UserLogoutClient
 			base.Info("DISCONNECT", cSess.Username, cSess.IpAddr, conn.RemoteAddr(), n, string(pl.Data[9:n]))
 			sessdata.CloseSess(cSess.Sess.Token, dbdata.UserLogoutClient)
 			return
-		case 0x03: // DPD-REQ
+		case 0x03: // Dpd req
 			base.Trace("recv LinkCstp DPD-REQ", cSess.Username, cSess.IpAddr, conn.RemoteAddr(), n, pl.Data[:n])
 			pl.PType = 0x04
 			// pl.Data = pl.Data[:n]
@@ -81,7 +81,7 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 			}
 		case 0x04:
 			base.Trace("recv LinkCstp DPD-RESP", cSess.Username, cSess.IpAddr, conn.RemoteAddr())
-		case 0x08: // decompress
+		case 0x08: // Decompress
 			if cSess.CstpPickCmp == nil {
 				continue
 			}
@@ -97,22 +97,22 @@ func LinkCstp(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessio
 			putByte(dst)
 			fallthrough
 		case 0x00: // DATA
-			// 获取数据长度
+			// Get data length
 			dataLen = binary.BigEndian.Uint16(pl.Data[4:6]) // 4,5
-			// 修复 cstp 数据长度溢出报错
+			// Fix cstp data length overflow error
 			if 8+dataLen > BufferSize {
 				base.Error("recv error dataLen", cSess.Username, dataLen)
 				continue
 			}
-			// 去除数据头
+			// Remove header
 			copy(pl.Data, pl.Data[8:8+dataLen])
-			// 更新切片长度
+			// Update slice length
 			pl.Data = pl.Data[:dataLen]
 			// pl.Data = append(pl.Data[:0], pl.Data[8:8+dataLen]...)
 			if payloadIn(cSess, pl) {
 				return
 			}
-			// 只记录返回正确的数据时间
+			// Only record the time when correct data is returned
 			cSess.LastDataTime.Store(utils.NowSec().Unix())
 		}
 	}
@@ -157,20 +157,20 @@ func cstpWrite(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessi
 				putByte(dst)
 			}
 			if !isCompress {
-				// 获取数据长度
+				// Get data length
 				l := len(pl.Data)
-				// 先扩容 +8
+				// Expand capacity first +8
 				pl.Data = pl.Data[:l+8]
-				// 数据后移
+				// Data move back
 				copy(pl.Data[8:], pl.Data)
-				// 添加头信息
+				// Add header information
 				copy(pl.Data[:8], plHeader)
-				// 更新头长度
+				// Update header length
 				binary.BigEndian.PutUint16(pl.Data[4:6], uint16(l))
 			}
 		} else {
 			pl.Data = append(pl.Data[:0], plHeader...)
-			// 设置头类型
+			// Set header type
 			pl.Data[6] = pl.PType
 		}
 
@@ -182,7 +182,7 @@ func cstpWrite(conn net.Conn, bufRW *bufio.ReadWriter, cSess *sessdata.ConnSessi
 
 		putPayload(pl)
 
-		// 限流设置
+		// Current limiting settings
 		err = cSess.RateLimit(n, false)
 		if err != nil {
 			base.Error(err)

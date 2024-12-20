@@ -11,7 +11,7 @@ function RETVAL() {
   fi
 }
 
-#当前目录
+#current directory
 cpath=$(pwd)
 
 ver=$(cat version)
@@ -22,13 +22,13 @@ mkdir artifact-dist
 
 function archive() {
   arch=$1
-  #echo "整理部署文件 $arch"
+  #echo "Organize deployment files $arch"
   arch_name=${arch//\//-}
   echo $arch_name
 
   deploy="anylink-$ver-$arch_name"
   docker container rm $deploy
-  docker container create --platform $arch --name $deploy bjdgyc/anylink:$ver
+  docker container create --platform $arch --name $deploy paprikkafox/anylink:$ver
   rm -rf anylink-deploy
   docker cp -a $deploy:/app ./anylink-deploy
 
@@ -45,6 +45,6 @@ archive "linux/arm64"
 
 ls -lh artifact-dist
 
-#注意使用root权限运行
+#Note to run with root privileges
 #cd anylink-deploy
 #sudo ./anylink --conf="conf/server.toml"

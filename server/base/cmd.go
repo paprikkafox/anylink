@@ -16,15 +16,15 @@ import (
 )
 
 var (
-	// pass明文
+	// pass plain text
 	passwd string
-	// 生成otp
+	// generate otp
 	otp bool
-	// 生成密钥
+	// Generate key
 	secret bool
-	// 显示版本信息
+	// Show version information
 	rev bool
-	// 输出debug信息
+	// Output debug information
 	debug bool
 
 	// Used for flags.
@@ -72,7 +72,7 @@ func execute() {
 		os.Exit(0)
 	}
 
-	// 移动配置解析代码
+	// Mobile configuration parsing code
 	conf := linkViper.GetString("conf")
 	linkViper.SetConfigFile(conf)
 	err = linkViper.ReadInConfig()
@@ -101,7 +101,7 @@ func initCmd() {
 
 	linkViper.SetEnvPrefix("link")
 
-	// 基础配置
+	// Basic configuration
 	for _, v := range configs {
 		if v.Typ == cfgStr {
 			rootCmd.Flags().StringP(v.Name, v.Short, v.ValStr, v.Usage)

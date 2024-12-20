@@ -15,33 +15,33 @@ func TestCheckUser(t *testing.T) {
 
 	group := "group1"
 
-	// 添加一个组
+	// add a group
 	dns := []ValData{{Val: "114.114.114.114"}}
 	route := []ValData{{Val: "192.168.1.0/24"}}
 	g := Group{Name: group, Status: 1, ClientDns: dns, RouteInclude: route}
 	err := SetGroup(&g)
 	ast.Nil(err)
-	// 判断 IpMask
+	// Judgment IpMask
 	ast.Equal(g.RouteInclude[0].IpMask, "192.168.1.0/255.255.255.0")
 
-	// 添加一个用户
+	// add a user
 	u := User{Username: "aaa", Groups: []string{group}, Status: 1}
 	err = SetUser(&u)
 	ast.Nil(err)
 
-	// 验证 PinCode + OtpSecret
+	// Verify PinCode + OtpSecret
 	totp := gotp.NewDefaultTOTP(u.OtpSecret)
 	secret := totp.Now()
 	err = CheckUser("aaa", u.PinCode+secret, group)
 	ast.Nil(err)
 
-	// 单独验证密码
+	// Verify password individually
 	u.DisableOtp = true
 	_ = SetUser(&u)
 	err = CheckUser("aaa", u.PinCode, group)
 	ast.Nil(err)
 
-	// 添加一个radius组
+	// Add a radius group
 	group2 := "group2"
 	authData := map[string]interface{}{
 		"type": "radius",
@@ -55,9 +55,9 @@ func TestCheckUser(t *testing.T) {
 	ast.Nil(err)
 	err = CheckUser("aaa", "bbbbbbb", group2)
 	if ast.NotNil(err) {
-		ast.Equal("aaa Radius服务器连接异常, 请检测服务器和端口", err.Error())
+		ast.Equal("aaa Radius server connection exception, Please check the server and port", err.Error())
 	}
-	// 添加用户策略
+	// Add user policy
 	dns2 := []ValData{{Val: "8.8.8.8"}}
 	route2 := []ValData{{Val: "192.168.2.0/24"}}
 	p1 := Policy{Username: "aaa", Status: 1, ClientDns: dns2, RouteInclude: route2}
@@ -65,7 +65,7 @@ func TestCheckUser(t *testing.T) {
 	ast.Nil(err)
 	err = CheckUser("aaa", u.PinCode, group)
 	ast.Nil(err)
-	// 添加一个ldap组
+	// Add an ldap group
 	group3 := "group3"
 	authData = map[string]interface{}{
 		"type": "ldap",
@@ -85,6 +85,6 @@ func TestCheckUser(t *testing.T) {
 	ast.Nil(err)
 	err = CheckUser("aaa", "bbbbbbb", group3)
 	if ast.NotNil(err) {
-		ast.Equal("aaa LDAP服务器连接异常, 请检测服务器和端口", err.Error())
+		ast.Equal("aaa LDAP server connection exception, Please check the server and port", err.Error())
 	}
 }

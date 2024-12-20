@@ -55,7 +55,7 @@ func CheckModOrLoad(mod string) {
 	if mod == "tun" || mod == "tap" {
 		_, err = os.Stat(tunPath)
 		if err == nil {
-			// 文件存在
+			// File exists
 			return
 		}
 		// err = fmt.Errorf("[error] Linux tunFile is null %s", tunPath)

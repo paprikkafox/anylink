@@ -43,12 +43,12 @@ func CustomCert(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if tlscert, _, err := dbdata.ParseCert(); err != nil {
-		RespError(w, RespInternalErr, fmt.Sprintf("证书不合法，请重新上传:%v", err))
+		RespError(w, RespInternalErr, fmt.Sprintf("The certificate is invalid, please upload again:%v", err))
 		return
 	} else {
 		dbdata.LoadCertificate(tlscert)
 	}
-	RespSucess(w, "上传成功")
+	RespSucess(w, "Upload successful")
 }
 func GetCertSetting(w http.ResponseWriter, r *http.Request) {
 	sess := dbdata.GetXdb().NewSession()
@@ -87,13 +87,13 @@ func CreatCert(w http.ResponseWriter, r *http.Request) {
 	client := dbdata.LeGoClient{}
 	if err := client.NewClient(config); err != nil {
 		base.Error(err)
-		RespError(w, RespInternalErr, fmt.Sprintf("获取证书失败:%v", err))
+		RespError(w, RespInternalErr, fmt.Sprintf("Failed to obtain certificate:%v", err))
 		return
 	}
 	if err := client.GetCert(config.Domain); err != nil {
 		base.Error(err)
-		RespError(w, RespInternalErr, fmt.Sprintf("获取证书失败:%v", err))
+		RespError(w, RespInternalErr, fmt.Sprintf("Failed to obtain certificate:%v", err))
 		return
 	}
-	RespSucess(w, "生成证书成功")
+	RespSucess(w, "Certificate generation successful")
 }

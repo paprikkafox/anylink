@@ -18,11 +18,11 @@ case $var1 in
   #iptables -t nat -A POSTROUTING -s "${IPV4_CIDR}" -o eth0+ -j MASQUERADE
   #iptables -nL -t nat
 
-  # 启动服务 先判断配置文件是否存在
+  # Start the service and first determine whether the configuration file exists
   if [ ! -f /app/conf/profile.xml ]; then
     /bin/cp -r /home/conf-bak/* /app/conf/
     echo "After the configuration file is initialized, the container will be forcibly exited. Restart the container."
-    echo "配置文件初始化完成后，容器会强制退出，请重新启动容器。"
+    echo "After the configuration file initialization is completed, the container will be forced to exit. Please restart the container.。"
     exit 1
   fi
 

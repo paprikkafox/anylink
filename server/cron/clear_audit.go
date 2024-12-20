@@ -5,13 +5,13 @@ import (
 	"github.com/bjdgyc/anylink/dbdata"
 )
 
-// 清除访问审计日志
+// Clear access audit logs
 func ClearAudit() {
 	lifeDay, timesUp := isClearTime()
 	if !timesUp {
 		return
 	}
-	// 当审计日志永久保存，则退出
+	// When the audit log is saved permanently, exit
 	if lifeDay <= 0 {
 		return
 	}

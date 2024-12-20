@@ -11,13 +11,13 @@ function RETVAL() {
   fi
 }
 
-#当前目录
+#current directory
 cpath=$(pwd)
 
 ver=$(cat version)
 echo $ver
 
-#前端编译 仅需要执行一次
+#Front-end compilation only needs to be executed once
 #bash ./build_web.sh
 
 echo "copy二进制文件"
@@ -43,18 +43,18 @@ EOF
 )
 
 # golang:1.20-alpine3.19
-#使用 musl-dev 编译
+#Compile using musl-dev
 docker run -q --rm -v $PWD/server:/app -v $gopath:/go -w /app --platform=linux/amd64 \
   golang:1.22-alpine3.19 sh -c "$dockercmd"
 
-#arm64编译
+#arm64 compilation
 #docker run -q --rm -v $PWD/server:/app -v $gopath:/go -w /app --platform=linux/arm64 \
 #  golang:1.20-alpine3.19 go build -o anylink_arm64 $flags -ldflags "$ldflags"
 #exit 0
 
 #cd $cpath
 
-echo "整理部署文件"
+echo "Organize deployment files"
 rm -rf anylink-deploy anylink-deploy.tar.gz
 mkdir anylink-deploy
 mkdir anylink-deploy/log
@@ -68,6 +68,6 @@ cp -r LICENSE anylink-deploy
 
 tar zcvf anylink-deploy.tar.gz anylink-deploy
 
-#注意使用root权限运行
+#Note to run with root privileges
 #cd anylink-deploy
 #sudo ./anylink --conf="conf/server.toml"

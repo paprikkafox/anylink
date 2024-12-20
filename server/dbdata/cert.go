@@ -214,7 +214,7 @@ func (c *LeGoClient) NewClient(l *SettingLetsEncrypt) error {
 }
 
 func (c *LeGoClient) GetCert(domain string) error {
-	// 申请证书
+	// Apply for a certificate
 	certificates, err := c.Client.Certificate.Obtain(
 		certificate.ObtainRequest{
 			Domains: []string{domain},
@@ -224,7 +224,7 @@ func (c *LeGoClient) GetCert(domain string) error {
 		return err
 	}
 	c.Cert = certificates
-	// 保存证书
+	// save certificate
 	if err := c.SaveCert(); err != nil {
 		return err
 	}
@@ -240,7 +240,7 @@ func (c *LeGoClient) RenewCert(certFile, keyFile string) error {
 	if err != nil {
 		return err
 	}
-	// 续期证书
+	// Renew certificate
 	renewcert, err := c.Client.Certificate.Renew(certificate.Resource{
 		Certificate: cert,
 		PrivateKey:  key,
@@ -249,7 +249,7 @@ func (c *LeGoClient) RenewCert(certFile, keyFile string) error {
 		return err
 	}
 	c.Cert = renewcert
-	// 保存更新证书
+	// Save updated certificate
 	if err := c.SaveCert(); err != nil {
 		return err
 	}
@@ -295,11 +295,11 @@ func ParseCert() (*tls.Certificate, *time.Time, error) {
 }
 
 func PrivateCert() error {
-	// 创建一个RSA密钥对
+	// Create an rsa key pair
 	priv, _ := rsa.GenerateKey(rand.Reader, 2048)
 	pub := &priv.PublicKey
 
-	// 生成一个自签名证书
+	// Generate a self-signed certificate
 	template := x509.Certificate{
 		SerialNumber:          big.NewInt(1658),
 		Subject:               pkix.Name{CommonName: "localhost"},
@@ -316,12 +316,12 @@ func PrivateCert() error {
 		return err
 	}
 
-	// 将证书编码为PEM格式并将其写入文件
+	// Encode the certificate into pem format and write it to a file
 	certOut, _ := os.OpenFile(base.Cfg.CertFile, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0600)
 	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 	certOut.Close()
 
-	// 将私钥编码为PEM格式并将其写入文件
+	// Encode the private key into pem format and write it to a file
 	keyOut, _ := os.OpenFile(base.Cfg.CertKey, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(priv)})
 	keyOut.Close()
@@ -360,7 +360,7 @@ func GetCertificateBySNI(commonName string) (*tls.Certificate, error) {
 			return cert, nil
 		}
 	}
-	// TODO 默认证书 兼容不支持 SNI 的客户端
+	// TODO default certificate compatible with clients that do not support SNI
 	if cert, ok := nameToCertificate["default"]; ok {
 		return cert, nil
 	}
@@ -377,7 +377,7 @@ func buildNameToCertificate(cert *tls.Certificate) {
 	ntcMux.Lock()
 	defer ntcMux.Unlock()
 
-	// TODO 设置默认证书
+	// TODO Set default certificate
 	nameToCertificate["default"] = cert
 
 	x509Cert, err := x509.ParseCertificate(cert.Certificate[0])

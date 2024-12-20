@@ -42,7 +42,7 @@ func UserIpMapDetail(w http.ResponseWriter, r *http.Request) {
 	idS := r.FormValue("id")
 	id, _ := strconv.Atoi(idS)
 	if id < 1 {
-		RespError(w, RespParamErr, "用户名错误")
+		RespError(w, RespParamErr, "Wrong username")
 		return
 	}
 
@@ -91,7 +91,7 @@ func UserIpMapDel(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(idS)
 
 	if id < 1 {
-		RespError(w, RespParamErr, "IP映射id错误")
+		RespError(w, RespParamErr, "IP mapping id error")
 		return
 	}
 

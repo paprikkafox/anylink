@@ -14,7 +14,7 @@ import (
 const (
 	LayoutTimeFormat    = "2006-01-02 15:04:05"
 	LayoutTimeFormatMin = "2006-01-02 15:04"
-	RealTimeMaxSize     = 120 // 实时数据最大保存条数
+	RealTimeMaxSize     = 120 // Maximum number of real-time data saved
 )
 
 type StatsInfo struct {
@@ -45,7 +45,7 @@ func init() {
 	}
 }
 
-// 校验统计类型值
+// Check statistics type value
 func (s *StatsInfo) ValidAction(action string) bool {
 	for _, item := range s.Actions {
 		if item == action {
@@ -55,7 +55,7 @@ func (s *StatsInfo) ValidAction(action string) bool {
 	return false
 }
 
-// 校验日期范围值
+// Check date range value
 func (s *StatsInfo) ValidScope(scope string) bool {
 	for _, item := range s.Scopes {
 		if item == scope {
@@ -65,7 +65,7 @@ func (s *StatsInfo) ValidScope(scope string) bool {
 	return false
 }
 
-// 设置实时统计数据
+// Set up real-time statistics
 func (s *StatsInfo) SetRealTime(action string, val interface{}) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
@@ -77,7 +77,7 @@ func (s *StatsInfo) SetRealTime(action string, val interface{}) {
 	s.RealtimeData[action].PushBack(val)
 }
 
-// 获取实时统计数据
+// Get real-time statistics
 func (s *StatsInfo) GetRealTime(action string) (res []interface{}) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
@@ -88,7 +88,7 @@ func (s *StatsInfo) GetRealTime(action string) (res []interface{}) {
 	return
 }
 
-// 保存数据至数据库
+// Save data to database
 func (s *StatsInfo) SaveStatsInfo(so StatsOnline, sn StatsNetwork, sc StatsCpu, sm StatsMem) {
 	if so.Num != 0 {
 		_ = Add(so)
@@ -104,7 +104,7 @@ func (s *StatsInfo) SaveStatsInfo(so StatsOnline, sn StatsNetwork, sc StatsCpu, 
 	}
 }
 
-// 获取统计数据
+// Get statistics
 func (s *StatsInfo) GetData(action string, scope string) (res []interface{}, err error) {
 	if scope == "rt" {
 		return s.GetRealTime(action), nil
@@ -112,17 +112,17 @@ func (s *StatsInfo) GetData(action string, scope string) (res []interface{}, err
 	statsMaps := make(map[string]interface{})
 	currSec := fmt.Sprintf("%02d", time.Now().Second())
 
-	// 获取时间段数据
+	// Get time period data
 	sd := s.getScopeDetail(scope)
 	timeList := s.getTimeList(sd)
 	res = make([]interface{}, len(timeList))
 
-	// 获取数据库查询条件
+	// Get database query conditions
 	where := s.getStatsWhere(sd)
 	if where == "" {
-		return nil, errors.New("不支持的数据库类型: " + base.Cfg.DbType)
+		return nil, errors.New("Unsupported database type: " + base.Cfg.DbType)
 	}
-	// 查询数据表
+	// Query data table
 	switch action {
 	case "online":
 		statsRes := []StatsOnline{}
@@ -153,7 +153,7 @@ func (s *StatsInfo) GetData(action string, scope string) (res []interface{}, err
 			statsMaps[t] = v
 		}
 	}
-	// 整合数据
+	// Integrate data
 	for i, v := range timeList {
 		if mv, ok := statsMaps[v]; ok {
 			res[i] = mv
@@ -174,7 +174,7 @@ func (s *StatsInfo) GetData(action string, scope string) (res []interface{}, err
 	return
 }
 
-// 获取日期范围的明细值
+// Get detailed values ​​for a date range
 func (s *StatsInfo) getScopeDetail(scope string) (sd *ScopeDetail) {
 	sd = &ScopeDetail{}
 	t := time.Now()
@@ -202,7 +202,7 @@ func (s *StatsInfo) getScopeDetail(scope string) (sd *ScopeDetail) {
 	return
 }
 
-// 针对日期范围进行拆解
+// Split for date range
 func (s *StatsInfo) getTimeList(sd *ScopeDetail) []string {
 	subSec := int64(60 * sd.minutes)
 	count := (sd.eTime.Unix()-sd.sTime.Unix())/subSec - 1
@@ -215,7 +215,7 @@ func (s *StatsInfo) getTimeList(sd *ScopeDetail) []string {
 	return timeLists
 }
 
-// 获取where条件
+// Get where condition
 func (s *StatsInfo) getStatsWhere(sd *ScopeDetail) (where string) {
 	where = "created_at BETWEEN ? AND ?"
 	min := strconv.Itoa(sd.minutes)

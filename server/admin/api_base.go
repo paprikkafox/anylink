@@ -11,9 +11,9 @@ import (
 	"github.com/xlzd/gotp"
 )
 
-// Login 登陆接口
+// Login login interface
 func Login(w http.ResponseWriter, r *http.Request) {
-	// TODO 调试信息输出
+	// TODO debugging information output
 	// hd, _ := httputil.DumpRequest(r, true)
 	// fmt.Println("DumpRequest: ", string(hd))
 
@@ -21,16 +21,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	adminUser := r.PostFormValue("admin_user")
 	adminPass := r.PostFormValue("admin_pass")
 
-	// 启用otp验证
+	// enable otp verification
 	if base.Cfg.AdminOtp != "" {
 		pwd := adminPass
 		pl := len(pwd)
 		if pl < 6 {
 			RespError(w, RespUserOrPassErr)
-			base.Error(adminUser, "管理员otp错误")
+			base.Error(adminUser, "Admin otp error")
 			return
 		}
-		// 判断otp信息
+		// Determine otp information
 		adminPass = pwd[:pl-6]
 		otp := pwd[pl-6:]
 
@@ -40,20 +40,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		if !verify {
 			RespError(w, RespUserOrPassErr)
-			base.Error(adminUser, "管理员otp错误")
+			base.Error(adminUser, "Admin otp error")
 			return
 		}
 	}
 
-	// 认证错误
+	// Authentication error
 	if !(adminUser == base.Cfg.AdminUser &&
 		utils.PasswordVerify(adminPass, base.Cfg.AdminPass)) {
 		RespError(w, RespUserOrPassErr)
-		base.Error(adminUser, "管理员用户名或密码错误")
+		base.Error(adminUser, "Administrator username or password is wrong")
 		return
 	}
 
-	// token有效期
+	// Token validity period
 	expiresAt := time.Now().Unix() + 3600*3
 	jwtData := map[string]interface{}{"admin_user": adminUser}
 	tokenString, err := SetJwtData(jwtData, expiresAt)
@@ -85,7 +85,7 @@ func authMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Headers", "*")
 		if r.Method == http.MethodOptions {
 			// w.WriteHeader(http.StatusOK)
-			// 正式环境不支持 OPTIONS
+			// OPTIONS is not supported in the official environment
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
@@ -94,12 +94,12 @@ func authMiddleware(next http.Handler) http.Handler {
 		name := route.GetName()
 		// fmt.Println("bb", r.URL.Path, name)
 		if utils.InArrStr([]string{"login", "index", "static"}, name) {
-			// 不进行鉴权
+			// No authentication
 			next.ServeHTTP(w, r)
 			return
 		}
 
-		// 进行登陆鉴权
+		// Perform login authentication
 		jwtToken := r.Header.Get("Jwt")
 		if jwtToken == "" {
 			jwtToken = r.FormValue("jwt")

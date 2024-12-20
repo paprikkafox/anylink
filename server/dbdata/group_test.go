@@ -13,7 +13,7 @@ func TestGetGroupNames(t *testing.T) {
 	preIpData()
 	defer closeIpdata()
 
-	// 添加 group
+	// Add group
 	g1 := Group{Name: "g1", ClientDns: []ValData{{Val: "114.114.114.114"}}}
 	err := SetGroup(&g1)
 	ast.Nil(err)
@@ -60,7 +60,7 @@ func TestGetGroupNames(t *testing.T) {
 	err = SetGroup(&g7)
 	ast.Nil(err)
 
-	// 判断所有数据
+	// Judge all data
 	gAll := []string{"g1", "g2", "g3", "g4", "g5", "g6", "g7"}
 	gs := GetGroupNames()
 	for _, v := range gs {

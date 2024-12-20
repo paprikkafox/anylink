@@ -9,10 +9,10 @@ import (
 
 func payloadIn(cSess *sessdata.ConnSession, pl *sessdata.Payload) bool {
 	if pl.LType == sessdata.LTypeIPData && pl.PType == 0x00 {
-		// 进行Acl规则判断
+		// Perform acl rule judgment
 		check := checkLinkAcl(cSess.Group, pl)
 		if !check {
-			// 校验不通过直接丢弃
+			// If the verification fails, it will be discarded directly.
 			return false
 		}
 	}
@@ -28,7 +28,7 @@ func payloadIn(cSess *sessdata.ConnSession, pl *sessdata.Payload) bool {
 }
 
 func putPayloadInBefore(cSess *sessdata.ConnSession, pl *sessdata.Payload) {
-	// 异步审计日志
+	// Asynchronous audit log
 	if base.Cfg.AuditInterval >= 0 {
 		auditPayload.Add(cSess.Username, pl)
 		return
@@ -66,7 +66,7 @@ func payloadOutDtls(cSess *sessdata.ConnSession, dSess *sessdata.DtlsSession, pl
 	return false
 }
 
-// Acl规则校验
+// Acl rule verification
 func checkLinkAcl(group *dbdata.Group, pl *sessdata.Payload) bool {
 	if pl.LType == sessdata.LTypeIPData && pl.PType == 0x00 && len(group.LinkAcl) > 0 {
 	} else {
@@ -78,7 +78,7 @@ func checkLinkAcl(group *dbdata.Group, pl *sessdata.Payload) bool {
 	ipProto := waterutil.IPv4Protocol(pl.Data)
 	// fmt.Println("sent:", ip_dst, ip_port)
 
-	// 优先放行dns端口
+	// Give priority to dns port
 	for _, v := range group.ClientDns {
 		if v.Val == ipDst.String() && ipPort == 53 {
 			return true
@@ -86,9 +86,9 @@ func checkLinkAcl(group *dbdata.Group, pl *sessdata.Payload) bool {
 	}
 
 	for _, v := range group.LinkAcl {
-		// 放行允许ip的ping
+		// Release and allow ping of IP
 		// if v.Ports == nil || len(v.Ports) == 0 {
-		// 	//单端口历史数据兼容
+		// 	//Single port historical data compatible
 		// 	port := uint16(v.Port.(float64))
 		// 	if port == ipPort || port == 0 || ipProto == waterutil.ICMP {
 		// 		if v.Action == dbdata.Allow {
@@ -99,12 +99,12 @@ func checkLinkAcl(group *dbdata.Group, pl *sessdata.Payload) bool {
 		// 	}
 		// } else {
 
-		// 先判断协议
-		// 兼容旧数据 v.Protocol == ""
+		// Judge the agreement first
+		// Compatible with old data v.Protocol == ""
 		if v.Protocol == "" || v.Protocol == dbdata.ALL || v.IpProto == ipProto {
-			// 循环判断ip和端口
+			// Loop to determine IP and port
 			if v.IpNet.Contains(ipDst) {
-				// icmp 不判断端口
+				// icmp does not determine the port
 				if ipProto == waterutil.ICMP {
 					if v.Action == dbdata.Allow {
 						return true

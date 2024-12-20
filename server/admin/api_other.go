@@ -17,7 +17,7 @@ func setOtherGet(data interface{}, w http.ResponseWriter) {
 		RespError(w, RespInternalErr, err)
 		return
 	}
-	// 不明文输出SMTP的密码
+	// Output smtp password without text
 	switch dbdata.StructName(data) {
 	case "SettingSmtp":
 		data.(*dbdata.SettingSmtp).Password = ""
@@ -42,7 +42,7 @@ func setOtherEdit(data interface{}, w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(data)
 	switch dbdata.StructName(data) {
 	case "SettingSmtp":
-		// 密码为空时则不修改
+		// If the password is empty, it will not be modified.
 		smtp := &dbdata.SettingSmtp{}
 		err := dbdata.SettingGet(smtp)
 		if err == nil && data.(*dbdata.SettingSmtp).Password == "" {
@@ -101,12 +101,12 @@ func SetOtherAuditLogEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if data.LifeDay < 0 || data.LifeDay > 365 {
-		RespError(w, RespParamErr, errors.New("日志存储时长范围在 0 ~ 365"))
+		RespError(w, RespParamErr, errors.New("The log storage period ranges from 0 ~ 365"))
 		return
 	}
 	ok, _ := regexp.Match("^([0-9]|0[0-9]|1[0-9]|2[0-3]):([0][0])$", []byte(data.ClearTime))
 	if !ok {
-		RespError(w, RespParamErr, errors.New("每天清理时间填写有误"))
+		RespError(w, RespParamErr, errors.New("The daily cleaning time is incorrectly filled in"))
 		return
 	}
 	err = dbdata.SettingSet(data)

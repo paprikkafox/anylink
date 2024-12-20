@@ -26,19 +26,19 @@ var (
 	logBatch     *LogBatch
 )
 
-// 分析审计日志
+// Analyze audit logs
 type AuditPayload struct {
 	Pool       *grpool.Pool
 	IpAuditMap utils.IMaps
 }
 
-// 保存审计日志
+// Save audit log
 type LogBatch struct {
 	Logs    []dbdata.AccessAudit
 	LogChan chan dbdata.AccessAudit
 }
 
-// 异步写入pool
+// Asynchronously writing to the pool
 func (p *AuditPayload) Add(userName string, pl *sessdata.Payload) {
 	select {
 	case p.Pool.JobQueue <- func() {
@@ -50,7 +50,7 @@ func (p *AuditPayload) Add(userName string, pl *sessdata.Payload) {
 	}
 }
 
-// 数据落盘
+// Data placement
 func (l *LogBatch) Write() {
 	if len(l.Logs) == 0 {
 		return
@@ -59,12 +59,12 @@ func (l *LogBatch) Write() {
 	l.Reset()
 }
 
-// 清空数据
+// Clear data
 func (l *LogBatch) Reset() {
 	l.Logs = []dbdata.AccessAudit{}
 }
 
-// 开启批量写入数据功能
+// Enable batch writing of data
 func logAuditBatch() {
 	if base.Cfg.AuditInterval < 0 {
 		return
@@ -77,13 +77,13 @@ func logAuditBatch() {
 		LogChan: make(chan dbdata.AccessAudit, 10240),
 	}
 	var (
-		limit       = 100 // 超过上限批量写入数据表
+		limit       = 100 // Batch writing to the data table exceeds the upper limit
 		outTime     = time.NewTimer(time.Second)
 		accessAudit = dbdata.AccessAudit{}
 	)
 
 	for {
-		// 重置超时 时间
+		// Reset timeout time
 		outTime.Reset(time.Second * 1)
 		select {
 		case accessAudit = <-logBatch.LogChan:
@@ -100,7 +100,7 @@ func logAuditBatch() {
 	}
 }
 
-// 解析IP包的数据
+// Parse the data of ip packet
 func logAudit(userName string, pl *sessdata.Payload) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -114,9 +114,9 @@ func logAudit(userName string, pl *sessdata.Payload) {
 	}
 
 	ipProto := waterutil.IPv4Protocol(pl.Data)
-	// 访问协议
+	// access agreement
 	var accessProto uint8
-	// 只统计 tcp和udp 的访问
+	// Only count tcp and udp access
 	switch ipProto {
 	case waterutil.TCP:
 		accessProto = acc_proto_tcp
@@ -125,7 +125,7 @@ func logAudit(userName string, pl *sessdata.Payload) {
 	default:
 		return
 	}
-	// IP报文只包含头部信息时, 则打印LOG，并退出
+	// When the IP message only contains header information, print LOG and exit.
 	ipPl := waterutil.IPv4Payload(pl.Data)
 	if len(ipPl) < 4 {
 		base.Error("ipPl len < 4", ipPl, pl.Data)
@@ -135,7 +135,7 @@ func logAudit(userName string, pl *sessdata.Payload) {
 	ipSrc := waterutil.IPv4Source(pl.Data)
 	ipDst := waterutil.IPv4Destination(pl.Data)
 	b := getByte51()
-	// key格式 16字节源IP地址 + 16字节目的IP地址 + 2字节目的端口 + 1字节协议类型 + 16字节域名MD5
+	// Key format: 16-byte source IP address + 16-byte destination IP address + 2-byte destination port + 1-byte protocol type + 16-byte domain name MD5
 	key := *b
 	copy(key[:16], ipSrc)
 	copy(key[16:32], ipDst)
@@ -154,14 +154,14 @@ func logAudit(userName string, pl *sessdata.Payload) {
 		accessProto, info = onTCP(tcpPlData)
 		// HTTPS or HTTP
 		if accessProto != acc_proto_tcp {
-			// 提前存储只含ip数据的key, 避免即记录域名又记录一笔IP数据的记录
+			// Store the key containing only IP data in advance to avoid recording both the domain name and the IP data.
 			ipKey := make([]byte, 51)
 			copy(ipKey, key)
 			ipS := utils.BytesToString(ipKey)
 			auditPayload.IpAuditMap.Set(ipS, nu)
 
 			key[34] = byte(accessProto)
-			// 存储含域名的key
+			// Store the key containing the domain name
 			if info != "" {
 				md5Sum := md5.Sum([]byte(info))
 				copy(key[35:51], md5Sum[:])
@@ -170,10 +170,10 @@ func logAudit(userName string, pl *sessdata.Payload) {
 	}
 	s := utils.BytesToString(key)
 
-	// 判断已经存在，并且没有过期
+	// The judgment already exists and has not expired
 	v, ok := auditPayload.IpAuditMap.Get(s)
 	if ok && nu-v.(int64) < int64(base.Cfg.AuditInterval) {
-		// 回收byte对象
+		// Recycle byte objects
 		putByte51(b)
 		return
 	}

@@ -40,7 +40,7 @@ jobs:
           #git push -f -u origin _autoaction
           git push -u origin _autoaction
 
-      # 删除无用 workflow runs;
+      # Delete useless workflow runs;
       - name: Delete workflow runs
         uses: GitRML/delete-workflow-runs@main
         with:

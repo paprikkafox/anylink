@@ -8,13 +8,13 @@
                             size="small"
                             type="primary"
                             icon="el-icon-plus"
-                            @click="handleEdit('')">添加
+                            @click="handleEdit('')">Add to
                     </el-button>
                 </el-form-item>
                 <!--
                 <el-form-item>
                     <el-alert
-                            title="直接操作数据库增删改数据后，请重启anylink服务"
+                            title="After directly operating the database to add, delete, or modify data, please restart the anylink service."
                             type="warning">
                     </el-alert>
                 </el-form-item>
@@ -45,22 +45,22 @@
 
                 <el-table-column
                         prop="unique_mac"
-                        label="唯一MAC">
+                        label="only MAC">
                     <template slot-scope="scope">
-                        <el-tag v-if="scope.row.unique_mac" type="success">是</el-tag>
+                        <el-tag v-if="scope.row.unique_mac" type="success">yes</el-tag>
                     </template>
                 </el-table-column>
 
                 <el-table-column
                         prop="username"
-                        label="用户名">
+                        label="username">
                 </el-table-column>
 
                 <el-table-column
                         prop="keep"
-                        label="IP保留">
+                        label="IP reservation">
                     <template slot-scope="scope">
-                        <!--            <el-tag v-if="scope.row.keep" type="success">保留</el-tag>-->
+                        <!--            <el-tag v-if="scope.row.keep" type="success">reserve</el-tag>-->
                         <el-switch
                                 disabled
                                 v-model="scope.row.keep"
@@ -71,33 +71,33 @@
 
                 <el-table-column
                         prop="note"
-                        label="备注">
+                        label="Remark">
                 </el-table-column>
 
                 <el-table-column
                         prop="last_login"
-                        label="最后登陆时间"
+                        label="Last login time"
                         :formatter="tableDateFormat">
                 </el-table-column>
 
                 <el-table-column
-                        label="操作"
+                        label="operate"
                         width="150">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="primary"
-                                @click="handleEdit(scope.row)">编辑
+                                @click="handleEdit(scope.row)">edit
                         </el-button>
 
                         <el-popconfirm
                                 class="m-left-10"
                                 @confirm="handleDel(scope.row)"
-                                title="确定要删除IP映射吗？">
+                                title="Are you sure you want to delete the IP mapping?">
                             <el-button
                                     slot="reference"
                                     size="mini"
-                                    type="danger">删除
+                                    type="danger">delete
                             </el-button>
                         </el-popconfirm>
 
@@ -117,9 +117,9 @@
 
         </el-card>
 
-        <!--新增、修改弹出框-->
+        <!--Add and modify pop-up boxes-->
         <el-dialog
-                title="提示"
+                title="hint"
                 :close-on-click-modal="false"
                 :visible="user_edit_dialog"
                 @close="disVisible"
@@ -130,21 +130,21 @@
                 <el-form-item label="ID" prop="id">
                     <el-input v-model="ruleForm.id" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="IP地址" prop="ip_addr">
+                <el-form-item label="IP address" prop="ip_addr">
                     <el-input v-model="ruleForm.ip_addr"></el-input>
                 </el-form-item>
-                <el-form-item label="MAC地址" prop="mac_addr">
+                <el-form-item label="MAC address" prop="mac_addr">
                     <el-input v-model="ruleForm.mac_addr"></el-input>
                 </el-form-item>
-                <el-form-item label="用户名" prop="username">
+                <el-form-item label="username" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                 </el-form-item>
 
-                <el-form-item label="备注" prop="note">
+                <el-form-item label="Remark" prop="note">
                     <el-input v-model="ruleForm.note"></el-input>
                 </el-form-item>
 
-                <el-form-item label="IP保留" prop="keep">
+                <el-form-item label="IP reservation" prop="keep">
                     <el-switch
                             v-model="ruleForm.keep"
                             active-color="#13ce66">
@@ -152,8 +152,8 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-                    <el-button @click="disVisible">取消</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">keep</el-button>
+                    <el-button @click="disVisible">Cancel</el-button>
                 </el-form-item>
             </el-form>
 
@@ -171,7 +171,7 @@ export default {
     mixins: [],
     created() {
         this.$emit('update:route_path', this.$route.path)
-        this.$emit('update:route_name', ['用户信息', 'IP映射'])
+        this.$emit('update:route_name', ['User information', 'IP mapping'])
     },
     mounted() {
         this.getData(1)
@@ -187,14 +187,14 @@ export default {
             },
             rules: {
                 username: [
-                    {required: false, message: '请输入用户名', trigger: 'blur'},
-                    {max: 50, message: '长度小于 50 个字符', trigger: 'blur'}
+                    {required: false, message: 'Please enter username', trigger: 'blur'},
+                    {max: 50, message: 'Less than 50 characters long', trigger: 'blur'}
                 ],
                 mac_addr: [
-                    {required: true, message: '请输入mac地址', trigger: 'blur'}
+                    {required: true, message: 'Please enter mac address', trigger: 'blur'}
                 ],
                 ip_addr: [
-                    {required: true, message: '请输入ip地址', trigger: 'blur'}
+                    {required: true, message: 'Please enter ip address', trigger: 'blur'}
                 ],
 
                 status: [
@@ -215,7 +215,7 @@ export default {
                 this.tableData = data.datas;
                 this.count = data.count
             }).catch(error => {
-                this.$message.error('哦，请求出错');
+                this.$message.error('Oh, request error');
                 console.log(error);
             });
         },
@@ -237,7 +237,7 @@ export default {
             }).then(resp => {
                 this.ruleForm = resp.data.data
             }).catch(error => {
-                this.$message.error('哦，请求出错');
+                this.$message.error('Oh, request error');
                 console.log(error);
             });
         },
@@ -252,7 +252,7 @@ export default {
                 }
                 console.log(rdata);
             }).catch(error => {
-                this.$message.error('哦，请求出错');
+                this.$message.error('Oh, request error');
                 console.log(error);
             });
         },
@@ -274,7 +274,7 @@ export default {
                     }
                     console.log(rdata);
                 }).catch(error => {
-                    this.$message.error('哦，请求出错');
+                    this.$message.error('Oh, request error');
                     console.log(error);
                 });
             });

@@ -42,7 +42,7 @@ func extract(data interface{}, fieldName string) interface{} {
 	return field
 }
 
-// 更新全部字段
+// Update all fields
 func Set(data interface{}) error {
 	id := extract(data, "Id")
 	_, err := xdb.ID(id).AllCols().Update(data)

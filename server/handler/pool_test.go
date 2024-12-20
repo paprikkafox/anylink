@@ -6,19 +6,19 @@ import (
 
 // go test -bench=. -benchmem
 
-// 去除数据头
+// Remove header
 func BenchmarkHeaderCopy(b *testing.B) {
 	l := 1500
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		pl := getPayload()
-		// 初始化数据
+		// initialization data
 		pl.Data = pl.Data[:l]
 
 		b.StartTimer()
 		dataLen := l - 8
 		copy(pl.Data, pl.Data[8:8+dataLen])
-		// 更新切片长度
+		// Update slice length
 		pl.Data = pl.Data[:dataLen]
 		b.StopTimer()
 
@@ -31,7 +31,7 @@ func BenchmarkHeaderAppend(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		pl := getPayload()
-		// 初始化数据
+		// initialization data
 		pl.Data = pl.Data[:l]
 
 		b.StartTimer()

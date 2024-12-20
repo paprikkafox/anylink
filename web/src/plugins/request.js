@@ -1,20 +1,20 @@
 // http://www.zhangwj.com/
-// 全局的 axios 默认值
+// Global axios defaults
 import axios from "axios";
 import {getToken, removeToken} from "./token";
 // axios.defaults.headers.common['Jwt'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 if (process.env.NODE_ENV !== 'production') {
-    // 开发环境
+    // development environment
     axios.defaults.baseURL = 'https://192.168.8.24:8800';
 }
 
 function request(vm) {
-    // HTTP 请求拦截器
+    // HTTP request interceptor
     axios.interceptors.request.use(config => {
-        // 在发送请求之前做些什么
-        // 获取token, 并添加到 headers 请求头中
+        // What to do before sending a request
+        // Get the token and add it to the headers request header
         const token = getToken();
         if (token) {
             config.headers.Jwt = token;
@@ -24,18 +24,18 @@ function request(vm) {
 
     console.log(vm)
 
-    // HTTP 响应拦截器
-    // 统一处理 401 状态，token 过期的处理，清除token跳转login
-    // 参数 1， 表示成功响应
+    // HTTP response interceptor
+    // Unified processing of 401 status, token expiration processing, clearing token and jumping to login
+    // Parameter 1, indicates a successful response
     axios.interceptors.response.use(null, err => {
-        // 没有登录或令牌过期
+        // No login or token expired
         if (err.response.status === 401) {
-            // 注销，情况状态和token
+            // Logout, status and token
             // vm.$store.dispatch("logout");
-            // 跳转的登录页
+            // Jump login page
             removeToken();
             vm.$router.push('/login');
-            // 注意: 这里的 vm 实例需要外部传入
+            // Note: The vm instance here needs to be passed in externally
         }
         return Promise.reject(err);
     });

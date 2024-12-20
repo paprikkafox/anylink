@@ -17,9 +17,9 @@ type Group struct {
 	DsExcludeDomains string                 `json:"ds_exclude_domains" xorm:"Text"`
 	DsIncludeDomains string                 `json:"ds_include_domains" xorm:"Text"`
 	LinkAcl          []GroupLinkAcl         `json:"link_acl" xorm:"Text"`
-	Bandwidth        int                    `json:"bandwidth" xorm:"Int"`                           // 带宽限制
-	Auth             map[string]interface{} `json:"auth" xorm:"not null default '{}' varchar(500)"` // 认证方式
-	Status           int8                   `json:"status" xorm:"Int"`                              // 1正常
+	Bandwidth        int                    `json:"bandwidth" xorm:"Int"`                           // bandwidth limit
+	Auth             map[string]interface{} `json:"auth" xorm:"not null default '{}' varchar(500)"` // Authentication method
+	Status           int8                   `json:"status" xorm:"Int"`                              // 1 normal
 	CreatedAt        time.Time              `json:"created_at" xorm:"DateTime created"`
 	UpdatedAt        time.Time              `json:"updated_at" xorm:"DateTime updated"`
 }
@@ -31,11 +31,11 @@ type User struct {
 	Email    string `json:"email" xorm:"varchar(255)"`
 	// Password  string    `json:"password"`
 	PinCode    string     `json:"pin_code" xorm:"varchar(32)"`
-	LimitTime  *time.Time `json:"limittime,omitempty" xorm:"Datetime limittime"` // 值为null时，前端不显示
+	LimitTime  *time.Time `json:"limittime,omitempty" xorm:"Datetime limittime"` // When the value is null, the front end does not display
 	OtpSecret  string     `json:"otp_secret" xorm:"varchar(255)"`
-	DisableOtp bool       `json:"disable_otp" xorm:"Bool"` // 禁用otp
+	DisableOtp bool       `json:"disable_otp" xorm:"Bool"` // disable otp
 	Groups     []string   `json:"groups" xorm:"Text"`
-	Status     int8       `json:"status" xorm:"Int"` // 1正常
+	Status     int8       `json:"status" xorm:"Int"` // 1 normal
 	SendEmail  bool       `json:"send_email" xorm:"Bool"`
 	CreatedAt  time.Time  `json:"created_at" xorm:"DateTime created"`
 	UpdatedAt  time.Time  `json:"updated_at" xorm:"DateTime updated"`
@@ -53,7 +53,7 @@ type UserActLog struct {
 	DeviceType      string    `json:"device_type" xorm:"varchar(128) not null default ''"`
 	PlatformVersion string    `json:"platform_version" xorm:"varchar(128) not null default ''"`
 	Status          uint8     `json:"status" xorm:"not null default 0 Int"`
-	Info            string    `json:"info" xorm:"varchar(255) not null default ''"` // 详情
+	Info            string    `json:"info" xorm:"varchar(255) not null default ''"` // Details
 	CreatedAt       time.Time `json:"created_at" xorm:"DateTime created"`
 }
 
@@ -72,8 +72,8 @@ type AccessAudit struct {
 	SrcPort     uint16    `json:"src_port" xorm:"Int not null"`
 	Dst         string    `json:"dst" xorm:"varchar(60) not null"`
 	DstPort     uint16    `json:"dst_port" xorm:"Int not null"`
-	AccessProto uint8     `json:"access_proto" xorm:"Int default 0"`            // 访问协议
-	Info        string    `json:"info" xorm:"varchar(255) not null default ''"` // 详情
+	AccessProto uint8     `json:"access_proto" xorm:"Int default 0"`            // access agreement
+	Info        string    `json:"info" xorm:"varchar(255) not null default ''"` // Details
 	CreatedAt   time.Time `json:"created_at" xorm:"DateTime"`
 }
 
@@ -86,7 +86,7 @@ type Policy struct {
 	RouteExclude     []ValData `json:"route_exclude" xorm:"Text"`
 	DsExcludeDomains string    `json:"ds_exclude_domains" xorm:"Text"`
 	DsIncludeDomains string    `json:"ds_include_domains" xorm:"Text"`
-	Status           int8      `json:"status" xorm:"Int"` // 1正常 0 禁用
+	Status           int8      `json:"status" xorm:"Int"` // 1 normal 0 disabled
 	CreatedAt        time.Time `json:"created_at" xorm:"DateTime created"`
 	UpdatedAt        time.Time `json:"updated_at" xorm:"DateTime updated"`
 }

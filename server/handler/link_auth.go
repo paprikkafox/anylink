@@ -23,12 +23,12 @@ var (
 )
 
 func LinkAuth(w http.ResponseWriter, r *http.Request) {
-	// TODO 调试信息输出
+	// TODO Debug information output
 	if base.GetLogLevel() == base.LogLevelTrace {
 		hd, _ := httputil.DumpRequest(r, true)
 		base.Trace("LinkAuth: ", string(hd))
 	}
-	// 判断anyconnect客户端
+	// Determine anyconnect client
 	userAgent := strings.ToLower(r.UserAgent())
 	xAggregateAuth := r.Header.Get("X-Aggregate-Auth")
 	xTranscendVersion := r.Header.Get("X-Transcend-Version")
@@ -56,7 +56,7 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 	base.Trace(fmt.Sprintf("%+v \n", cr))
 	// setCommonHeader(w)
 	if cr.Type == "logout" {
-		// 退出删除session信息
+		// Exit and delete session information
 		if cr.SessionToken != "" {
 			sessdata.DelSessByStoken(cr.SessionToken)
 		}
@@ -71,12 +71,12 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 登陆参数判断
+	// Login parameter judgment
 	if cr.Type != "auth-reply" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	// 用户活动日志
+	// User activity log
 	ua := dbdata.UserActLog{
 		Username:        cr.Auth.Username,
 		GroupName:       cr.GroupSelect,
@@ -85,7 +85,7 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 		DeviceType:      cr.DeviceId.DeviceType,
 		PlatformVersion: cr.DeviceId.PlatformVersion,
 	}
-	// TODO 用户密码校验
+	// TODO User password verification
 	err = dbdata.CheckUser(cr.Auth.Username, cr.Auth.Password, cr.GroupSelect)
 	if err != nil {
 		base.Warn(err, r.RemoteAddr)
@@ -94,7 +94,7 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 		dbdata.UserActLogIns.Add(ua, userAgent)
 
 		w.WriteHeader(http.StatusOK)
-		data := RequestData{Group: cr.GroupSelect, Groups: dbdata.GetGroupNamesNormal(), Error: "用户名或密码错误"}
+		data := RequestData{Group: cr.GroupSelect, Groups: dbdata.GetGroupNamesNormal(), Error: "Wrong username or password"}
 		if base.Cfg.DisplayError {
 			data.Error = err.Error()
 		}
@@ -104,12 +104,12 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 	dbdata.UserActLogIns.Add(ua, userAgent)
 	// if !ok {
 	//	w.WriteHeader(http.StatusOK)
-	//	data := RequestData{Group: cr.GroupSelect, Groups: base.Cfg.UserGroups, Error: "请先激活用户"}
+	//	data := RequestData{Group: cr.GroupSelect, Groups: base.Cfg.UserGroups, Error: "Please activate the user first"}
 	//	tplRequest(tpl_request, w, data)
 	//	return
 	// }
 
-	// 创建新的session信息
+	// Create new session information
 	sess := sessdata.NewSession("")
 	sess.Username = cr.Auth.Username
 	sess.Group = cr.GroupSelect
@@ -119,7 +119,7 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 	sess.DeviceType = ua.DeviceType
 	sess.PlatformVersion = ua.PlatformVersion
 	sess.RemoteAddr = r.RemoteAddr
-	// 获取客户端mac地址
+	// Get the client mac address
 	sess.UniqueMac = true
 	macHw, err := net.ParseMAC(oriMac)
 	if err != nil {
@@ -130,12 +130,12 @@ func LinkAuth(w http.ResponseWriter, r *http.Request) {
 			sum = md5.Sum([]byte(sess.Token))
 			sess.UniqueMac = false
 		}
-		macHw = sum[0:5] // 5个byte
+		macHw = sum[0:5] // 5 bytes
 		macHw = append([]byte{0x02}, macHw...)
 		sess.MacAddr = macHw.String()
 	}
 	sess.MacHw = macHw
-	// 统一macAddr的格式
+	// Unify the format of macAddr
 	sess.MacAddr = macHw.String()
 
 	other := &dbdata.SettingOther{}
@@ -169,7 +169,7 @@ func tplRequest(typ int, w io.Writer, data RequestData) {
 	_ = t.Execute(w, data)
 }
 
-// 设置输出信息
+// Set output information
 type RequestData struct {
 	Groups []string
 	Group  string
@@ -196,10 +196,10 @@ var auth_request = `<?xml version="1.0" encoding="UTF-8"?>
     </opaque>
     <auth id="main">
         <title>Login</title>
-        <message>请输入你的用户名和密码</message>
+        <message>Please enter your username and password</message>
         <banner></banner>
         {{if .Error}}
-        <error id="88" param1="{{.Error}}" param2="">登陆失败:  %s</error>
+        <error id="88" param1="{{.Error}}" param2="">Login failed:  %s</error>
         {{end}}
         <form>
             <input type="text" name="username" label="Username:"></input>

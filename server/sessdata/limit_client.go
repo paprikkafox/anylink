@@ -19,7 +19,7 @@ func LimitClient(user string, close bool) bool {
 
 	_all := limitClient[limitAllKey]
 	c, ok := limitClient[user]
-	if !ok { // 不存在用户
+	if !ok { // User does not exist
 		limitClient[user] = 0
 	}
 
@@ -29,12 +29,12 @@ func LimitClient(user string, close bool) bool {
 		return true
 	}
 
-	// 全局判断
+	// global judgment
 	if _all >= base.Cfg.MaxClient {
 		return false
 	}
 
-	// 超出同一个用户限制
+	// Same user limit exceeded
 	if c >= base.Cfg.MaxUserClient {
 		return false
 	}

@@ -32,7 +32,7 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-// 实现 os.Writer 接口
+// Implement the os.Writer interface
 type logWriter struct {
 	UseStdout bool
 	FileName  string
@@ -40,7 +40,7 @@ type logWriter struct {
 	NowDate   string
 }
 
-// 实现日志文件的切割
+// Implement log file cutting
 func (lw *logWriter) Write(p []byte) (n int, err error) {
 	if !lw.UseStdout {
 		return lw.File.Write(p)
@@ -56,7 +56,7 @@ func (lw *logWriter) Write(p []byte) (n int, err error) {
 	return lw.File.Write(p)
 }
 
-// 创建新文件
+// Create new file
 func (lw *logWriter) newFile() {
 	if lw.UseStdout {
 		lw.File = os.Stdout
@@ -71,7 +71,7 @@ func (lw *logWriter) newFile() {
 }
 
 func initLog() {
-	// 初始化 baseLog
+	// Initialize baseLog
 	baseLw = &logWriter{
 		UseStdout: Cfg.LogPath == "",
 		FileName:  path.Join(Cfg.LogPath, logName),
@@ -100,7 +100,7 @@ func (w *sLogWriter) Write(p []byte) (n int, err error) {
 	return 0, nil
 }
 
-// 获取 log.Logger
+// Get log.Logger
 func GetServerLog() *log.Logger {
 	return serverLog
 }
