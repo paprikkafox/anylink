@@ -11,7 +11,7 @@ jobs:
       - name: Setup Go 1.x.y
         uses: actions/setup-go@main
         with:
-          go-version: '1.20'
+          go-version: '1.22'
           stable: true
 
       - name: Checkout codebase
@@ -20,7 +20,7 @@ jobs:
       - name: go
         run: |
           cd ./server
-          go mod tidy -compat=1.20
+          go mod tidy -compat=1.22
           #gofmt -w -r 'interface{} -> any' .
           go get -u
           go mod download
@@ -40,7 +40,7 @@ jobs:
           #git push -f -u origin _autoaction
           git push -u origin _autoaction
 
-      # 删除无用 workflow runs;
+      # Delete useless workflow runs;
       - name: Delete workflow runs
         uses: GitRML/delete-workflow-runs@main
         with:
