@@ -37,7 +37,7 @@ func TestGetGroupNames(t *testing.T) {
 	g5 := Group{Name: "g5", ClientDns: []ValData{{Val: "114.114.114.114"}}, DsIncludeDomains: "baidu.com,163.com"}
 	err = SetGroup(&g5)
 	if ast.NotNil(err) {
-		ast.Equal("默认路由, 不允许设置\"包含域名\", 请重新配置", err.Error())
+		ast.Equal("Default route, setting \"include domain name\" is not allowed, please reconfigure it.", err.Error())
 	}
 	g6 := Group{Name: "g6", ClientDns: []ValData{{Val: "114.114.114.114"}}, DsExcludeDomains: "com.cn,qq.com"}
 	err = SetGroup(&g6)
