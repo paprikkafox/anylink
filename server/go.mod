@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/arl/statsviz v0.6.0
 	github.com/deckarep/golang-set v1.8.0
-	github.com/go-acme/lego/v4 v4.21.0
+	github.com/go-acme/lego/v4 v4.15.0
 	github.com/go-co-op/gocron v1.37.0
 	github.com/go-ldap/ldap v3.0.3+incompatible
 	github.com/go-sql-driver/mysql v1.8.0
