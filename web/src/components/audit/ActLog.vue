@@ -2,14 +2,14 @@
   <div>
       <el-form  :model="searchForm" ref="searchForm" :inline="true" class="search-form">
         <el-form-item>
-          <el-input size="mini" v-model="searchForm.username" clearable placeholder="请输入用户名" style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
+          <el-input size="mini" v-model="searchForm.username" clearable placeholder="Please enter username" style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>
         <el-form-item>
                 <el-date-picker
                     v-model="searchForm.sdate"
                     type="date"
                     size="mini"
-                    placeholder="开始日期"
+                    placeholder="start date"
                     format="yyyy-MM-dd"
                     value-format="yyyy-MM-dd"  
                     style="width: 130px"
@@ -21,7 +21,7 @@
                     v-model="searchForm.edate"
                     type="date"
                     size="mini"
-                    placeholder="结束日期"
+                    placeholder="end date"
                     format="yyyy-MM-dd"
                     value-format="yyyy-MM-dd"  
                     style="width: 130px"              
@@ -29,13 +29,13 @@
             </el-date-picker>
         </el-form-item>
         <el-form-item >
-            <el-select size="mini" v-model="searchForm.status" clearable placeholder="操作类型" style="width: 130px">
+            <el-select size="mini" v-model="searchForm.status" clearable placeholder="Operation type" style="width: 130px">
                     <el-option v-for="(item,index) in statusOps" :key="index" :label="item.value" :value="item.key+1">
                     </el-option>
             </el-select>           
         </el-form-item>
         <el-form-item>
-            <el-select size="mini" v-model="searchForm.os" clearable placeholder="操作系统" style="width: 130px">
+            <el-select size="mini" v-model="searchForm.os" clearable placeholder="operating system" style="width: 130px">
                     <el-option v-for="(value,item,index) in osOps" :key="index" :label="value" :value="item+1">
                     </el-option>
             </el-select>           
@@ -45,12 +45,12 @@
               size="mini"
               type="primary"
               icon="el-icon-search"
-              @click="handleSearch">搜索
+              @click="handleSearch">search
           </el-button>
           <el-button
               size="mini"
               icon="el-icon-refresh"
-              @click="rest">重置搜索
+              @click="rest">Reset search
           </el-button>
         </el-form-item>
       </el-form>
@@ -71,17 +71,17 @@
         </el-table-column>
         <el-table-column
             prop="username"
-            label="用户名"
+            label="username"
             width="140">
         </el-table-column>
         <el-table-column
             prop="group_name"
-            label="登陆组"
+            label="Login group"
             width="100">
         </el-table-column>
         <el-table-column
             prop="status"
-            label="操作类型"
+            label="Operation type"
             width="92">
                 <template slot-scope="{ row }">
                     <span v-for="(item, index) in statusOps" :key="index">
@@ -91,24 +91,24 @@
         </el-table-column> 
         <el-table-column
             prop="info"
-            label="操作详情"
+            label="Operation details"
             min-width="200">
         </el-table-column> 
         <el-table-column
             prop="created_at"
-            label="操作时间"
+            label="Operating time"
             width="150"
             :formatter="tableDateFormat">
         </el-table-column>                                          
         <el-table-column
             prop="os"
-            label="操作系统"
+            label="operating system"
             min-width="210">
                 <template slot-scope="{ row }">
                     <span v-for="(value, item, index) in osOps" :key="index">
                     {{ row.os == item? value: "" }}
                     </span>
-                    <div class="sub_txt">型号: 
+                    <div class="sub_txt">model: 
                         <span v-if="row.device_type != ''">{{ row.device_type }} / {{ row.platform_version }}</span>
                         <span v-else> - </span>
                     </div>
@@ -116,7 +116,7 @@
         </el-table-column>         
         <el-table-column
             prop="client"
-            label="客户端"
+            label="client"
             width="150">
                 <template slot-scope="{ row }">
                     <span v-for="(value, item, index) in clientOps" :key="index">
@@ -127,12 +127,12 @@
         </el-table-column>  
         <el-table-column
             prop="ip_addr"
-            label="内网IP"
+            label="Intranet IP"
             width="120">
         </el-table-column>
         <el-table-column
             prop="remote_addr"
-            label="外网IP"
+            label="External network IP"
             width="120">
         </el-table-column>                                                  
       </el-table>
@@ -157,7 +157,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['用户信息', '登入日志'])
+    this.$emit('update:route_name', ['User information', 'Login log'])
   },
   data() {
     return {
@@ -216,7 +216,7 @@ export default {
         this.osOps = data.osOps
         this.clientOps = data.clientOps
       }).catch(error => {
-        this.$message.error('哦，请求出错');
+        this.$message.error('Oh, request error');
         console.log(error);
       });
     },

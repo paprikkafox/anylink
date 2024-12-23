@@ -1,21 +1,21 @@
 <template>
   <el-container style="height: 100%;">
-    <!--侧边栏菜单-->
+    <!--Sidebar menu-->
     <el-aside :width="is_active?'200':'64'">
       <LayoutAside :is_active="is_active" :route_path="route_path"/>
     </el-aside>
 
     <el-container>
-      <!--正文头部内容-->
+      <!--Header content-->
       <el-header>
-        <!--监听子组件的变量事件-->
+        <!--Listen to variable events of child components-->
         <LayoutHeader :is_active.sync="is_active" :route_name="route_name"/>
       </el-header>
-      <!--正文内容-->
+      <!--Text content-->
       <!--style="background-color: rgb(240, 242, 245);"-->
       <el-main style="background-color: #fbfbfb">
-        <!-- 对应的组件内容渲染到router-view中 -->
-        <!--子组件上报route信息-->
+        <!-- The corresponding component content is rendered to the router-view -->
+        <!--Subcomponent reports route information-->
         <router-view :route_path.sync="route_path" :route_name.sync="route_name"></router-view>
       </el-main>
       <el-footer>
@@ -23,7 +23,7 @@
           <el-button size="mini" @click="goUrl('https://gitee.com/bjdgyc/anylink')">
             Powered by AnyLink
           </el-button>
-          企业级远程办公系统 AGPL-3.0 ⓒ 2020-present
+          Enterprise-level remote office system AGPL-3.0 ⓒ 2020-present
         </div>
       </el-footer>
     </el-container>
@@ -41,7 +41,7 @@ export default {
     return {
       is_active: true,
       route_path: '/index',
-      route_name: ['首页'],
+      route_name: ['front page'],
     }
   },
   methods: {

@@ -52,7 +52,7 @@
         let option = {
           color: ['#2D5CF6','#50B142'],
           title: {
-            text: this.chartData.title || '折线图',
+            text: this.chartData.title || 'Line chart',
             textStyle:{fontWeight:'normal',fontSize:16, color:'#8C8C8C'}
           },
           tooltip: {

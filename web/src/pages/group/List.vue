@@ -156,7 +156,7 @@
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">编辑
+                @click="handleEdit(scope.row)">edit
             </el-button>
 
             <el-popconfirm
@@ -166,7 +166,7 @@
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">删除
+                  type="danger">delete
               </el-button>
             </el-popconfirm>
           </template>
@@ -241,7 +241,7 @@
                   <el-input v-model="item.val"></el-input>
                 </el-col>
                 <el-col :span="12">
-                  <el-input v-model="item.note" placeholder="备注"></el-input>
+                  <el-input v-model="item.note" placeholder="Remark"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -250,7 +250,7 @@
               </el-row>
             </el-form-item>
 
-            <el-form-item label="内网域名" prop="split_dns">
+            <el-form-item label="Intranet domain name" prop="split_dns">
               <el-row class="msg-info">
                 <el-col :span="20">(Split DNS) is usually left blank. If you enter a domain name, only the configured domain name (including subdomain names) will use the configured dns</el-col>
                 <el-col :span="4">
@@ -264,7 +264,7 @@
                   <el-input v-model="item.val"></el-input>
                 </el-col>
                 <el-col :span="12">
-                  <el-input v-model="item.note" placeholder="备注"></el-input>
+                  <el-input v-model="item.note" placeholder="Remark"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -322,7 +322,7 @@
               </el-form-item>
               <el-form-item label="Base DN" prop="auth.ldap.base_dn"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.base_dn'] : [{ required: false }]">
-                <el-input v-model="ruleForm.auth.ldap.base_dn" placeholder="例如 DC=abc,DC=com"></el-input>
+                <el-input v-model="ruleForm.auth.ldap.base_dn" placeholder="For example DC=abc,DC=com"></el-input>
               </el-form-item>
               <el-form-item label="User object class" prop="auth.ldap.object_class"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.object_class'] : [{ required: false }]">
@@ -390,7 +390,7 @@
                     <el-input v-model="item.val"></el-input>
                   </el-col>
                   <el-col :span="12">
-                    <el-input v-model="item.note" placeholder="备注"></el-input>
+                    <el-input v-model="item.note" placeholder="Remark"></el-input>
                   </el-col>
                   <el-col :span="2">
                     <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -438,10 +438,10 @@
 
                 <el-col :span="6">
                   <!--  type="textarea" :autosize="{ minRows: 1, maxRows: 2}"  -->
-                  <el-input v-model="item.port" placeholder="多端口,号分隔"></el-input>
+                  <el-input v-model="item.port" placeholder="Multiple ports, number separated"></el-input>
                 </el-col>
                 <el-col :span="3">
-                  <el-input v-model="item.note" placeholder="备注"></el-input>
+                  <el-input v-model="item.note" placeholder="Remark"></el-input>
                 </el-col>
 
                 <el-col :span="2">
@@ -614,7 +614,7 @@ export default {
           {required: true, message: 'Please enter the Radius key', trigger: 'blur'}
         ],
         "auth.ldap.addr": [
-          {required: true, message: 'Please enter server address(含端口)', trigger: 'blur'}
+          {required: true, message: 'Please enter server address(Contains port)', trigger: 'blur'}
         ],
         "auth.ldap.bind_name": [
           {required: true, message: 'Please enter administrator DN', trigger: 'blur'}

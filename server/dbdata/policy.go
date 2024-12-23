@@ -53,7 +53,7 @@ func SetPolicy(p *Policy) error {
 		if v.Val != "" {
 			ipMask, ipNet, err := parseIpNet(v.Val)
 			if err != nil {
-				return errors.New("RouteExclude 错误" + err.Error())
+				return errors.New("RouteExclude mistake" + err.Error())
 			}
 
 			if strings.Split(ipMask, "/")[0] != ipNet.IP.String() {

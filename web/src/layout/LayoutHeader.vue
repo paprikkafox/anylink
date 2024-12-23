@@ -13,7 +13,7 @@
     <el-dropdown trigger="click" @command="handleCommand">
       <i class="el-icon-setting" style="margin-right: 15px"></i>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="logout">退出</el-dropdown-item>
+        <el-dropdown-item command="logout">quit</el-dropdown-item>
       </el-dropdown-menu>
       <span style="font-size: 12px;">{{ admin_user }}</span>
     </el-dropdown>
@@ -39,15 +39,15 @@ export default {
     },
   },
   methods: {
-    // 菜单栏开关按钮
+    // Menu bar switch button
     toggleClick() {
       this.is_active = !this.is_active
-      // 触发事件,抛出到上层
+      // trigger event,Throw to upper level
       this.$emit('update:is_active', this.is_active)
     },
     handleCommand() {
       console.log("handleCommand")
-      // 退出 删除登录信息
+      // quit Delete login information
       removeToken()
       this.$router.push("/login");
     },

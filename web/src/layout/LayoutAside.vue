@@ -20,46 +20,46 @@
   >
     <el-menu-item index="/admin/home">
       <i class="el-icon-s-home"></i>
-      <span slot="title">首页</span>
+      <span slot="title">front page</span>
     </el-menu-item>
 
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-menu"></i>
-        <span slot="title">基础信息</span>
+        <span slot="title">Basic information</span>
       </template>
 
-      <el-menu-item index="/admin/set/system">系统信息</el-menu-item>
-      <el-menu-item index="/admin/set/soft">软件配置</el-menu-item>
-      <el-menu-item index="/admin/set/other">其他设置</el-menu-item>
-      <el-menu-item index="/admin/set/audit">审计日志</el-menu-item>
+      <el-menu-item index="/admin/set/system">System information</el-menu-item>
+      <el-menu-item index="/admin/set/soft">Software configuration</el-menu-item>
+      <el-menu-item index="/admin/set/other">Other settings</el-menu-item>
+      <el-menu-item index="/admin/set/audit">Audit log</el-menu-item>
     </el-submenu>
 
     <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-s-custom"></i>
-        <span slot="title">用户信息</span>
+        <span slot="title">User information</span>
       </template>
 
-      <el-menu-item index="/admin/user/list">用户列表</el-menu-item>
-      <el-menu-item index="/admin/user/policy">用户策略</el-menu-item>
-      <el-menu-item index="/admin/user/online">在线用户</el-menu-item>
-      <el-menu-item index="/admin/user/ip_map">IP映射</el-menu-item>
+      <el-menu-item index="/admin/user/list">User list</el-menu-item>
+      <el-menu-item index="/admin/user/policy">User policy</el-menu-item>
+      <el-menu-item index="/admin/user/online">Online users</el-menu-item>
+      <el-menu-item index="/admin/user/ip_map">IP mapping</el-menu-item>
     </el-submenu>
 
     <el-submenu index="3">
       <template slot="title">
         <i class="el-icon-s-order"></i>
-        <span slot="title">用户组信息</span>
+        <span slot="title">User group information</span>
       </template>
 
-      <el-menu-item index="/admin/group/list">用户组列表</el-menu-item>
+      <el-menu-item index="/admin/group/list">User group list</el-menu-item>
     </el-submenu>
 
     <el-submenu index="4">
       <template slot="title">
         <i class="el-icon-s-order"></i>
-        <span slot="title">调试信息</span>
+        <span slot="title">debugging information</span>
       </template>
 
       <el-menu-item>

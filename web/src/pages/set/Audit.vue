@@ -29,7 +29,7 @@ export default {
   },  
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['基础信息', '审计日志'])        
+    this.$emit('update:route_name', ['Basic information', 'Audit log'])        
   },
   data() {
     return {

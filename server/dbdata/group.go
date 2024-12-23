@@ -240,7 +240,7 @@ func SetGroup(g *Group) error {
 		if v.Val != "" {
 			ip := net.ParseIP(v.Val)
 			if ip.String() != v.Val {
-				return errors.New("DNS IP 错误")
+				return errors.New("DNS IP mistake")
 			}
 			clientDns = append(clientDns, v)
 		}
@@ -379,6 +379,6 @@ func CheckDomainNames(domains string) error {
 }
 
 func ValidateDomainName(domain string) bool {
-	RegExp := regexp.MustCompile(`^([a-zA-Z0-9][-a-zA-Z0-9]{0,62}\.)+[A-Za-z]{2,18}$`)
+	RegExp := regexp.MustCompile(`^([a-zA-Z0-9][-a-zA-Z0-9]{0,62}\.*)+[A-Za-z]{2,18}$`)
 	return RegExp.MatchString(domain)
 }

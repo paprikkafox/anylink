@@ -32,20 +32,20 @@
               <el-radio label="STARTTLS">STARTTLS</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="邮件from" prop="from">
+          <el-form-item label="Mail from" prop="from">
             <el-input v-model="dataSmtp.from"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataSmtp')"
-            >保存
+            >keep
             </el-button
             >
-            <el-button @click="resetForm('dataSmtp')">重置</el-button>
+            <el-button @click="resetForm('dataSmtp')">reset</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
 
-      <el-tab-pane label="审计日志" name="dataAuditLog">
+      <el-tab-pane label="Audit log" name="dataAuditLog">
         <el-form
             :model="dataAuditLog"
             ref="dataAuditLog"
@@ -173,7 +173,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="Let's Encrypt证书" name="letsCert">
+          <el-tab-pane label="Let's Encrypt certificate" name="letsCert">
             <el-form
                 :model="letsCert"
                 ref="letsCert"
@@ -219,10 +219,10 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('letsCert')"
-                >申请
+                >Apply
                 </el-button
                 >
-                <el-button @click="resetForm('letsCert')">重置</el-button>
+                <el-button @click="resetForm('letsCert')">reset</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -293,10 +293,10 @@
 
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataOther')"
-            >保存
+            >keep
             </el-button
             >
-            <el-button @click="resetForm('dataOther')">重置</el-button>
+            <el-button @click="resetForm('dataOther')">reset</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -450,14 +450,14 @@ export default {
     },
     beforeCertUpload(file) {
       // if (file.type !== 'application/x-pem-file') {
-      //   this.$message.error('只能上传 .pem 格式的证书文件')
+      //   this.$message.error('Can only upload .pem Certificate file format')
       //   return false
       // }
       this.customCert.cert = file;
     },
     beforeKeyUpload(file) {
       // if (file.type !== 'application/x-pem-file') {
-      //   this.$message.error('只能上传 .pem 格式的私钥文件')
+      //   this.$message.error('Can only upload .pem format private key file')
       //   return false
       // }
       this.customCert.key = file;
