@@ -9,23 +9,23 @@
             label-width="100px"
             class="tab-one"
         >
-          <el-form-item label="Server address" prop="host">
+          <el-form-item label="Server" prop="host">
             <el-input v-model="dataSmtp.host"></el-input>
           </el-form-item>
-          <el-form-item label="Server port" prop="port">
+          <el-form-item label="Port" prop="port">
             <el-input v-model.number="dataSmtp.port"></el-input>
           </el-form-item>
-          <el-form-item label="username" prop="username">
+          <el-form-item label="Username" prop="username">
             <el-input v-model="dataSmtp.username"></el-input>
           </el-form-item>
-          <el-form-item label="password" prop="password">
+          <el-form-item label="Password" prop="password">
             <el-input
                 type="password"
                 v-model="dataSmtp.password"
                 placeholder="If the password is empty, it will not be modified."
             ></el-input>
           </el-form-item>
-          <el-form-item label="Encryption type" prop="encryption">
+          <el-form-item label="Encryption" prop="encryption">
             <el-radio-group v-model="dataSmtp.encryption">
               <el-radio label="None">None</el-radio>
               <el-radio label="SSLTLS">SSLTLS</el-radio>
@@ -37,7 +37,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataSmtp')"
-            >keep
+            >Save
             </el-button
             >
             <el-button @click="resetForm('dataSmtp')">reset</el-button>
@@ -53,7 +53,7 @@
             label-width="100px"
             class="tab-one"
         >
-          <el-form-item label="Audit deduplication interval" prop="audit_interval">
+          <el-form-item label="Dedup interval" prop="audit_interval">
             <el-input-number
                 v-model="dataAuditLog.audit_interval"
                 :min="-1"
@@ -67,7 +67,7 @@
               <strong style="color: #ea3323">-1 Represents closing the audit log</strong>
             </p>
           </el-form-item>
-          <el-form-item label="Storage duration" prop="life_day">
+          <el-form-item label="Period" prop="life_day">
             <el-input-number
                 v-model="dataAuditLog.life_day"
                 :min="0"
@@ -75,13 +75,13 @@
                 size="small"
                 label="days"
             ></el-input-number>
-            sky
+            days
             <p class="input_tip">
               Range: 0 ~ 365 days ,
               <strong style="color: #ea3323">0 means permanent storage</strong>
             </p>
           </el-form-item>
-          <el-form-item label="cleanup time" prop="clear_time">
+          <el-form-item label="Cleanup time" prop="clear_time">
             <el-time-select
                 v-model="dataAuditLog.clear_time"
                 :picker-options="{
@@ -98,7 +98,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataAuditLog')"
-            >keep
+            >Save
             </el-button
             >
             <el-button @click="resetForm('dataAuditLog')">reset</el-button>
@@ -182,7 +182,7 @@
                 size="small"
                 class="tab-one"
             >
-              <el-form-item label="domain name" prop="domain">
+              <el-form-item label="Domain name" prop="domain">
                 <el-input v-model="letsCert.domain"></el-input>
               </el-form-item>
               <el-form-item label="Mail" prop="legomail">
@@ -192,7 +192,7 @@
                 <el-radio-group v-model="letsCert.name">
                   <el-radio label="aliyun">Alibaba Cloud</el-radio>
                   <el-radio label="txcloud">Tencent Cloud</el-radio>
-                  <el-radio label="cfcloud">cloudflare</el-radio>
+                  <el-radio label="cfcloud">Cloudflare</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item
@@ -222,7 +222,7 @@
                 >Apply
                 </el-button
                 >
-                <el-button @click="resetForm('letsCert')">reset</el-button>
+                <el-button @click="resetForm('letsCert')">Reset</el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -241,7 +241,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item label="Banner information" prop="banner">
+          <el-form-item label="Banner" prop="banner">
             <el-input
                 type="textarea"
                 :rows="5"
@@ -251,7 +251,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item label="Custom homepage status code" prop="homecode">
+          <el-form-item label="Status code" prop="homecode">
             <el-input-number
                 v-model="dataOther.homecode"
                 :min="0"
@@ -259,7 +259,7 @@
             ></el-input-number>
           </el-form-item>
 
-          <el-form-item label="Customize home page" prop="homeindex">
+          <el-form-item label="Home page" prop="homeindex">
             <el-input
                 type="textarea"
                 :rows="10"
@@ -272,7 +272,7 @@
             </el-tooltip>
           </el-form-item>
 
-          <el-form-item label="Account opening email template" prop="account_mail">
+          <el-form-item label="Email template" prop="account_mail">
             <el-input
                 type="textarea"
                 :rows="10"
@@ -293,10 +293,10 @@
 
           <el-form-item>
             <el-button type="primary" @click="submitForm('dataOther')"
-            >keep
+            >Save
             </el-button
             >
-            <el-button @click="resetForm('dataOther')">reset</el-button>
+            <el-button @click="resetForm('dataOther')">Reset</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -311,7 +311,7 @@ export default {
   name: "Other",
   created() {
     this.$emit("update:route_path", this.$route.path);
-    this.$emit("update:route_name", ["Basic information", "Other settings"]);
+    this.$emit("update:route_name", ["Basic", "Other"]);
   },
   mounted() {
     this.getSmtp();

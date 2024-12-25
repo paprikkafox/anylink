@@ -18,7 +18,7 @@
       <el-col :span="8">
         <el-card v-if="system.mem" body-style="text-align: center;">
           <div slot="header">
-            <span>memory usage</span>
+            <span>Memory usage</span>
           </div>
 
           <el-progress type="circle" :percentage="system.mem.percent" style="margin-bottom: 20px"/>
@@ -32,7 +32,7 @@
       <el-col :span="8">
         <el-card v-if="system.disk" body-style="text-align: center;">
           <div slot="header">
-            <span>disk information</span>
+            <span>Disk information</span>
           </div>
 
           <el-progress type="circle" :percentage="system.disk.percent" style="margin-bottom: 20px"/>
@@ -53,7 +53,7 @@
       <Cell left="SoftwareBuildDate" :right="system.sys.appBuildDate" divider/>
       <Cell left="GO system" :right="system.sys.goOs" divider/>
       <Cell left="GoArch" :right="system.sys.goArch" divider/>
-      <Cell left="GO version book" :right="system.sys.goVersion" divider/>
+      <Cell left="GO version" :right="system.sys.goVersion" divider/>
       <Cell left="Goroutine" :right="system.sys.goroutine"/>
     </el-card>
 
@@ -64,9 +64,9 @@
       </div>
 
       <Cell left="Machine name" :right="system.sys.hostname" divider/>
-      <Cell left="operating system" :right="system.sys.platform" divider/>
+      <Cell left="Operating system" :right="system.sys.platform" divider/>
       <Cell left="Kernel version" :right="system.sys.kernel" divider/>
-      <Cell left="CPU核心" :right="system.cpu.core" divider/>
+      <Cell left="CPU count" :right="system.cpu.core" divider/>
       <Cell left="CPU" :right="system.cpu.modelName"/>
     </el-card>
 
@@ -83,7 +83,7 @@ export default {
   components: {Cell},
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['Basic information', 'System information'])
+    this.$emit('update:route_name', ['Basic', 'System'])
   },
   mounted() {
     this.getData();

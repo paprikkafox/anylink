@@ -32,22 +32,22 @@ const routes = [
     {path: '*', redirect: '/admin/home'},
 ]
 
-// 3. 创建 router 实例，然后传 `routes` 配置
-// 你还可以传别的配置参数, 不过先这么简单着吧。
+// 3. Create a router instance and pass the `routes` configuration
+// You can also pass other configuration parameters, but let’s keep it simple for now.
 const router = new VueRouter({
     routes
 })
 
-// 路由守卫
+// route guard
 router.beforeEach((to, from, next) => {
-    // 判断要进入的路由是否需要认证
+    // Determine whether the route to be entered requires authentication
 
     const token = getToken();
 
     console.log("beforeEach", from.path, to.path, token)
     // console.log(from)
 
-    // 没有token,全都跳转到login
+    // If there is no token, everything will jump to login.
     if (!token) {
         if (to.path === "/login") {
             next();
@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
         return;
     }
 
-    // 有token情况下
+    // With token
     next();
 });
 

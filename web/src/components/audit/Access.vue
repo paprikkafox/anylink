@@ -1,19 +1,19 @@
 <template>
   <div>
 <el-form :model="searchForm" :rules="rules" ref="searchForm" :inline="true" class="search-form">
-        <el-form-item label="username:" prop="username">
+        <el-form-item label="Username:" prop="username">
           <el-input size="mini" v-model="searchForm.username" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>
-        <el-form-item label="Source IP address:" prop="src">
+        <el-form-item label="Src IP:" prop="src">
           <el-input size="mini" v-model="searchForm.src" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>    
-        <el-form-item label="Destination IP address:" prop="dst">
+        <el-form-item label="Dst IP:" prop="dst">
           <el-input size="mini" v-model="searchForm.dst" clearable style="width: 130px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item> 
-        <el-form-item label="destination port:" prop="dst_port">
+        <el-form-item label="Dst port:" prop="dst_port">
           <el-input size="mini" v-model="searchForm.dst_port" clearable style="width: 80px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item> 
-        <el-form-item label="Access Agreement:">
+        <el-form-item label="Protocol:">
             <el-select size="mini" v-model="searchForm.access_proto" clearable placeholder="Please select" style="width: 100px">
                     <el-option v-for="(item,index) in access_proto" :key="index" :label="item.text" :value="item.value">
                     </el-option>
@@ -26,25 +26,25 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 size="mini"
                 align="left"
-                start-placeholder="start date"
-                end-placeholder="end date"
+                start-placeholder="Start date"
+                end-placeholder="End date"
                 :default-time="['00:00:00', '23:59:59']">
             </el-date-picker>
         </el-form-item>
         <el-form-item label="Details:">
-          <el-input size="mini" v-model="searchForm.info" placeholder="请输入关键字" clearable style="width: 200px" @keydown.enter.native="searchEnterFun"></el-input>
+          <el-input size="mini" v-model="searchForm.info" placeholder="Please enter keywords" clearable style="width: 200px" @keydown.enter.native="searchEnterFun"></el-input>
         </el-form-item>         
         <el-form-item>
           <el-button
               size="mini"
               type="primary"
               icon="el-icon-search"
-              @click="handleSearch">search
+              @click="handleSearch">Search
           </el-button>
           <el-button
               size="mini"
               icon="el-icon-refresh"
-              @click="rest">Reset search
+              @click="rest">Reset
           </el-button>
           <el-button
               size="mini"
@@ -74,31 +74,31 @@
 
         <el-table-column
             prop="username"
-            label="username"
+            label="Username"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="src"
-            label="Source IP address"
+            label="Src IP"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="dst"
-            label="Destination IP address"
+            label="Dst IP"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="dst_port"
-            label="destination port"
+            label="Dst port"
             width="85">
         </el-table-column>
 
         <el-table-column
             prop="access_proto"
-            label="access agreement"
+            label="Proto"
             width="80"
             :formatter="protoFormat">
         </el-table-column>
@@ -110,7 +110,7 @@
 
         <el-table-column
             prop="created_at"
-            label="creation time"
+            label="Created at"
             width="160"
             :formatter="tableDateFormat">
         </el-table-column>
@@ -182,7 +182,7 @@ export default {
     handleSearch() {
       this.$refs["searchForm"].validate((valid) => {
         if (!valid) {
-          console.log('error submit!!');
+          console.log('Submitting error');
           return false;
         }
         this.getData(1)

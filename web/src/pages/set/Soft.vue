@@ -6,7 +6,7 @@
 
         <el-table-column
             prop="info"
-            label="information"
+            label="Information"
             width="260">
         </el-table-column>
 
@@ -18,13 +18,13 @@
 
         <el-table-column
             prop="env"
-            label="environment variables"
+            label="Environment variables"
             width="220">
         </el-table-column>
 
         <el-table-column
             prop="data"
-            label="data">
+            label="Value">
           <template slot-scope="scope">
             {{ scope.row.data }}
           </template>
@@ -41,7 +41,7 @@ export default {
   name: "Soft",
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['Basic information', 'Software configuration'])
+    this.$emit('update:route_name', ['Basic', 'Software'])
   },
   mounted() {
     this.getSoftInfo()

@@ -20,25 +20,25 @@
   >
     <el-menu-item index="/admin/home">
       <i class="el-icon-s-home"></i>
-      <span slot="title">front page</span>
+      <span slot="title">Dashboard</span>
     </el-menu-item>
 
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-menu"></i>
-        <span slot="title">Basic information</span>
+        <span slot="title">Basic</span>
       </template>
 
-      <el-menu-item index="/admin/set/system">System information</el-menu-item>
-      <el-menu-item index="/admin/set/soft">Software configuration</el-menu-item>
-      <el-menu-item index="/admin/set/other">Other settings</el-menu-item>
-      <el-menu-item index="/admin/set/audit">Audit log</el-menu-item>
+      <el-menu-item index="/admin/set/system">System</el-menu-item>
+      <el-menu-item index="/admin/set/soft">Software</el-menu-item>
+      <el-menu-item index="/admin/set/other">Other</el-menu-item>
+      <el-menu-item index="/admin/set/audit">Audit</el-menu-item>
     </el-submenu>
 
     <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-s-custom"></i>
-        <span slot="title">User information</span>
+        <span slot="title">Users</span>
       </template>
 
       <el-menu-item index="/admin/user/list">User list</el-menu-item>
@@ -50,16 +50,16 @@
     <el-submenu index="3">
       <template slot="title">
         <i class="el-icon-s-order"></i>
-        <span slot="title">User group information</span>
+        <span slot="title">Groups</span>
       </template>
 
-      <el-menu-item index="/admin/group/list">User group list</el-menu-item>
+      <el-menu-item index="/admin/group/list">Group list</el-menu-item>
     </el-submenu>
 
     <el-submenu index="4">
       <template slot="title">
         <i class="el-icon-s-order"></i>
-        <span slot="title">debugging information</span>
+        <span slot="title">Golang Debug</span>
       </template>
 
       <el-menu-item>

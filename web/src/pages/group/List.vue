@@ -26,7 +26,7 @@
 
         <el-table-column
             prop="name"
-            label="Group name">
+            label="Name">
         </el-table-column>
 
         <el-table-column
@@ -36,7 +36,7 @@
 
         <el-table-column
             prop="allow_lan"
-            label="local network">
+            label="Allow LAN">
           <template slot-scope="scope">
             <el-switch
                 v-model="scope.row.allow_lan"
@@ -47,7 +47,7 @@
 
         <el-table-column
             prop="bandwidth"
-            label="bandwidth limit"
+            label="Bandwidth"
             width="90">
           <template slot-scope="scope">
             <el-row v-if="scope.row.bandwidth > 0">{{ convertBandwidth(scope.row.bandwidth, 'BYTE', 'Mbps') }} Mbps
@@ -58,7 +58,7 @@
 
         <el-table-column
             prop="client_dns"
-            label="Client DNS"
+            label="DNS"
             width="160">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.client_dns" :key="inx">{{ item.val }}</el-row>
@@ -67,7 +67,7 @@
 
         <el-table-column
             prop="route_include"
-            label="Route contains"
+            label="Include routes"
             width="180">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_include.slice(0, readMinRows)" :key="inx">{{
@@ -82,7 +82,7 @@
                 </el-row>
               </div>
               <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">
-                {{ readMore[`ri_${scope.row.id}`] ? "▲ close" : "▼ More" }}
+                {{ readMore[`ri_${scope.row.id}`] ? "▲ Close" : "▼ More" }}
               </el-button>
             </div>
           </template>
@@ -90,7 +90,7 @@
 
         <el-table-column
             prop="route_exclude"
-            label="route exclusion"
+            label="Exclude routes"
             width="180">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_exclude.slice(0, readMinRows)" :key="inx">{{
@@ -105,7 +105,7 @@
                 </el-row>
               </div>
               <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">
-                {{ readMore[`re_${scope.row.id}`] ? "▲ close" : "▼ More" }}
+                {{ readMore[`re_${scope.row.id}`] ? "▲ Close" : "▼ More" }}
               </el-button>
             </div>
           </template>
@@ -113,7 +113,7 @@
 
         <el-table-column
             prop="link_acl"
-            label="LINK-ACL"
+            label="ACL"
             min-width="180">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.link_acl.slice(0, readMinRows)" :key="inx">
@@ -126,7 +126,7 @@
                 </el-row>
               </div>
               <el-button size="mini" type="text" @click="toggleMore(`la_${ scope.row.id }`)">
-                {{ readMore[`la_${scope.row.id}`] ? "▲ close" : "▼ More" }}
+                {{ readMore[`la_${scope.row.id}`] ? "▲ Close" : "▼ More" }}
               </el-button>
             </div>
           </template>
@@ -137,8 +137,8 @@
             label="state"
             width="70">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">Available</el-tag>
-            <el-tag v-else type="danger">deactivate</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">Active</el-tag>
+            <el-tag v-else type="danger">Inactive</el-tag>
           </template>
 
         </el-table-column>
@@ -156,7 +156,7 @@
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">edit
+                @click="handleEdit(scope.row)">Edit
             </el-button>
 
             <el-popconfirm
@@ -166,7 +166,7 @@
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">delete
+                  type="danger">Delete
               </el-button>
             </el-popconfirm>
           </template>
@@ -202,32 +202,32 @@
               <el-input v-model="ruleForm.id" disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="Group name" prop="name">
+            <el-form-item label="Name" prop="name">
               <el-input v-model="ruleForm.name" :disabled="ruleForm.id > 0"></el-input>
             </el-form-item>
 
-            <el-form-item label="Remark" prop="note">
+            <el-form-item label="Note" prop="note">
               <el-input v-model="ruleForm.note"></el-input>
             </el-form-item>
 
-            <el-form-item label="bandwidth limit" prop="bandwidth_format" style="width:260px;">
+            <el-form-item label="Bandwidth" prop="bandwidth_format" style="width:260px;">
               <el-input v-model="ruleForm.bandwidth_format"
                         oninput="value= value.match(/\d+(\.\d{0,2})?/) ? value.match(/\d+(\.\d{0,2})?/)[0] : ''">
                 <template slot="append">Mbps</template>
               </el-input>
             </el-form-item>
-            <el-form-item label="Exclude local network" prop="allow_lan">
+            <el-form-item label="Allow LAN" prop="allow_lan">
               <!--active-text="After turning it on, the user's local network segment will not be encrypted and transmitted through anylink" -->
               <el-switch v-model="ruleForm.allow_lan"></el-switch>
               <div class="msg-info">
                 Note: Local network refers to:
                 The network where the PC running anyconnect client is located, that is, the local routing network segment.
                 After it is turned on, the data on the PC's local routing network segment will not be forwarded through the tunnel link.
-                At the same time, the anyconnect client needs to check the local network (Allow Local Lan) switch for the function to take effect.
+                At the same time, the anyconnect client needs to check the local network (Allow LAN) switch for the function to take effect.
               </div>
             </el-form-item>
 
-            <el-form-item label="Client DNS" prop="client_dns">
+            <el-form-item label="DNS" prop="client_dns">
               <el-row class="msg-info">
                 <el-col :span="20">Enter the IP format such as: 192.168.0.10</el-col>
                 <el-col :span="4">
@@ -241,7 +241,7 @@
                   <el-input v-model="item.val"></el-input>
                 </el-col>
                 <el-col :span="12">
-                  <el-input v-model="item.note" placeholder="Remark"></el-input>
+                  <el-input v-model="item.note" placeholder="Note"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -252,7 +252,7 @@
 
             <el-form-item label="Intranet domain name" prop="split_dns">
               <el-row class="msg-info">
-                <el-col :span="20">(Split DNS) is usually left blank. If you enter a domain name, only the configured domain name (including subdomain names) will use the configured dns</el-col>
+                <el-col :span="20">Split DNS usually left blank. If you enter a domain name, only the configured domain name (including subdomain names) will use the configured DNS</el-col>
                 <el-col :span="4">
                   <el-button size="mini" type="success" icon="el-icon-plus" circle
                              @click.prevent="addDomain(ruleForm.split_dns)"></el-button>
@@ -264,7 +264,7 @@
                   <el-input v-model="item.val"></el-input>
                 </el-col>
                 <el-col :span="12">
-                  <el-input v-model="item.note" placeholder="Remark"></el-input>
+                  <el-input v-model="item.note" placeholder="Note"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -275,8 +275,8 @@
 
             <el-form-item label="state" prop="status">
               <el-radio-group v-model="ruleForm.status">
-                <el-radio :label="1" border>enable</el-radio>
-                <el-radio :label="0" border>deactivate</el-radio>
+                <el-radio :label="1" border>Active</el-radio>
+                <el-radio :label="0" border>Inactive</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-tab-pane>
@@ -284,7 +284,7 @@
           <el-tab-pane label="Authentication method" name="authtype">
             <el-form-item label="Certification" prop="authtype">
               <el-radio-group v-model="ruleForm.auth.type" @change="authTypeChange">
-                <el-radio label="local" border>local</el-radio>
+                <el-radio label="local" border>Local</el-radio>
                 <el-radio label="radius" border>Radius</el-radio>
                 <el-radio label="ldap" border>LDAP</el-radio>
               </el-radio-group>
@@ -304,19 +304,19 @@
             </template>
 
             <template v-if="ruleForm.auth.type == 'ldap'">
-              <el-form-item label="Server address" prop="auth.ldap.addr"
+              <el-form-item label="Server" prop="auth.ldap.addr"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.addr'] : [{ required: false }]">
-                <el-input v-model="ruleForm.auth.ldap.addr" placeholder="For example ip:389 /domain name:389"></el-input>
+                <el-input v-model="ruleForm.auth.ldap.addr" placeholder="For example ip:389 or hostname:389"></el-input>
               </el-form-item>
               <el-form-item label="Enable TLS" prop="auth.ldap.tls">
                 <el-switch v-model="ruleForm.auth.ldap.tls"></el-switch>
               </el-form-item>
-              <el-form-item label="administrator DN" prop="auth.ldap.bind_name"
+              <el-form-item label="Bind DN" prop="auth.ldap.bind_name"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_name'] : [{ required: false }]">
                 <el-input v-model="ruleForm.auth.ldap.bind_name"
                           placeholder="For example CN=bindadmin,DC=abc,DC=COM"></el-input>
               </el-form-item>
-              <el-form-item label="Administrator password" prop="auth.ldap.bind_pwd"
+              <el-form-item label="Bind password" prop="auth.ldap.bind_pwd"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.bind_pwd'] : [{ required: false }]">
                 <el-input type="password" v-model="ruleForm.auth.ldap.bind_pwd" placeholder=""></el-input>
               </el-form-item>
@@ -324,17 +324,17 @@
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.base_dn'] : [{ required: false }]">
                 <el-input v-model="ruleForm.auth.ldap.base_dn" placeholder="For example DC=abc,DC=com"></el-input>
               </el-form-item>
-              <el-form-item label="User object class" prop="auth.ldap.object_class"
+              <el-form-item label="User class" prop="auth.ldap.object_class"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.object_class'] : [{ required: false }]">
                 <el-input v-model="ruleForm.auth.ldap.object_class"
                           placeholder="For example person / user / posixAccount"></el-input>
               </el-form-item>
-              <el-form-item label="User unique ID" prop="auth.ldap.search_attr"
+              <el-form-item label="User ID" prop="auth.ldap.search_attr"
                             :rules="this.ruleForm.auth.type== 'ldap' ? this.rules['auth.ldap.search_attr'] : [{ required: false }]">
                 <el-input v-model="ruleForm.auth.ldap.search_attr"
                           placeholder="For example sAMAccountName / uid / cn"></el-input>
               </el-form-item>
-              <el-form-item label="restricted user group" prop="auth.ldap.member_of">
+              <el-form-item label="Access group" prop="auth.ldap.member_of">
                 <el-input v-model="ruleForm.auth.ldap.member_of"
                           placeholder="Optional, Only allow specified groups to log in, For example CN=HomeWork,DC=abc,DC=com"></el-input>
               </el-form-item>
@@ -342,7 +342,7 @@
           </el-tab-pane>
 
           <el-tab-pane label="Routing settings" name="route">
-            <el-form-item label="包含路由" prop="route_include">
+            <el-form-item label="Include route" prop="route_include">
               <el-row class="msg-info">
                 <el-col :span="18">Enter the CIDR format such as: 192.168.1.0/24</el-col>
                 <el-col :span="2">
@@ -361,7 +361,7 @@
                     <el-input v-model="item.val"></el-input>
                   </el-col>
                   <el-col :span="12">
-                    <el-input v-model="item.note" placeholder="Remark"></el-input>
+                    <el-input v-model="item.note" placeholder="Note"></el-input>
                   </el-col>
                   <el-col :span="2">
                     <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -371,7 +371,7 @@
               </templete>
             </el-form-item>
 
-            <el-form-item label="exclude route" prop="route_exclude">
+            <el-form-item label="Exclude routes" prop="route_exclude">
               <el-row class="msg-info">
                 <el-col :span="18">Enter CIDR format such as: 192.168.2.0/24</el-col>
                 <el-col :span="2">
@@ -390,7 +390,7 @@
                     <el-input v-model="item.val"></el-input>
                   </el-col>
                   <el-col :span="12">
-                    <el-input v-model="item.note" placeholder="Remark"></el-input>
+                    <el-input v-model="item.note" placeholder="Note"></el-input>
                   </el-col>
                   <el-col :span="2">
                     <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -400,8 +400,8 @@
               </templete>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="Permission control" name="link_acl">
-            <el-form-item label="Permission control" prop="link_acl">
+          <el-tab-pane label="ACL" name="link_acl">
+            <el-form-item label="ACL" prop="link_acl">
               <el-row class="msg-info">
                 <el-col :span="22">Enter CIDR format such as: 192.168.3.0/24
                   Protocol support all,tcp,udp,icmp
@@ -441,7 +441,7 @@
                   <el-input v-model="item.port" placeholder="Multiple ports, number separated"></el-input>
                 </el-col>
                 <el-col :span="3">
-                  <el-input v-model="item.note" placeholder="Remark"></el-input>
+                  <el-input v-model="item.note" placeholder="Note"></el-input>
                 </el-col>
 
                 <el-col :span="2">
@@ -457,12 +457,12 @@
           <el-tab-pane label="Domain name split tunneling" name="ds_domains">
             <el-form-item label="Contains domain name" prop="ds_include_domains">
               <el-input type="textarea" :rows="5" v-model="ruleForm.ds_include_domains"
-                        placeholder="Enter domain names separated by , and match all subdomain names by default, such as baidu.com,163.com"></el-input>
+                        placeholder="Enter domain names separated by ',' and match all subdomain names by default, such as baidu.com,163.com"></el-input>
             </el-form-item>
             <el-form-item label="Exclude domain name" prop="ds_exclude_domains">
               <el-input type="textarea" :rows="5" v-model="ruleForm.ds_exclude_domains"
-                        placeholder="Enter domain names separated by , and match all subdomain names by default, such as baidu.com,163.com"></el-input>
-              <div class="msg-info">Note: Domain name split tunneling only supports the Windows and MacOS desktop clients of AnyConnect, and does not support mobile clients.</div>
+                        placeholder="Enter domain names separated by ',' and match all subdomain names by default, such as baidu.com,163.com"></el-input>
+              <div class="msg-info">Note: Domain name split tunneling only supports the Windows and macOS desktop clients of AnyConnect, and does not support mobile clients.</div>
             </el-form-item>
           </el-tab-pane>
           <el-form-item>
@@ -500,18 +500,18 @@
     <!--Edit mode pop-up window-->
     <el-dialog
         :close-on-click-modal="false"
-        title="edit mode"
+        title="Edit mode"
         :visible.sync="ipListDialog"
         width="650px"
         custom-class="valgin-dialog"
         center>
       <el-form ref="ipEditForm" label-width="80px">
-        <el-form-item label="routing table" prop="ip_list">
+        <el-form-item label="Routes" prop="ip_list">
           <el-input type="textarea" :rows="10" v-model="ipEditForm.ip_list"
                     placeholder="One route per line, for example: 192.168.1.0/24, remarks or 192.168.1.0/24"></el-input>
           <div class="msg-info">Current total
             {{ ipEditForm.ip_list.trim() === '' ? 0 : ipEditForm.ip_list.trim().split("\n").length }}
-            (Note: AnyConnect client supports up to{{ this.maxRouteRows }}routes)
+            (Note: AnyConnect client supports up to {{ this.maxRouteRows }} routes)
           </div>
         </el-form-item>
         <el-form-item>
@@ -533,7 +533,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['User group information', 'User group list'])
+    this.$emit('update:route_name', ['Groups', 'Group list'])
   },
   mounted() {
     this.getData(1);

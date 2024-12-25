@@ -35,30 +35,30 @@
 
                 <el-table-column
                         prop="ip_addr"
-                        label="IP地址">
+                        label="IP">
                 </el-table-column>
 
                 <el-table-column
                         prop="mac_addr"
-                        label="MAC地址">
+                        label="MAC">
                 </el-table-column>
 
                 <el-table-column
                         prop="unique_mac"
-                        label="only MAC">
+                        label="Unique MAC">
                     <template slot-scope="scope">
-                        <el-tag v-if="scope.row.unique_mac" type="success">yes</el-tag>
+                        <el-tag v-if="scope.row.unique_mac" type="success">Yes</el-tag>
                     </template>
                 </el-table-column>
 
                 <el-table-column
                         prop="username"
-                        label="username">
+                        label="Username">
                 </el-table-column>
 
                 <el-table-column
                         prop="keep"
-                        label="IP reservation">
+                        label="IP Reservation">
                     <template slot-scope="scope">
                         <!--            <el-tag v-if="scope.row.keep" type="success">reserve</el-tag>-->
                         <el-switch
@@ -71,12 +71,12 @@
 
                 <el-table-column
                         prop="note"
-                        label="Remark">
+                        label="Note">
                 </el-table-column>
 
                 <el-table-column
                         prop="last_login"
-                        label="Last login time"
+                        label="Last login"
                         :formatter="tableDateFormat">
                 </el-table-column>
 
@@ -87,7 +87,7 @@
                         <el-button
                                 size="mini"
                                 type="primary"
-                                @click="handleEdit(scope.row)">edit
+                                @click="handleEdit(scope.row)">Edit
                         </el-button>
 
                         <el-popconfirm
@@ -97,7 +97,7 @@
                             <el-button
                                     slot="reference"
                                     size="mini"
-                                    type="danger">delete
+                                    type="danger">Delete
                             </el-button>
                         </el-popconfirm>
 
@@ -130,21 +130,21 @@
                 <el-form-item label="ID" prop="id">
                     <el-input v-model="ruleForm.id" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="IP address" prop="ip_addr">
+                <el-form-item label="IP" prop="ip_addr">
                     <el-input v-model="ruleForm.ip_addr"></el-input>
                 </el-form-item>
-                <el-form-item label="MAC address" prop="mac_addr">
+                <el-form-item label="MAC" prop="mac_addr">
                     <el-input v-model="ruleForm.mac_addr"></el-input>
                 </el-form-item>
-                <el-form-item label="username" prop="username">
+                <el-form-item label="Username" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Remark" prop="note">
+                <el-form-item label="Note" prop="note">
                     <el-input v-model="ruleForm.note"></el-input>
                 </el-form-item>
 
-                <el-form-item label="IP reservation" prop="keep">
+                <el-form-item label="IP Reservation" prop="keep">
                     <el-switch
                             v-model="ruleForm.keep"
                             active-color="#13ce66">
@@ -152,7 +152,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">keep</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">Save</el-button>
                     <el-button @click="disVisible">Cancel</el-button>
                 </el-form-item>
             </el-form>
@@ -171,7 +171,7 @@ export default {
     mixins: [],
     created() {
         this.$emit('update:route_path', this.$route.path)
-        this.$emit('update:route_name', ['User information', 'IP mapping'])
+        this.$emit('update:route_name', ['Users', 'IP mapping'])
     },
     mounted() {
         this.getData(1)
@@ -259,7 +259,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (!valid) {
-                    console.log('error submit!!');
+                    console.log('Submiting error');
                     return false;
                 }
 

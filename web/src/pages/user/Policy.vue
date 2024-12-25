@@ -7,7 +7,7 @@
               size="small"
               type="primary"
               icon="el-icon-plus"
-              @click="handleEdit('')">添加
+              @click="handleEdit('')">Add
           </el-button>
         </el-form-item>
       </el-form>
@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column
             prop="allow_lan"
-            label="local network">
+            label="Allow LAN">
           <template slot-scope="scope">
             <el-switch
                 v-model="scope.row.allow_lan"
@@ -41,7 +41,7 @@
 
         <el-table-column
             prop="client_dns"
-            label="Client DNS"
+            label="DNS"
             width="160">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.client_dns" :key="inx">{{ item.val }}</el-row>
@@ -50,7 +50,7 @@
 
         <el-table-column
             prop="route_include"
-            label="Route contains"
+            label="Include Routes"
             width="200">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_include.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -58,14 +58,14 @@
               <div v-if="readMore[`ri_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_include.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>              
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲ close" : "▼ More" }}</el-button>              
+              <el-button size="mini" type="text" @click="toggleMore(`ri_${ scope.row.id }`)">{{ readMore[`ri_${ scope.row.id }`] ? "▲ Close" : "▼ More" }}</el-button>              
             </div>            
           </template>
         </el-table-column>
 
         <el-table-column
             prop="route_exclude"
-            label="route exclusion"
+            label="Exclude routes"
             width="200">
           <template slot-scope="scope">
             <el-row v-for="(item,inx) in scope.row.route_exclude.slice(0, readMinRows)" :key="inx">{{ item.val }}</el-row>
@@ -73,24 +73,24 @@
               <div v-if="readMore[`re_${ scope.row.id }`]">
                 <el-row v-for="(item,inx) in scope.row.route_exclude.slice(readMinRows)" :key="inx">{{ item.val }}</el-row>              
               </div>
-              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲ close" : "▼ More" }}</el-button>              
+              <el-button size="mini" type="text" @click="toggleMore(`re_${ scope.row.id }`)">{{ readMore[`re_${ scope.row.id }`] ? "▲ Close" : "▼ More" }}</el-button>              
             </div>
           </template>
         </el-table-column>
         <el-table-column
             prop="status"
-            label="state"
+            label="Status"
             width="70">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">Available</el-tag>
-            <el-tag v-else type="danger">deactivate</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">Active</el-tag>
+            <el-tag v-else type="danger">Inactive</el-tag>
           </template>
 
         </el-table-column>
 
         <el-table-column
             prop="updated_at"
-            label="Update time"
+            label="Updated at"
             :formatter="tableDateFormat">
         </el-table-column>
 
@@ -101,7 +101,7 @@
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">edit
+                @click="handleEdit(scope.row)">Edit
             </el-button>
 
             <el-popconfirm
@@ -111,7 +111,7 @@
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">delete
+                  type="danger">Delete
               </el-button>
             </el-popconfirm>
           </template>
@@ -146,16 +146,16 @@
                 <el-input v-model="ruleForm.id" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="username" prop="username">
+                <el-form-item label="Username" prop="username">
                 <el-input v-model="ruleForm.username" :disabled="ruleForm.id > 0"></el-input>
                 </el-form-item>
 
-                <el-form-item label="local network" prop="allow_lan">
+                <el-form-item label="Allow LAN" prop="allow_lan">
                   <el-switch
                       v-model="ruleForm.allow_lan">
                   </el-switch>
                 </el-form-item>
-                <el-form-item label="Client DNS" prop="client_dns">
+                <el-form-item label="DNS" prop="client_dns">
                     <el-row class="msg-info">
                         <el-col :span="20">Enter the IP format such as: 192.168.0.10</el-col>
                         <el-col :span="4">
@@ -169,7 +169,7 @@
                         <el-input v-model="item.val"></el-input>
                         </el-col>
                         <el-col :span="12">
-                        <el-input v-model="item.note" placeholder="备注"></el-input>
+                        <el-input v-model="item.note" placeholder="Note"></el-input>
                         </el-col>
                         <el-col :span="2">
                         <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -177,16 +177,16 @@
                         </el-col>
                     </el-row>
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
+                <el-form-item label="state" prop="status">
                     <el-radio-group v-model="ruleForm.status">
-                        <el-radio :label="1" border>enable</el-radio>
-                        <el-radio :label="0" border>deactivate</el-radio>
+                        <el-radio :label="1" border>Active</el-radio>
+                        <el-radio :label="0" border>Inactive</el-radio>
                     </el-radio-group>
                 </el-form-item>                
             </el-tab-pane>
 
             <el-tab-pane label="Routing settings" name="route">
-                <el-form-item label="Contains routing" prop="route_include">
+                <el-form-item label="Include routes" prop="route_include">
                     <el-row class="msg-info">
                         <el-col :span="20">Enter the CIDR format such as: 192.168.1.0/24</el-col>
                         <el-col :span="4">
@@ -200,7 +200,7 @@
                         <el-input v-model="item.val"></el-input>
                         </el-col>
                         <el-col :span="12">
-                        <el-input v-model="item.note" placeholder="备注"></el-input>
+                        <el-input v-model="item.note" placeholder="Note"></el-input>
                         </el-col>
                         <el-col :span="2">
                         <el-button size="mini" type="danger" icon="el-icon-minus" circle
@@ -209,7 +209,7 @@
                     </el-row>      
                 </el-form-item>
 
-                <el-form-item label="exclude route" prop="route_exclude">
+                <el-form-item label="Exclude route" prop="route_exclude">
                     <el-row class="msg-info">
                         <el-col :span="20">Enter the CIDR format such as: 192.168.2.0/24</el-col>
                         <el-col :span="4">
@@ -234,16 +234,16 @@
             </el-tab-pane>
             
             <el-tab-pane label="Dynamic split tunneling" name="ds_domains">
-                <el-form-item label="Contains domain name" prop="ds_include_domains">
+                <el-form-item label="Include domains" prop="ds_include_domains">
                     <el-input type="textarea" :rows="5" v-model="ruleForm.ds_include_domains"></el-input>
                 </el-form-item>                
-                <el-form-item label="Exclude domain name" prop="ds_exclude_domains">
+                <el-form-item label="Exclude domains" prop="ds_exclude_domains">
                     <el-input type="textarea" :rows="5" v-model="ruleForm.ds_exclude_domains"></el-input>
                 </el-form-item>
             </el-tab-pane>
         </el-tabs>
         <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">keep</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">Save</el-button>
             <el-button @click="disVisible">Cancel</el-button>
         </el-form-item>
       </el-form>
@@ -261,7 +261,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['User information', 'User policy'])
+    this.$emit('update:route_name', ['Users', 'User policy'])
   },
   mounted() {
     this.getData(1)

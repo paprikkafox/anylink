@@ -3,18 +3,18 @@
   <div class="login">
     <el-card style="width: 550px;">
 
-      <div class="issuer">AnyLink SSL VPN management background</div>
+      <div class="issuer">AnyLink SSL VPN Dashboard</div>
 
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
-        <el-form-item label="Manage username" prop="admin_user">
+        <el-form-item label="Username" prop="admin_user">
           <el-input v-model="ruleForm.admin_user"></el-input>
         </el-form-item>
-        <el-form-item label="Admin password" prop="admin_pass">
+        <el-form-item label="Password" prop="admin_pass">
           <el-input type="password" v-model="ruleForm.admin_pass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :loading="isLoading" @click="submitForm('ruleForm')">Log in</el-button>
-          <el-button @click="resetForm('ruleForm')">reset</el-button>
+          <el-button @click="resetForm('ruleForm')">Reset</el-button>
         </el-form-item>
       </el-form>
 
@@ -64,7 +64,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (!valid) {
-          console.log('error submit!!');
+          console.log('Submitting error');
           return false;
         }
         this.isLoading = true

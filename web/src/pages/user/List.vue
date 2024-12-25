@@ -7,7 +7,7 @@
               size="small"
               type="primary"
               icon="el-icon-plus"
-              @click="handleEdit('')">Add to
+              @click="handleEdit('')">Add
           </el-button>
         </el-form-item>
         <el-form-item>
@@ -19,7 +19,7 @@
                 :http-request="upLoadUser"
                 :limit="1"
                 :show-file-list="false">
-              <el-button size="small" icon="el-icon-upload2" type="primary">Add in batches</el-button>
+              <el-button size="small" icon="el-icon-upload2" type="primary">Add in batch</el-button>
             </el-upload>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
@@ -40,12 +40,12 @@
               size="small"
               type="primary"
               icon="el-icon-search"
-              @click="handleSearch()">search
+              @click="handleSearch()">Search
           </el-button>
           <el-button
               size="small"
               icon="el-icon-refresh"
-              @click="reset">Reset search
+              @click="reset">Reset
           </el-button>
         </el-form-item>
       </el-form>
@@ -64,7 +64,7 @@
 
         <el-table-column
             prop="username"
-            label="username"
+            label="Username"
             width="150">
         </el-table-column>
 
@@ -80,7 +80,7 @@
         </el-table-column>
         <el-table-column
             prop="otp_secret"
-            label="OTP key"
+            label="OTP"
             width="110">
           <template slot-scope="scope">
             <el-button
@@ -95,7 +95,7 @@
 
         <el-table-column
             prop="groups"
-            label="User group">
+            label="Group">
           <template slot-scope="scope">
             <el-row v-for="item in scope.row.groups" :key="item">{{ item }}</el-row>
           </template>
@@ -103,7 +103,7 @@
 
         <el-table-column
             prop="status"
-            label="state"
+            label="Status"
             width="70">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.status === 1" type="success">Available</el-tag>
@@ -114,7 +114,7 @@
 
         <el-table-column
             prop="updated_at"
-            label="Update time"
+            label="Updated"
             :formatter="tableDateFormat">
         </el-table-column>
 
@@ -125,7 +125,7 @@
             <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.row)">edit
+                @click="handleEdit(scope.row)">Edit
             </el-button>
 
             <!--            <el-popconfirm
@@ -146,7 +146,7 @@
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">delete
+                  type="danger">Delete
               </el-button>
             </el-popconfirm>
 
@@ -179,7 +179,7 @@
     <!--Add and modify pop-up boxes-->
     <el-dialog
         :close-on-click-modal="false"
-        title="用户"
+        title="User"
         :visible="user_edit_dialog"
         @close="disVisible"
         width="650px"
@@ -189,7 +189,7 @@
         <el-form-item label="User ID" prop="id">
           <el-input v-model="ruleForm.id" disabled></el-input>
         </el-form-item>
-        <el-form-item label="username" prop="username">
+        <el-form-item label="Username" prop="username">
           <el-input v-model="ruleForm.username" :disabled="ruleForm.id > 0"></el-input>
         </el-form-item>
         <el-form-item label="Name" prop="nickname">
@@ -222,11 +222,11 @@
           </el-switch>
         </el-form-item>
 
-        <el-form-item label="OTP key" prop="otp_secret" v-if="!ruleForm.disable_otp">
+        <el-form-item label="OTP" prop="otp_secret" v-if="!ruleForm.disable_otp">
           <el-input v-model="ruleForm.otp_secret" placeholder="If left blank, the system will automatically generate it."></el-input>
         </el-form-item>
 
-        <el-form-item label="User group" prop="groups">
+        <el-form-item label="Group" prop="groups">
           <el-checkbox-group v-model="ruleForm.groups">
             <el-checkbox v-for="(item) in grouNames" :key="item" :label="item" :name="item"></el-checkbox>
           </el-checkbox-group>
@@ -240,14 +240,14 @@
 
         <el-form-item label="state" prop="status">
           <el-radio-group v-model="ruleForm.status">
-            <el-radio :label="1" border>enable</el-radio>
-            <el-radio :label="0" border>deactivate</el-radio>
+            <el-radio :label="1" border>Enabled</el-radio>
+            <el-radio :label="0" border>Disabled</el-radio>
             <el-radio :label="2" border>Expired</el-radio>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">keep</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">Save</el-button>
           <!--          <el-button @click="resetForm('ruleForm')">reset</el-button>-->
           <el-button @click="disVisible">Cancel</el-button>
         </el-form-item>
@@ -267,7 +267,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['User information', 'User list'])
+    this.$emit('update:route_name', ['Users', 'User list'])
   },
   mounted() {
     this.getGroups();
@@ -435,7 +435,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (!valid) {
-          console.log('error submit!!');
+          console.log('Submitting error');
           return false;
         }
 

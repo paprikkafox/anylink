@@ -143,7 +143,7 @@ export default {
             yname:"Number of people"
         },
         network: {
-            title: 'network throughput',
+            title: 'Network usage',
             xname: [],
             xdata: {
                 'Downstream traffic': [],
@@ -160,7 +160,7 @@ export default {
             yname:"%"
         },
         mem: {
-                title: 'Memory usage ratio',
+                title: 'Memory usage',
                 xname: [],
                 xdata: {
                     'Memory': [],
@@ -182,7 +182,7 @@ export default {
   },
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['首页'])
+    this.$emit('update:route_name', ['Dashboard'])
   },
   mounted() {
     this.getData()

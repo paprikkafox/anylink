@@ -18,14 +18,6 @@
         <!--Subcomponent reports route information-->
         <router-view :route_path.sync="route_path" :route_name.sync="route_name"></router-view>
       </el-main>
-      <el-footer>
-        <div>
-          <el-button size="mini" @click="goUrl('https://gitee.com/bjdgyc/anylink')">
-            Powered by AnyLink
-          </el-button>
-          Enterprise-level remote office system AGPL-3.0 ⓒ 2020-present
-        </div>
-      </el-footer>
     </el-container>
   </el-container>
 </template>

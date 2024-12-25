@@ -8,23 +8,23 @@
               style="width: 86px;"                      
               @change="handleSearch">
             <el-option
-                label="username"
+                label="Username"
                 value="username">
             </el-option>
             <el-option
-                label="Login group"
+                label="Group"
                 value="group">
             </el-option>            
             <el-option
-                label="MAC address"
+                label="MAC"
                 value="mac_addr">
             </el-option>
             <el-option
-                label="IP address"
+                label="IP"
                 value="ip">
             </el-option>
             <el-option
-                label="remote address"
+                label="Remote IP"
                 value="remote_addr">
             </el-option>
           </el-select>
@@ -63,28 +63,28 @@
         <el-table-column
             sortable="true"
             type="index"
-            label="serial number"
+            label="ID"
             width="50">
         </el-table-column>
 
         <el-table-column
             prop="username"
-            label="username">
+            label="Username">
         </el-table-column>
 
         <el-table-column
             prop="group"
-            label="Login group">
+            label="Group">
         </el-table-column>
 
         <el-table-column
             prop="mac_addr"
-            label="MAC address">
+            label="MAC">
         </el-table-column>
 
         <el-table-column
             prop="unique_mac"
-            label="only MAC">
+            label="Unique MAC">
             <template slot-scope="scope">
                 <el-tag v-if="scope.row.unique_mac" type="success">是</el-tag>
             </template>
@@ -92,18 +92,18 @@
 
         <el-table-column
             prop="ip"
-            label="IP address"
+            label="IP"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="remote_addr"
-            label="remote address">
+            label="Remote IP">
         </el-table-column>
 
         <el-table-column
             prop="tun_name"
-            label="virtual network card">
+            label="TUN">
         </el-table-column>
 
         <el-table-column
@@ -113,7 +113,7 @@
 
         <el-table-column
             prop="is_mobile"
-            label="client">
+            label="Type">
           <template slot-scope="scope">
             <i v-if="scope.row.client === 'mobile'" class="el-icon-mobile-phone" style="font-size: 20px;color: red"></i>
             <i v-else class="el-icon-s-platform" style="font-size: 20px;color: blue"></i>
@@ -121,7 +121,7 @@
         </el-table-column>
 
         <el-table-column
-            label="Real-time uplink/download"
+            label="Uplink/Downlink"
             width="220">
           <template slot-scope="scope">
             <el-tag type="success">{{ scope.row.bandwidth_up }}</el-tag>
@@ -145,7 +145,7 @@
         </el-table-column>
 
         <el-table-column
-            label="operate"
+            label="Manage"
             width="150">
           <template slot-scope="scope">
             <el-button
@@ -162,7 +162,7 @@
               <el-button
                   slot="reference"
                   size="mini"
-                  type="danger">offline
+                  type="danger">Offline
               </el-button>
             </el-popconfirm>
 
@@ -184,7 +184,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['User information', 'Online users'])
+    this.$emit('update:route_name', ['Users', 'Online users'])
   },
   mounted() {
     this.getData();
@@ -248,7 +248,7 @@ export default {
             this.$message.error('Error: The current online user table is empty and one-click offline operation cannot be performed!');
             return;
         }
-        MessageBox.confirm('All users under the current search conditions will be "offline". Are you sure you want to execute this??', 'Danger', {
+        MessageBox.confirm('All users under the current search conditions will be "offline". Are you sure you want to execute this?', 'Danger', {
             confirmButtonText: 'Sure',
             cancelButtonText: 'Cancel',
             type: 'danger'

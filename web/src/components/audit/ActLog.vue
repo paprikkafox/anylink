@@ -71,17 +71,17 @@
         </el-table-column>
         <el-table-column
             prop="username"
-            label="username"
+            label="Username"
             width="140">
         </el-table-column>
         <el-table-column
             prop="group_name"
-            label="Login group"
+            label="Group"
             width="100">
         </el-table-column>
         <el-table-column
             prop="status"
-            label="Operation type"
+            label="Status"
             width="92">
                 <template slot-scope="{ row }">
                     <span v-for="(item, index) in statusOps" :key="index">
@@ -91,18 +91,18 @@
         </el-table-column> 
         <el-table-column
             prop="info"
-            label="Operation details"
+            label="Details"
             min-width="200">
         </el-table-column> 
         <el-table-column
             prop="created_at"
-            label="Operating time"
+            label="Created at"
             width="150"
             :formatter="tableDateFormat">
         </el-table-column>                                          
         <el-table-column
             prop="os"
-            label="operating system"
+            label="OS"
             min-width="210">
                 <template slot-scope="{ row }">
                     <span v-for="(value, item, index) in osOps" :key="index">
@@ -116,7 +116,7 @@
         </el-table-column>         
         <el-table-column
             prop="client"
-            label="client"
+            label="Client"
             width="150">
                 <template slot-scope="{ row }">
                     <span v-for="(value, item, index) in clientOps" :key="index">
@@ -132,7 +132,7 @@
         </el-table-column>
         <el-table-column
             prop="remote_addr"
-            label="External network IP"
+            label="External IP"
             width="120">
         </el-table-column>                                                  
       </el-table>
@@ -157,7 +157,7 @@ export default {
   mixins: [],
   created() {
     this.$emit('update:route_path', this.$route.path)
-    this.$emit('update:route_name', ['User information', 'Login log'])
+    this.$emit('update:route_name', ['User', 'Activity'])
   },
   data() {
     return {
