@@ -86,7 +86,7 @@
             prop="unique_mac"
             label="Unique MAC">
             <template slot-scope="scope">
-                <el-tag v-if="scope.row.unique_mac" type="success">是</el-tag>
+                <el-tag v-if="scope.row.unique_mac" type="success">Yes</el-tag>
             </template>
         </el-table-column>
 
