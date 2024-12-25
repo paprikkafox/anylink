@@ -13,18 +13,18 @@ import (
 )
 
 const (
-	UserAuthFail       = 0 // 认证失败
-	UserAuthSuccess    = 1 // 认证成功
-	UserConnected      = 2 // 连线成功
-	UserLogout         = 3 // 用户登出
-	UserLogoutLose     = 0 // 用户掉线
-	UserLogoutBanner   = 1 // 用户banner弹窗取消
-	UserLogoutClient   = 2 // 用户主动登出
-	UserLogoutTimeout  = 3 // 用户超时登出
-	UserLogoutAdmin    = 4 // 账号被管理员踢下线
-	UserLogoutExpire   = 5 // 账号过期被踢下线
-	UserIdleTimeout    = 6 // 用户空闲链接超时
-	UserLogoutOneAdmin = 7 // 账号被管理员一键下线
+	UserAuthFail       = 0 // Authentication failed
+	UserAuthSuccess    = 1 // Authentication successful
+	UserConnected      = 2 // Connection successful
+	UserLogout         = 3 // User logout
+	UserLogoutLose     = 0 // User disconnected
+	UserLogoutBanner   = 1 // Cancel user banner pop-up window
+	UserLogoutClient   = 2 // User actively logs out
+	UserLogoutTimeout  = 3 // User logs out after timeout
+	UserLogoutAdmin    = 4 // The account was kicked offline by the administrator
+	UserLogoutExpire   = 5 // The account expired and was kicked offline
+	UserIdleTimeout    = 6 // User idle link timeout
+	UserLogoutOneAdmin = 7 // The account was taken offline by the administrator with one click
 
 )
 
@@ -40,12 +40,12 @@ var (
 	UserActLogIns = &UserActLogProcess{
 		Pool: grpool.NewPool(1, 100),
 		StatusOps: []string{ // 操作类型
-			UserAuthFail:    "认证失败",
-			UserAuthSuccess: "认证成功",
-			UserConnected:   "连接成功",
-			UserLogout:      "用户登出",
+			UserAuthFail:    "Authentication failed",
+			UserAuthSuccess: "Authentication successful",
+			UserConnected:   "Connection successful",
+			UserLogout:      "User logout",
 		},
-		OsOps: []string{ // 操作系统
+		OsOps: []string{ // operating system
 			0: "Unknown",
 			1: "Windows",
 			2: "macOS",
@@ -53,26 +53,26 @@ var (
 			4: "Android",
 			5: "iOS",
 		},
-		ClientOps: []string{ // 客户端
+		ClientOps: []string{ // client
 			0: "Unknown",
 			1: "AnyConnect",
 			2: "OpenConnect",
 			3: "AnyLink",
 		},
-		InfoOps: []string{ // 信息
-			UserLogoutLose:     "用户掉线",
-			UserLogoutBanner:   "用户取消弹窗/客户端发起的logout",
-			UserLogoutClient:   "用户/客户端主动断开",
-			UserLogoutTimeout:  "Session过期被踢下线",
-			UserLogoutAdmin:    "账号被管理员踢下线",
-			UserLogoutExpire:   "账号过期被踢下线",
-			UserIdleTimeout:    "用户空闲链接超时",
-			UserLogoutOneAdmin: "账号被管理员一键下线",
+		InfoOps: []string{ // information
+			UserLogoutLose:     "User disconnected",
+			UserLogoutBanner:   "User cancels pop-up window/Client initiated logout",
+			UserLogoutClient:   "user/Client actively disconnects",
+			UserLogoutTimeout:  "Session expired and was kicked offline",
+			UserLogoutAdmin:    "The account was kicked offline by the administrator",
+			UserLogoutExpire:   "The account expired and was kicked offline.",
+			UserIdleTimeout:    "User idle link timeout",
+			UserLogoutOneAdmin: "The account was taken offline by the administrator with one click",
 		},
 	}
 )
 
-// 异步写入用户操作日志
+// Asynchronously writing user operation logs
 func (ua *UserActLogProcess) Add(u UserActLog, userAgent string) {
 	// os, client, ver
 	os_idx, client_idx, ver := ua.ParseUserAgent(userAgent)
@@ -107,7 +107,7 @@ func (ua *UserActLogProcess) Add(u UserActLog, userAgent string) {
 	}
 }
 
-// 转义操作类型, 方便vue显示
+// Escape operation type, Convenient for vue display
 func (ua *UserActLogProcess) GetStatusOpsWithTag() interface{} {
 	type StatusTag struct {
 		Key   int    `json:"key"`
@@ -132,7 +132,7 @@ func (ua *UserActLogProcess) GetStatusOpsWithTag() interface{} {
 
 func (ua *UserActLogProcess) GetInfoOpsById(id uint8) string {
 	if int(id) >= len(ua.InfoOps) {
-		return "未知的信息类型"
+		return "Unknown message type"
 	}
 	return ua.InfoOps[id]
 }
@@ -177,13 +177,13 @@ func (ua *UserActLogProcess) ParseUserAgent(userAgent string) (os_idx, client_id
 	return
 }
 
-// 清除用户操作日志
+// Clear user operation log
 func (ua *UserActLogProcess) ClearUserActLog(ts string) (int64, error) {
 	affected, err := xdb.Where("created_at < '" + ts + "'").Delete(&UserActLog{})
 	return affected, err
 }
 
-// 后台筛选用户操作日志
+// Filter user operation logs in the background
 func (ua *UserActLogProcess) GetSession(values url.Values) *xorm.Session {
 	session := xdb.Where("1=1")
 	if values.Get("username") != "" {
@@ -209,7 +209,7 @@ func (ua *UserActLogProcess) GetSession(values url.Values) *xorm.Session {
 	return session
 }
 
-// 截取字符串
+// Intercept string
 func substr(s string, pos, length int) string {
 	runes := []rune(s)
 	l := pos + length

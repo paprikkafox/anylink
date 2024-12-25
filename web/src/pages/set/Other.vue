@@ -127,7 +127,7 @@
                     :limit="1"
                 >
                   <el-button size="mini" icon="el-icon-plus" slot="trigger"
-                  >certificate file
+                  >Certificate
                   </el-button
                   >
                   <el-tooltip
@@ -148,7 +148,7 @@
                     :limit="1"
                 >
                   <el-button size="mini" icon="el-icon-plus" slot="trigger"
-                  >private key file
+                  >Private key
                   </el-button
                   >
                   <el-tooltip
@@ -167,7 +167,7 @@
                     icon="el-icon-upload"
                     type="primary"
                     @click="submitForm('customCert')"
-                >上传
+                >Upload
                 </el-button
                 >
               </el-form-item>

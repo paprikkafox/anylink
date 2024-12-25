@@ -123,7 +123,7 @@ func UserDel(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(idS)
 
 	if id < 1 {
-		RespError(w, RespParamErr, "用户id错误")
+		RespError(w, RespParamErr, "Wrong user id")
 		return
 	}
 

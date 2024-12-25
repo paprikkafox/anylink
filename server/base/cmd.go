@@ -77,7 +77,7 @@ func execute() {
 	linkViper.SetConfigFile(conf)
 	err = linkViper.ReadInConfig()
 	if err != nil {
-		// 没有配置文件，直接报错
+		// There is no configuration file and an error is reported directly.
 		panic("config file err:" + err.Error())
 	}
 }
