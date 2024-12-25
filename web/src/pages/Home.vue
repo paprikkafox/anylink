@@ -233,7 +233,7 @@ export default {
             if (error.response.status === 401) {
                return ;
             }            
-            this.$message.error('哦，请求出错');
+            this.$message.error('Oh, request error');
             console.log(error);
         });
     },
